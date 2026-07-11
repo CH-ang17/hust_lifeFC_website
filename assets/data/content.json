@@ -1,14 +1,14 @@
 {
   "site": {
     "name": "HUST 生命学院足球俱乐部",
-    "abbr": "LIFE FC",
-    "tagline": "DNA 之上，足球之中。"
+    "abbr": "HUST LIFE FC",
+    "tagline": "将足球刻进DNA中"
   },
   "hero": {
-    "eyebrow": "HUST 生命学院足球俱乐部 · EST. 2014",
-    "titleA": "DNA 之上",
-    "titleB": "足球",
-    "titleC": "之中",
+    "eyebrow": "HUST 生命学院足球俱乐部 ",
+    "titleA": "将足球刻进DNA中",
+    "titleB": "",
+    "titleC": "",
     "lead": "HUST 生命学院足球俱乐部——男足女足两支球队，用生命科学的严谨对待每一次传球，用足球的热情书写每一场比赛。",
     "facts": [
       {
