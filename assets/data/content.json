@@ -61,13 +61,47 @@
       "id": "men",
       "name": "男子足球队",
       "short": "男足",
-      "group": "华科杯 · 乙组"
+      "group": "华科杯 · 乙组",
+      "staff": [
+        {
+          "name": "任鑫琦",
+          "role": "领队",
+          "note": "生命科学与技术辅导员。负责球队联络与行政事务。"
+        },
+        {
+          "name": "罗胤凯",
+          "role": "主教练",
+          "note": "体育学院2025级本科生，校高水平足球队队员。负责男足日常训练与比赛战术安排。"
+        },
+        {
+          "name": "刘昱熙",
+          "role": "助理教练",
+          "note": "体育学院2025级本科生，校高水平足球队队员。协助训练计划制定与技术分析。"
+        }
+      ]
     },
     {
       "id": "women",
       "name": "女子足球队",
       "short": "女足",
-      "group": "华科杯 · 女子组"
+      "group": "华科杯 · 女子组",
+      "staff": [
+        {
+          "name": "任鑫琦",
+          "role": "领队",
+          "note": "生命科学与技术辅导员。负责球队联络与行政事务。"
+        },
+        {
+          "name": "丁小东",
+          "role": "主教练",
+          "note": ""
+        },
+        {
+          "name": "罗佐",
+          "role": "助理教练",
+          "note": ""
+        }
+      ]
     }
   ],
   "competitions": [
@@ -213,149 +247,345 @@
     "men": [
       {
         "num": "1",
-        "name": "张野",
+        "name": "吴鸣鹤",
         "pos": "GK · 门将",
-        "note": "反应快、出击果断，本赛季 9 次零封。",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "28",
+        "name": "张明睿",
+        "pos": "GK · 门将",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "55",
+        "name": "苏毅",
+        "pos": "GK · 门将",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "2",
+        "name": "丁一航",
+        "pos": "RB · 右后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
       },
       {
         "num": "3",
-        "name": "李行",
-        "pos": "DF · 左后卫",
-        "note": "体能怪兽，一条龙上下往返的核心。",
+        "name": "李霄鹤",
+        "pos": "LB · 左后卫",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027",
+        "note": ""
       },
       {
         "num": "4",
-        "name": "王砾",
-        "pos": "DF · 中卫",
-        "note": "后防定海神针，争顶成功率全院第一。",
+        "name": "巨鹏远",
+        "pos": "CB · 中后卫",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "5",
+        "name": "俞善文",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
       },
       {
         "num": "6",
-        "name": "周原",
-        "pos": "MF · 后腰",
-        "note": "中场节拍器，场均传球 60+ 次。",
+        "name": "邓旺杰",
+        "pos": "LB · 左后卫",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027",
+        "note": ""
       },
       {
-        "num": "7",
-        "name": "赵临",
-        "pos": "FW · 前锋",
-        "note": "速度与射术兼备，本赛季 11 球。",
+        "num": "17",
+        "name": "程航",
+        "pos": "RB · 右后卫",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "32",
+        "name": "王鹏程",
+        "pos": "RB · 右后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "42",
+        "name": "谢高翔",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "66",
+        "name": "吴晟楷",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
       },
       {
         "num": "8",
-        "name": "孙策",
-        "pos": "MF · 中前卫",
-        "note": "远射好手，常有关键进球入账。",
+        "name": "周琦凯",
+        "pos": "CDM · 防守中场",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "14",
+        "name": "戴晨曦",
+        "pos": "CM · 中场",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "16",
+        "name": "刘骏贤",
+        "pos": "CM · 中场",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "18",
+        "name": "陈天",
+        "pos": "CAM · 进攻中场",
+        "captain": true,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "20",
+        "name": "苏暹懿",
+        "pos": "CM · 中场",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "21",
+        "name": "邹元晔",
+        "pos": "CM · 中场",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "7",
+        "name": "张德睿",
+        "pos": "RW · 右边锋",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
       },
       {
         "num": "10",
-        "name": "林川",
-        "pos": "MF · 前腰",
-        "note": "男足队长，进攻组织者，队内助攻王。",
-        "captain": true,
-        "season": "2025-2026"
-      },
-      {
-        "num": "9",
-        "name": "黄野",
-        "pos": "FW · 中锋",
-        "note": "支点中锋，背身拿球稳，抢点机敏。",
+        "name": "Bhahat Lawlley Zimba",
+        "pos": "CF · 中锋",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027",
+        "note": ""
       },
       {
         "num": "11",
-        "name": "吴桐",
-        "pos": "FW · 边锋",
-        "note": "边路爆点，最喜欢内切兜远角。",
+        "name": "曹洲荣",
+        "pos": "LW · 左边锋",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "25",
+        "name": "罗阮烨",
+        "pos": "RW · 右边锋",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "30",
+        "name": "徐浩轩",
+        "pos": "LW · 左边锋",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "47",
+        "name": "祁潇赫",
+        "pos": "RW · 右边锋",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "99",
+        "name": "李羽城",
+        "pos": "ST · 前锋",
+        "captain": false,
+        "season": "2025-2026,2026-2027",
+        "note": ""
+      },
+      {
+        "num": "15",
+        "name": "蔡天宇",
+        "pos": "LB · 左后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "23",
+        "name": "习城玮",
+        "pos": "RW · 右边锋",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "33",
+        "name": "雷嘉杭",
+        "pos": "LW · 左边锋",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "41",
+        "name": "张润泽",
+        "pos": "RW · 右边锋",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "26",
+        "name": "徐楚淇",
+        "pos": "RB · 右后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
       }
     ],
     "women": [
       {
         "num": "1",
-        "name": "陈露",
-        "pos": "GK · 门将",
-        "note": "门线技术扎实，点球扑救率高。",
+        "name": "高梦圆",
+        "pos": "CB · 中后卫",
         "captain": false,
-        "season": "2025-2026"
-      },
-      {
-        "num": "3",
-        "name": "杨柳",
-        "pos": "DF · 左后卫",
-        "note": "插上意识好，常送直塞助攻。",
-        "captain": false,
-        "season": "2025-2026"
-      },
-      {
-        "num": "5",
-        "name": "苏晴",
-        "pos": "DF · 中卫",
-        "note": "女足队长，后防指挥官，出球冷静。",
-        "captain": true,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027"
       },
       {
         "num": "6",
-        "name": "何苗",
-        "pos": "MF · 后腰",
-        "note": "拦截面积大，攻防转换枢纽。",
+        "name": "金梦露",
+        "pos": "CB · 中后卫",
         "captain": false,
-        "season": "2025-2026"
-      },
-      {
-        "num": "8",
-        "name": "罗薇",
-        "pos": "MF · 中前卫",
-        "note": "跑动覆盖全队第一，体力惊人。",
-        "captain": false,
-        "season": "2025-2026"
-      },
-      {
-        "num": "10",
-        "name": "梁悦",
-        "pos": "MF · 前腰",
-        "note": "女足进攻核心，盘带细腻。",
-        "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027"
       },
       {
         "num": "7",
-        "name": "宋雨",
-        "pos": "FW · 前锋",
-        "note": "速度型前锋，反击利器。",
+        "name": "苏婕欣",
+        "pos": "CF · 中锋",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027"
       },
       {
         "num": "9",
-        "name": "叶澜",
-        "pos": "FW · 中锋",
-        "note": "抢点敏锐，头球争顶不输男生。",
+        "name": "苏雨婷",
+        "pos": "CB · 中后卫",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "10",
+        "name": "蒋欣玥",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
       },
       {
         "num": "11",
-        "name": "韩雪",
-        "pos": "FW · 边锋",
-        "note": "边路快马，下底传中精准。",
+        "name": "刘水远",
+        "pos": "CAM · 进攻中场",
         "captain": false,
-        "season": "2025-2026"
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "12",
+        "name": "丁冉",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "15",
+        "name": "柳亮涵",
+        "pos": "CF · 中锋",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "17",
+        "name": "周加翌",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "18",
+        "name": "黄粲",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "20",
+        "name": "和谐",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "24",
+        "name": "周孟雪",
+        "pos": "CM · 中场",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "27",
+        "name": "郭文佳",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "73",
+        "name": "陈心格",
+        "pos": "CB · 中后卫",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
+      },
+      {
+        "num": "93",
+        "name": "杨傲茹",
+        "pos": "GK · 门将",
+        "captain": false,
+        "season": "2025-2026,2026-2027"
       }
     ]
   },
@@ -619,24 +849,8 @@
       }
     ]
   },
-  "staff": [
-    {
-      "name": "罗胤凯",
-      "role": "主教练",
-      "note": "体育学院2025级本科生，校高水平足球队队员。负责男足日常训练与比赛战术安排。"
-    },
-    {
-      "name": "刘昱熙",
-      "role": "助理教练",
-      "note": "体育学院2025级本科生，校高水平足球队队员。协助训练计划制定与技术分析。"
-    },
-    {
-      "name": "任鑫琦",
-      "role": "领队",
-      "note": "生命科学与技术辅导员。负责球队联络与行政事务。"
-    }
-  ],
   "squadSeasons": [
-    "2025-2026"
+    "2025-2026",
+    "2026-2027"
   ]
 }

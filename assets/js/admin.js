@@ -255,7 +255,6 @@
     C.competitions = C.competitions || [];
     C.news = C.news || [];
     C.club = C.club || {}; C.club.honors = C.club.honors || []; C.club.timeline = C.club.timeline || [];
-    C.staff = C.staff || [];
     C.squad = C.squad || {}; C.squad.men = C.squad.men || []; C.squad.women = C.squad.women || [];
     C.fixtures = C.fixtures || {}; C.fixtures.recent = C.fixtures.recent || []; C.fixtures.upcoming = C.fixtures.upcoming || [];
     C.story = C.story || {}; C.story.values = C.story.values || [];
@@ -363,12 +362,15 @@
       { key: "text", label: "说明", type: "textarea" }
     ], { label: "添加价值观" }));
 
-    /* ===== 教练·领队 ===== */
-    panels.staff.append(repeatable("教练与领队", C.staff, [
-      { key: "name", label: "姓名" }, { key: "role", label: "职务" },
-      { key: "note", label: "简介", type: "textarea" },
-      { key: "img", label: "头像图片", type: "image" }
-    ], { label: "添加成员" }));
+    /* ===== 教练·领队（按队伍分别编辑） ===== */
+    C.teams.forEach(function (t) {
+      t.staff = t.staff || [];
+      panels.staff.append(repeatable(t.name + " · 教练与领队", t.staff, [
+        { key: "name", label: "姓名" }, { key: "role", label: "职务" },
+        { key: "note", label: "简介", type: "textarea" },
+        { key: "img", label: "头像图片", type: "image" }
+      ], { label: "添加成员" }));
+    });
 
     /* ===== 男足阵容 ===== */
     panels.men.appendChild(repeatable("男子足球队阵容", C.squad.men, [

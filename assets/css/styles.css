@@ -386,6 +386,14 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
   letter-spacing: 0.12em;
   color: rgba(255, 255, 255, .72);
 }
+/* 照片模式：图片铺满视觉区，号码徽标浮于左上 */
+.player__visual--photo {
+  padding: 0;
+}
+.player__visual--photo .player__photo {
+  position: absolute;
+  inset: 0;
+}
 
 /* 地平线弧装饰（E 方案：底部两条起伏弧，球场边线感） —— 仅正面显示 */
 .player__face--front::before {
@@ -409,11 +417,6 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 }
 .player__silhouette {
   display: none;
-}
-.player__silhouette svg {
-  width: 100px;
-  height: auto;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
 }
 /* 大号码（右上） */
 .player__num {
@@ -486,7 +489,7 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
   font-size: clamp(0.95rem, 2vw, 1.15rem);
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: rgba(255,255,255,.85);
+  color: #FFFEF8;
   text-transform: uppercase;
 }
 .player__name {
@@ -502,6 +505,33 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
   font-size: var(--fs-xs);
   color: rgba(255,255,255,.7);
   line-height: 1.4;
+}
+
+/* 背面：照片或占位 + 角色/职务标签 + 简介 */
+.player__face--back {
+  flex-direction: column;
+}
+.player__back {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
+}
+.player__back-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+.player__back-note {
+  margin: 0;
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+  color: rgba(255,255,255,.78);
 }
 
 /* Squad · team groups (男足 / 女足) */
@@ -704,6 +734,21 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 
 /* 空状态 */
 .match__empty { color: var(--ink-faint); font-size: var(--fs-sm); padding: var(--space-lg) 0; }
+
+/* 球队官员标题 */
+.squad__staff-title {
+  display: flex; align-items: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.15rem;
+  letter-spacing: -0.01em; margin-bottom: var(--space-md); color: var(--ink);
+}
+.squad__staff-title::before {
+  content: '';
+  width: 10px; height: 10px;
+  border-radius: 3px;
+  background: var(--club, #003B5C);
+  flex-shrink: 0;
+  margin-right: var(--space-sm);
+}
 
 /* 教练 / 领队：与球员完全相同的 .player 大卡片（深蓝 + 曲线），不单独分区 */
 .squad__staff {

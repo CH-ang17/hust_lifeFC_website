@@ -77,15 +77,9 @@
     return '<svg viewBox="0 0 48 66" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + grad + body + handles + '</svg>';
   }
 
-  /* 人物剪影 SVG（无照片时的占位） */
-  var SILHOUETTE = '<svg viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-    '<ellipse cx="60" cy="118" rx="36" ry="14" fill="rgba(0,0,0,.15)"/>' +
-    '<path d="M60 8c-10 0-18 7-18 17 0 6 3 12 7 15l-2 9h26l-2-9c4-3 7-9 7-15 0-10-8-17-18-17z" fill="rgba(255,255,255,.20)"/>' +
-    '<path d="M30 78c0-16 13-28 30-28s30 12 30 28v38H30V78z" fill="rgba(255,255,255,.16)"/>' +
-    '</svg>';
-
   /* ---------- 渲染 ---------- */
   function render(data) {
+    console.log("[HUST FC] app.js version: 20260712c");
     if (!data) return;
 
     // 站点名 / 页脚
@@ -98,7 +92,7 @@
     if (data.stats) renderStats(data.stats);
     if (data.news) renderNews(data.news);
     if (data.club) renderClub(data.club, data.story);
-    if (data.teams && data.squad) renderSquad(data.squad, data.teams, data.staff, data.squadSeasons);
+    if (data.teams && data.squad) renderSquad(data.squad, data.teams, data.squadSeasons);
     if (data.competitions) renderCompetitions(data.competitions);
     if (data.fixtures) renderFixtures(data.fixtures);
     if (data.footer) renderFooter(data.footer);
@@ -304,7 +298,7 @@
   function cardBack(obj) {
     var img = obj.img;
     var back = img
-      ? '<img class="player__photo" src="' + esc(img) + '" alt="' + esc(obj.name) + '" loading="lazy">'
+      ? '<img class="player__photo" src="' + esc(img) + '" alt="' + esc(obj.name || obj.role || "") + '" loading="lazy">'
       : '<div class="player__noimg">暂无图片</div>';
     return '<div class="player__face player__face--back">' + back + '</div>';
   }
@@ -315,7 +309,6 @@
     var front = '<div class="player__face player__face--front">' +
       '<div class="player__visual">' +
         (role ? role : '') +
-        '<div class="player__silhouette">' + SILHOUETTE + '</div>' +
         '<div class="player__center">' +
           '<span class="player__name">' + esc(s.name) + '</span>' +
         '</div>' +
@@ -327,14 +320,15 @@
   }
 
   /* ===== 阵容（#team）—— 按钮切换男足/女足 ===== */
-  function renderSquad(squad, teams, staff, seasonsIn) {
+  function renderSquad(squad, teams, seasonsIn) {
     var teamsArr = teams && teams.length ? teams : [{ id: "men", name: "阵容", short: "", group: "" }];
 
     /* 可用赛季：优先用数据里声明的 squadSeasons，否则从球员 season 字段汇总 */
     var present = {};
     for (var tk in squad) (squad[tk] || []).forEach(function (p) { if (p.season) present[p.season] = 1; });
     var seasons = (seasonsIn && seasonsIn.length) ? seasonsIn.slice() : Object.keys(present);
-    var currentSeason = seasons.length ? seasons[seasons.length - 1] : ""; // 默认：当前赛季（最新）
+    seasons.sort(); seasons.reverse(); // 降序：最新赛季在最前面
+    var currentSeason = seasons[0] || ""; // 默认：当前赛季（第一个/最新）
 
     /* 切换按钮栏 */
     var tabsEl = document.getElementById("squadTabs");
@@ -351,9 +345,8 @@
     /* 赛季选择器 */
     var seasonSel = document.getElementById("squadSeason");
     if (seasonSel) {
-      if (seasons.length) {
-        seasonSel.innerHTML = '<option value="">全部赛季</option>' +
-          seasons.map(function (s) {
+        if (seasons.length) {
+        seasonSel.innerHTML = seasons.map(function (s) {
             return '<option value="' + esc(s) + '">' + esc(s + '赛季') + '</option>';
           }).join("");
         seasonSel.value = currentSeason;
@@ -376,13 +369,23 @@
     ];
     function posKey(pos) {
       var k = (pos || "").split("·")[0].trim().toUpperCase();
+      /* 细分位置映射到主分组，保证归类正确 */
+      var MAP = { RB: "DF", LB: "DF", CB: "DF", RWB: "DF", LWB: "DF",
+                  CDM: "MF", DM: "MF", CM: "MF", CAM: "MF", LM: "MF", RM: "MF",
+                  ST: "FW", CF: "FW", LW: "FW", RW: "FW" };
+      if (MAP[k]) return MAP[k];
       return POS_GROUPS.some(function (g) { return g.key === k; }) ? k : "FW";
     }
 
     function buildPanels(season) {
       var panelsHtml = teamsArr.map(function (t, i) {
         var all = (squad && squad[t.id]) || [];
-        var players = season ? all.filter(function (p) { return !p.season || p.season === season; }) : all;
+        var players = season
+          ? all.filter(function (p) {
+              /* 支持逗号分隔的多赛季标签，也兼容单赛季精确匹配 */
+              return !p.season || p.season === season || p.season.indexOf(season) >= 0;
+            })
+          : all;
 
         /* 按位置分组 */
         var grouped = {};
@@ -392,11 +395,13 @@
         var groupsHtml = POS_GROUPS.map(function (g) {
           var list = grouped[g.key];
           if (!list.length) return "";
+          list.sort(function (a, b) {
+            return (parseInt(a.num, 10) || 0) - (parseInt(b.num, 10) || 0);
+          });
           var cards = list.map(function (p) {
             var cap = p.captain ? '<span class="player__cap">C</span>' : "";
             var front = '<div class="player__face player__face--front">' +
               '<div class="player__visual">' +
-                '<div class="player__silhouette">' + SILHOUETTE + '</div>' +
                 '<span class="player__num">' + esc(p.num) + '</span>' +
                 cap +
                 '<div class="player__center"><span class="player__name">' + esc(p.name) + '</span></div>' +
@@ -414,13 +419,12 @@
           '</div>';
         }).join("");
 
-        var staffOrdered = (staff && staff.length)
-          ? staff.slice().sort(function (a, b) {
-              return (a.role === "领队" ? -1 : 0) - (b.role === "领队" ? -1 : 0);
-            })
-          : [];
+        var teamStaff = (t.staff && t.staff.length) ? t.staff : [];
+        var staffOrdered = teamStaff.slice().sort(function (a, b) {
+          return (a.role === "领队" ? -1 : 0) - (b.role === "领队" ? -1 : 0);
+        });
         var staffHtml = staffOrdered.length
-          ? '<div class="squad__staff">' + staffOrdered.map(staffCard).join("") + '</div>'
+          ? '<h4 class="squad__staff-title">球队官员</h4><div class="squad__staff">' + staffOrdered.map(staffCard).join("") + '</div>'
           : '';
         return '<div class="squad__panel' + (i === 0 ? '' : ' is-hidden') + '" data-panel="' + esc(t.id) + '">' +
           staffHtml + groupsHtml + '</div>';
