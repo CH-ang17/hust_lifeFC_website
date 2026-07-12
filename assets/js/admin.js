@@ -332,6 +332,8 @@
       ], default: "动态" },
       { key: "title", label: "标题" },
       { key: "summary", label: "摘要", type: "textarea" },
+      { key: "body", label: "正文(详细内容，空行分段，支持换行)", type: "textarea" },
+      { key: "images", label: "配图(可多张，点保存生效)", type: "images" },
       { key: "team", label: "关联球队(可空)", type: "select", options: (C.teams || []).map(function(t){return{value:t.short,label:t.short};}).concat([{value:"",label:"无"}]) },
       { key: "comp", label: "关联赛事(可空)" }
     ], { label: "添加新闻" }));
@@ -339,8 +341,15 @@
     /* ===== 俱乐部 ===== */
     var pc = panels.club;
     pc.appendChild(section("简介", [textareaField(C.club, "intro", "俱乐部介绍（支持换行）")]));
-    pc.appendChild(repeatable("荣誉墙", C.club.honors, [
-      { key: "year", label: "年份" }, { key: "text", label: "荣誉描述" }
+    pc.appendChild(repeatable("荣誉", C.club.honors, [
+      { key: "year", label: "年份" },
+      { key: "comp", label: "赛事", type: "select", options: [
+        { value: "华科杯", label: "华科杯" }, { value: "新生杯", label: "新生杯" }, { value: "毕业杯", label: "毕业杯" }
+      ], default: "华科杯" },
+      { key: "group", label: "组别(可空)" },
+      { key: "rank", label: "名次", type: "select", options: [
+        { value: "冠军", label: "冠军(金)" }, { value: "亚军", label: "亚军(银)" }, { value: "季军", label: "季军(铜)" }
+      ], default: "冠军" }
     ], { label: "添加荣誉" }));
     pc.appendChild(repeatable("历程时间线", C.club.timeline, [
       { key: "year", label: "年份" }, { key: "text", label: "事件描述" }
@@ -547,6 +556,42 @@
           });
           ifw.appendChild(clr);
           grid.appendChild(ifw);
+        } else if (d.type === "images") {
+          var ifw2 = el("label", { class: "a-field a-field--full a-field--imgs" });
+          ifw2.appendChild(el("span", null, esc(d.label)));
+          var thumbGrid = el("div", { class: "a-imgs-grid" });
+          function renderImgs() {
+            thumbGrid.innerHTML = "";
+            (item[d.key] || []).forEach(function (src, idx) {
+              var cell = el("div", { class: "a-img-cell" });
+              cell.appendChild(el("img", { src: src, alt: "配图" }));
+              var del = el("button", { class: "a-img-del", type: "button", title: "删除" }, "✕");
+              del.addEventListener("click", function () {
+                item[d.key].splice(idx, 1);
+                renderImgs();
+              });
+              cell.appendChild(del);
+              thumbGrid.appendChild(cell);
+            });
+          }
+          renderImgs();
+          ifw2.appendChild(thumbGrid);
+          var fileInput = el("input", { class: "a-input", type: "file", accept: "image/*", style: "display:none" });
+          var addBtn = el("label", { class: "a-img-add btn btn--ghost btn--sm" }, "+ 添加图片");
+          addBtn.appendChild(fileInput);
+          fileInput.addEventListener("change", function (e) {
+            var file = e.target.files && e.target.files[0];
+            if (!file) return;
+            resizeImage(file, 960, 0.82).then(function (dataUrl) {
+              if (!item[d.key]) item[d.key] = [];
+              item[d.key].push(dataUrl);
+              renderImgs();
+              toast("图片已添加，点「保存修改」生效");
+            }).catch(function (err) { toast("图片处理失败：" + err.message, true); });
+            fileInput.value = "";
+          });
+          ifw2.appendChild(addBtn);
+          grid.appendChild(ifw2);
         } else {
           var inp = el("input", { class: "a-input", type: "text", value: item[d.key] == null ? "" : item[d.key] });
           inp.addEventListener("input", function () { item[d.key] = inp.value; });

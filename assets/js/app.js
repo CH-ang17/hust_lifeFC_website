@@ -16,6 +16,67 @@
   }
   function ml(s) { return esc(s).replace(/\n/g, "<br>"); }
 
+  /* 荣誉奖杯 SVG：按赛事+组别形状 + 名次配色（金/银/铜） */
+  function trophySvg(comp, group, rank, idx) {
+    var gid = "trophyGrad-" + idx + "-" + (rank === "冠军" ? "g" : rank === "亚军" ? "s" : "b");
+    var stops = {
+      "冠军": ["#FFF1C9", "#E8B923", "#A9770E"],
+      "亚军": ["#FFFFFF", "#D7DBE0", "#9CA2A8"],
+      "季军": ["#F3D2B3", "#CD7F32", "#8A5523"]
+    };
+    var c = stops[rank] || stops["冠军"];
+    var grad = '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" stop-color="' + c[0] + '"/>' +
+      '<stop offset="55%" stop-color="' + c[1] + '"/>' +
+      '<stop offset="100%" stop-color="' + c[2] + '"/></linearGradient></defs>';
+    var fill = 'fill="url(#' + gid + ')"';
+    var stroke = 'stroke="url(#' + gid + ')"';
+    var body, handles = "";
+
+    if (comp === "新生杯") {
+      // V 形杯身 + 多层底座（杯口不加足球）
+      body = '<path ' + fill + ' d="M13 12 C14 26 18 38 21 44 Q24 48 27 44 C30 38 34 26 35 12 Z"/>' +
+             '<path ' + fill + ' d="M19 43 H29 L30 47 H18 Z"/>' +
+             '<path ' + fill + ' d="M17 47 H31 L33 52 H15 Z"/>' +
+             '<path ' + fill + ' d="M14 52 H34 L39 59 H9 Z"/>';
+    } else if (comp === "毕业杯") {
+      // 盾形奖章（中间圆环）
+      body = '<path ' + fill + ' d="M24 5 L39 11 V30 C39 43 32 51 24 57 C16 51 9 43 9 30 V11 Z"/>' +
+             '<circle cx="24" cy="29" r="7.5" fill="none" ' + stroke + ' stroke-width="2.6"/>';
+    } else if (comp === "华科杯" && group === "女子组") {
+      // 华科杯女子组：足总杯式奖杯（高身宽口 + 双耳 + 顶盖 + 红绶带）
+      // 顶部盖钮
+      body = '<path ' + fill + ' d="M22 2 H26 L25.5 5 H22.5 Z"/>' +
+             '<circle cx="24" cy="1.8" r="1.3" ' + fill + '/>' +
+             // 盖沿
+             '<ellipse cx="24" cy="6" rx="7" ry="2" ' + fill + '/>' +
+             // 杯颈（收窄）
+             '<path ' + fill + ' d="M19 6 H29 L28 12 H20 Z"/>' +
+             // 杯身上半（向外展开）
+             '<path ' + fill + ' d="M18 12 H30 C31 14 32 17 32 20 C32 24 30 27 28 28 H20 C18 27 16 24 16 20 C16 17 17 14 18 12 Z"/>' +
+             // 杯身下半（宽口碗）
+             '<path ' + fill + ' d="M15 27 H33 C35 30 34 36 32 38 C30 40 27 41 24 41 C21 41 18 40 16 38 C14 36 13 30 15 27 Z"/>' +
+             // 杯口内圈（高光）
+             '<ellipse cx="24" cy="27.5" rx="8" ry="2.5" fill="none" ' + stroke + ' stroke-width=".9" opacity=".4"/>' +
+             // 窄底座
+             '<rect x="21" y="41" width="6" height="4" rx=".5" ' + fill + '/>' +
+             // 多层阶梯底座
+             '<path ' + fill + ' d="M17 45 H31 L32 49 H16 Z"/>' +
+             '<path ' + fill + ' d="M15 49 H33 L35 55 H13 Z"/>';
+      // 双耳（大弧形把手）
+      handles = '<path ' + stroke + ' fill="none" stroke-width="3.5" d="M16 15 C5 15 3 32 14 35"/>' +
+                '<path ' + stroke + ' fill="none" stroke-width="3.5" d="M32 15 C43 15 45 32 34 35"/>';
+    } else {
+      // 华科杯乙组（默认）：双耳杯
+      body = '<path ' + fill + ' d="M11 8 H37 V19 C37 29 31 34 24 34 C17 34 11 29 11 19 Z"/>' +
+             '<rect ' + fill + ' x="22" y="34" width="4" height="13"/>' +
+             '<path ' + fill + ' d="M14 47 H34 L39 58 H9 Z"/>';
+      handles = '<path ' + stroke + ' fill="none" stroke-width="3.2" d="M11 11 C3 11 3 24 13 24"/>' +
+                '<path ' + stroke + ' fill="none" stroke-width="3.2" d="M37 11 C45 11 45 24 35 24"/>';
+    }
+    return '<svg viewBox="0 0 48 66" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + grad + body + handles + '</svg>';
+  }
+
   /* 人物剪影 SVG（无照片时的占位） */
   var SILHOUETTE = '<svg viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">' +
     '<ellipse cx="60" cy="118" rx="36" ry="14" fill="rgba(0,0,0,.15)"/>' +
@@ -37,7 +98,7 @@
     if (data.stats) renderStats(data.stats);
     if (data.news) renderNews(data.news);
     if (data.club) renderClub(data.club, data.story);
-    if (data.teams && data.squad) renderSquad(data.squad, data.teams, data.staff);
+    if (data.teams && data.squad) renderSquad(data.squad, data.teams, data.staff, data.squadSeasons);
     if (data.competitions) renderCompetitions(data.competitions);
     if (data.fixtures) renderFixtures(data.fixtures);
     if (data.footer) renderFooter(data.footer);
@@ -94,30 +155,92 @@
   }
 
   /* ===== 新闻（#news） ===== */
+  var NEWS_DATA = [];
+  var NEWS_TAG_CLS = { "战报": "tag--comp", "公告": "tag--team", "荣誉": "tag--win", "动态": "" };
+
   function renderNews(news) {
-    var tagCls = {
-      "战报": "tag--comp",
-      "公告": "tag--team",
-      "荣誉": "tag--win",
-      "动态": ""
-    };
-    var html = news.map(function (n) {
+    NEWS_DATA = news || [];
+    var html = news.map(function (n, i) {
       var tag = n.tag || "动态";
-      var tc = tagCls[tag] || "tag--team";
+      var tc = NEWS_TAG_CLS[tag] || "tag--team";
       var metaParts = [];
       if (n.team) metaParts.push(esc(n.team));
       if (n.comp) metaParts.push(esc(n.comp));
       var meta = metaParts.length ? ' <small class="match__tags">' + metaParts.join(" / ") + '</small>' : '';
-      return '<article class="news-card reveal">' +
+      var hasDetail = !!(n.body || (n.images && n.images.length));
+      var more = hasDetail ? '<span class="news-card__more">阅读全文 →</span>' : '';
+      return '<article class="news-card reveal" data-idx="' + i + '" tabindex="0" role="button" aria-label="' + esc(n.title) + '">' +
         '<div class="news-card__header">' +
           '<span class="tag ' + tc + '">' + esc(tag) + '</span>' +
           '<time class="news-card__date mono">' + esc(n.date) + '</time>' +
         '</div>' +
-        '<h3 class="news-card__title"><a href="#matches">' + esc(n.title) + meta + '</a></h3>' +
+        '<h3 class="news-card__title">' + esc(n.title) + meta + '</h3>' +
         '<p class="news-card__summary">' + esc(n.summary) + '</p>' +
+        more +
       '</article>';
     }).join("");
     document.getElementById("newsList").innerHTML = html;
+  }
+
+  /* ===== 新闻详情（点击卡片进入） ===== */
+  function openNews(idx) {
+    var n = NEWS_DATA[idx];
+    if (!n) return;
+    var detail = document.getElementById("newsDetail");
+    if (!detail) return;
+    var tag = n.tag || "动态";
+    var tc = NEWS_TAG_CLS[tag] || "tag--team";
+
+    var metaParts = [];
+    if (n.team) metaParts.push(esc(n.team));
+    if (n.comp) metaParts.push(esc(n.comp));
+    var meta = metaParts.length
+      ? '<div class="news-detail__meta">' + metaParts.map(function (m) {
+          return '<span class="tag ' + tc + '">' + m + '</span>';
+        }).join(" ") + '</div>'
+      : '';
+
+    var bodyHtml = n.body
+      ? n.body.split(/\n{2,}/).map(function (p) {
+          return '<p>' + esc(p).replace(/\n/g, "<br>") + '</p>';
+        }).join("")
+      : '<p>' + esc(n.summary) + '</p>';
+
+    var imgs = (n.images && n.images.length)
+      ? '<div class="news-detail__gallery">' + n.images.map(function (src) {
+          return '<figure class="news-detail__figure"><img src="' + esc(src) + '" alt="' + esc(n.title) + '" loading="lazy"></figure>';
+        }).join("") + '</div>'
+      : '';
+
+    detail.innerHTML =
+      '<div class="news-detail__panel" role="dialog" aria-modal="true" aria-label="' + esc(n.title) + '">' +
+        '<button class="news-detail__close" type="button">← 返回新闻列表</button>' +
+        '<div class="news-detail__header">' +
+          '<span class="tag ' + tc + '">' + esc(tag) + '</span>' +
+          '<time class="news-detail__date mono">' + esc(n.date) + '</time>' +
+        '</div>' +
+        '<h2 class="news-detail__title">' + esc(n.title) + '</h2>' +
+        meta +
+        '<div class="news-detail__body">' + bodyHtml + '</div>' +
+        imgs +
+      '</div>';
+
+    detail.classList.add("is-open");
+    detail.setAttribute("aria-hidden", "false");
+    document.body.classList.add("no-scroll");
+    detail.querySelector(".news-detail__close").addEventListener("click", closeNews);
+    detail.scrollTop = 0;
+    var panel = detail.querySelector(".news-detail__panel");
+    if (panel) panel.scrollTop = 0;
+  }
+
+  function closeNews() {
+    var detail = document.getElementById("newsDetail");
+    if (!detail) return;
+    detail.classList.remove("is-open");
+    detail.setAttribute("aria-hidden", "true");
+    detail.innerHTML = "";
+    document.body.classList.remove("no-scroll");
   }
 
   /* ===== 俱乐部（#club） ===== */
@@ -130,10 +253,17 @@
 
     // 荣誉墙
     if (club.honors && club.honors.length) {
-      var honorsHtml = club.honors.map(function (h) {
-        return '<div class="honor reveal">' +
-          '<span class="honor__year mono">' + esc(h.year) + '</span>' +
-          '<span class="honor__text">' + esc(h.text) + '</span>' +
+      var rankMap = { "冠军": "gold", "亚军": "silver", "季军": "bronze" };
+      var honorsHtml = club.honors.map(function (h, i) {
+        var rank = h.rank || "荣誉";
+        var rc = rankMap[rank] || "gold";
+        var text = (h.comp || "") + (h.group ? " " + h.group : "") + " · " + rank;
+        return '<div class="honor reveal rank--' + rc + '">' +
+          '<div class="honor__icon">' + trophySvg(h.comp, h.group, rank, i) + '</div>' +
+          '<div class="honor__body">' +
+            '<span class="honor__year mono">' + esc(h.year) + '</span>' +
+            '<span class="honor__text">' + esc(text) + '</span>' +
+          '</div>' +
         '</div>';
       }).join("");
       document.getElementById("honorsGrid").innerHTML = honorsHtml;
@@ -166,7 +296,7 @@
         '</div>';
       }).join("");
       document.getElementById("clubValues").innerHTML =
-        '<p class="eyebrow" style="margin-bottom:var(--space-8);">我们的精神</p>' + values;
+        '<h3 style="margin-bottom:1.5rem;">我们的精神</h3>' + values;
     }
   }
 
@@ -197,8 +327,14 @@
   }
 
   /* ===== 阵容（#team）—— 按钮切换男足/女足 ===== */
-  function renderSquad(squad, teams, staff) {
+  function renderSquad(squad, teams, staff, seasonsIn) {
     var teamsArr = teams && teams.length ? teams : [{ id: "men", name: "阵容", short: "", group: "" }];
+
+    /* 可用赛季：优先用数据里声明的 squadSeasons，否则从球员 season 字段汇总 */
+    var present = {};
+    for (var tk in squad) (squad[tk] || []).forEach(function (p) { if (p.season) present[p.season] = 1; });
+    var seasons = (seasonsIn && seasonsIn.length) ? seasonsIn.slice() : Object.keys(present);
+    var currentSeason = seasons.length ? seasons[seasons.length - 1] : ""; // 默认：当前赛季（最新）
 
     /* 切换按钮栏 */
     var tabsEl = document.getElementById("squadTabs");
@@ -208,17 +344,23 @@
           esc(t.name || t.short) +
           '</button>';
       }).join("");
-      tabsEl.innerHTML = '<div class="squad__tab-bar">' + btns + '</div>';
 
-      /* 点击切换 */
-      tabsEl.querySelectorAll(".squad__tab").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          var target = this.getAttribute("data-squad");
-          tabsEl.querySelectorAll(".squad__tab").forEach(function (b) { b.classList.remove("is-active"); });
-          this.classList.add("is-active");
-          showSquad(target);
-        });
-      });
+      tabsEl.innerHTML = '<div class="squad__tab-bar">' + btns + '</div>';
+    }
+
+    /* 赛季选择器 */
+    var seasonSel = document.getElementById("squadSeason");
+    if (seasonSel) {
+      if (seasons.length) {
+        seasonSel.innerHTML = '<option value="">全部赛季</option>' +
+          seasons.map(function (s) {
+            return '<option value="' + esc(s) + '">' + esc(s + '赛季') + '</option>';
+          }).join("");
+        seasonSel.value = currentSeason;
+      } else {
+        var wrap = seasonSel.closest(".squad__season-wrap");
+        if (wrap) wrap.style.display = "none";
+      }
     }
 
     /* 渲染所有面板（初始只显示第一个） */
@@ -237,60 +379,91 @@
       return POS_GROUPS.some(function (g) { return g.key === k; }) ? k : "FW";
     }
 
-    var panelsHtml = teamsArr.map(function (t, i) {
-      var players = (squad && squad[t.id]) || [];
+    function buildPanels(season) {
+      var panelsHtml = teamsArr.map(function (t, i) {
+        var all = (squad && squad[t.id]) || [];
+        var players = season ? all.filter(function (p) { return !p.season || p.season === season; }) : all;
 
-      /* 按位置分组 */
-      var grouped = {};
-      POS_GROUPS.forEach(function (g) { grouped[g.key] = []; });
-      players.forEach(function (p) { grouped[posKey(p.pos)].push(p); });
+        /* 按位置分组 */
+        var grouped = {};
+        POS_GROUPS.forEach(function (g) { grouped[g.key] = []; });
+        players.forEach(function (p) { grouped[posKey(p.pos)].push(p); });
 
-      var groupsHtml = POS_GROUPS.map(function (g) {
-        var list = grouped[g.key];
-        if (!list.length) return "";
-        var cards = list.map(function (p) {
-          var cap = p.captain ? '<span class="player__cap">C</span>' : "";
-          var front = '<div class="player__face player__face--front">' +
-            '<div class="player__visual">' +
-              '<div class="player__silhouette">' + SILHOUETTE + '</div>' +
-              '<span class="player__num">' + esc(p.num) + '</span>' +
-              cap +
-              '<div class="player__center"><span class="player__name">' + esc(p.name) + '</span></div>' +
-            '</div>' +
-            '<div class="player__info"><span class="player__pos">' + esc(p.pos) + '</span></div>' +
+        var groupsHtml = POS_GROUPS.map(function (g) {
+          var list = grouped[g.key];
+          if (!list.length) return "";
+          var cards = list.map(function (p) {
+            var cap = p.captain ? '<span class="player__cap">C</span>' : "";
+            var front = '<div class="player__face player__face--front">' +
+              '<div class="player__visual">' +
+                '<div class="player__silhouette">' + SILHOUETTE + '</div>' +
+                '<span class="player__num">' + esc(p.num) + '</span>' +
+                cap +
+                '<div class="player__center"><span class="player__name">' + esc(p.name) + '</span></div>' +
+              '</div>' +
+              '<div class="player__info"><span class="player__pos">' + esc(p.pos) + '</span></div>' +
+            '</div>';
+            return '<article class="player reveal" tabindex="0">' +
+              '<div class="player__inner">' + front + cardBack(p) + '</div>' +
+            '</article>';
+          }).join("");
+          return '<div class="pos-group reveal">' +
+            '<h4 class="pos-group__title"><span class="pos-group__dot"></span>' + esc(g.label) +
+            '<small>' + list.length + ' 人</small></h4>' +
+            '<div class="squad__grid-inner">' + cards + '</div>' +
           '</div>';
-          return '<article class="player reveal" tabindex="0">' +
-            '<div class="player__inner">' + front + cardBack(p) + '</div>' +
-          '</article>';
         }).join("");
-        return '<div class="pos-group reveal">' +
-          '<h4 class="pos-group__title"><span class="pos-group__dot"></span>' + esc(g.label) +
-          '<small>' + list.length + ' 人</small></h4>' +
-          '<div class="squad__grid-inner">' + cards + '</div>' +
-        '</div>';
+
+        var staffOrdered = (staff && staff.length)
+          ? staff.slice().sort(function (a, b) {
+              return (a.role === "领队" ? -1 : 0) - (b.role === "领队" ? -1 : 0);
+            })
+          : [];
+        var staffHtml = staffOrdered.length
+          ? '<div class="squad__staff">' + staffOrdered.map(staffCard).join("") + '</div>'
+          : '';
+        return '<div class="squad__panel' + (i === 0 ? '' : ' is-hidden') + '" data-panel="' + esc(t.id) + '">' +
+          staffHtml + groupsHtml + '</div>';
       }).join("");
 
-      var staffHtml = (staff && staff.length)
-        ? '<div class="squad__staff">' + staff.map(staffCard).join("") + '</div>'
-        : '';
-      return '<div class="squad__panel' + (i === 0 ? '' : ' is-hidden') + '" data-panel="' + esc(t.id) + '">' +
-        staffHtml + groupsHtml + '</div>';
-    }).join("");
+      gridEl.innerHTML = panelsHtml;
 
-    gridEl.innerHTML = panelsHtml;
-
-    /* 点击卡片翻转，显示人物图片（键盘 Enter/Space 亦可） */
-    gridEl.querySelectorAll(".player").forEach(function (card) {
-      card.addEventListener("click", function () {
-        this.classList.toggle("is-flipped");
-      });
-      card.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
+      /* 点击卡片翻转，显示人物图片（键盘 Enter/Space 亦可） */
+      gridEl.querySelectorAll(".player").forEach(function (card) {
+        card.addEventListener("click", function () {
           this.classList.toggle("is-flipped");
-        }
+        });
+        card.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            this.classList.toggle("is-flipped");
+          }
+        });
       });
-    });
+    }
+
+    buildPanels(currentSeason);
+
+    /* 点击切换 */
+    if (tabsEl) {
+      tabsEl.querySelectorAll(".squad__tab").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var target = this.getAttribute("data-squad");
+          tabsEl.querySelectorAll(".squad__tab").forEach(function (b) { b.classList.remove("is-active"); });
+          this.classList.add("is-active");
+          showSquad(target);
+        });
+      });
+    }
+
+    /* 切换赛季 -> 重新渲染面板 */
+    if (seasonSel && seasons.length) {
+      seasonSel.addEventListener("change", function () {
+        buildPanels(this.value);
+        var active = tabsEl ? tabsEl.querySelector(".squad__tab.is-active") : null;
+        showSquad(active ? active.getAttribute("data-squad") : teamsArr[0].id);
+      });
+    }
   }
 
   function showSquad(id) {
@@ -397,7 +570,7 @@
     var yearList = Object.keys(years).sort().reverse();
     var sel = document.getElementById("matchYear");
     if (sel) {
-      sel.innerHTML = '<option value="">全部年份</option>' +
+      sel.innerHTML = '<option value="">全部赛季</option>' +
         yearList.map(function (y) { var s = String(y); return '<option value="' + esc(y) + '">' + esc((parseInt(s)-1) + '-' + s + '赛季') + '</option>'; }).join("");
       sel.onchange = function () {
         MATCH_FILTER.year = this.value;
@@ -526,6 +699,34 @@
         });
       });
     }
+
+    // 新闻卡片：点击 / 回车进入详情
+    var newsList = document.getElementById("newsList");
+    if (newsList) {
+      newsList.addEventListener("click", function (e) {
+        var card = e.target.closest(".news-card");
+        if (card) openNews(parseInt(card.getAttribute("data-idx"), 10));
+      });
+      newsList.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          var card = e.target.closest(".news-card");
+          if (card) { e.preventDefault(); openNews(parseInt(card.getAttribute("data-idx"), 10)); }
+        }
+      });
+    }
+    // 点击遮罩 / 按 Esc 关闭详情
+    var newsDetail = document.getElementById("newsDetail");
+    if (newsDetail) {
+      newsDetail.addEventListener("click", function (e) {
+        if (e.target === newsDetail) closeNews();
+      });
+    }
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        var nd = document.getElementById("newsDetail");
+        if (nd && nd.classList.contains("is-open")) closeNews();
+      }
+    });
   }
 
   /* ---------- 启动 ---------- */

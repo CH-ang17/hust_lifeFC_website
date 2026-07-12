@@ -91,8 +91,7 @@
             <p class="eyebrow reveal">最新动态</p>
             <h2 class="reveal">新闻</h2>
           </div>
-          <p class="lead reveal">俱乐部与球队最近的活动、比赛总结与重要公告。</p>
-        </div>
+      </div>
         <div class="news__list" id="newsList"><!-- 由 app.js 渲染 --></div>
       </div>
     </section>
@@ -109,22 +108,22 @@
             <h2 class="reveal">俱乐部</h2>
           </div>
         </div>
-        <div class="club__intro reveal" id="clubIntro"><!-- 由 app.js 渲染 --></div>
+        <div class="club__intro reveal" id="clubIntro" style="margin-bottom:4rem;"><!-- 由 app.js 渲染 --></div>
 
-        <!-- 荣誉墙 -->
-        <div class="honors reveal" id="honorsWall" style="margin-top:var(--space-12);">
-          <h3 style="margin-bottom:var(--space-6);">荣誉墙</h3>
+        <!-- 荣誉 -->
+        <div class="honors reveal" id="honorsWall" style="margin-top:3.5rem;">
+          <h3 style="margin-bottom:1.5rem;">荣誉</h3>
           <div class="honors__grid" id="honorsGrid"><!-- 由 app.js 渲染 --></div>
         </div>
 
         <!-- 历史时间线 -->
-        <div class="timeline reveal" id="timelineWrap" style="margin-top:var(--space-12);">
-          <h3 style="margin-bottom:var(--space-6);">历程</h3>
+        <div class="timeline reveal" id="timelineWrap" style="margin-top:3.5rem;">
+          <h3 style="margin-bottom:1.5rem;">历史</h3>
           <div class="timeline__list" id="timelineList"><!-- 由 app.js 渲染 --></div>
         </div>
 
         <!-- 价值观 -->
-        <div class="values reveal" style="margin-top:var(--space-12);" id="clubValues"><!-- 由 app.js 渲染 --></div>
+        <div class="values reveal" style="margin-top:3.5rem;" id="clubValues"><!-- 由 app.js 渲染 --></div>
       </div>
     </section>
 
@@ -135,13 +134,18 @@
       <div class="wrap">
         <div class="section-head">
           <div>
-            <p class="eyebrow reveal">球队阵容 · 2026</p>
+            <p class="eyebrow reveal">球队阵容</p>
             <h2 class="reveal">球队</h2>
           </div>
         </div>
 
         <!-- 阵容：男足 / 女足 切换 -->
-        <div class="squad__tabs reveal" id="squadTabs"></div>
+        <div class="squad__controls reveal">
+          <div class="squad__tabs" id="squadTabs"></div>
+          <div class="squad__season-wrap">
+            <select class="squad__season" id="squadSeason"></select>
+          </div>
+        </div>
 
         <div class="squad__grid" id="squadGrid"></div>
       </div>
@@ -162,7 +166,7 @@
         <div class="match__filters reveal">
           <div class="comps" id="compsStrip"><!-- 由 app.js 渲染：全部 / 新生杯 / 华科杯 / 毕业杯 --></div>
           <div class="match__year-wrap">
-            <label for="matchYear">年份</label>
+            <label for="matchYear">赛季</label>
             <select id="matchYear" class="match__year"><!-- 由 app.js 渲染 --></select>
           </div>
         </div>
@@ -222,6 +226,9 @@
       <path d="M12 5l-7 7h4v7h6v-7h4z" fill="currentColor" />
     </svg>
   </button>
+
+  <!-- 新闻详情覆盖层 -->
+  <div class="news-detail" id="newsDetail" aria-hidden="true"></div>
 
   <script src="assets/js/app.js"></script>
 </body>
