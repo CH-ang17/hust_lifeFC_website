@@ -5,16 +5,12 @@
     "tagline": "将足球刻进DNA中"
   },
   "hero": {
-    "eyebrow": "HUST 生命学院足球俱乐部 ",
-    "titleA": "将足球刻进DNA中",
-    "titleB": "",
+    "eyebrow": "",
+    "titleA": "将足球刻进",
+    "titleB": "DNA中",
     "titleC": "",
-    "lead": "HUST 生命学院足球俱乐部——男足女足两支球队，用生命科学的严谨对待每一次传球，用足球的热情书写每一场比赛。",
+    "lead": "",
     "facts": [
-      {
-        "label": "成立",
-        "value": "2014"
-      },
       {
         "label": "球队",
         "value": "男足 + 女足"
@@ -83,7 +79,8 @@
     {
       "id": "hust",
       "name": "华科杯",
-      "desc": "男足乙组 · 女足女子组"
+      "desc": "全校联赛，院系之战",
+      "teams": ["男足", "女足"]
     },
     {
       "id": "graduation",
@@ -543,7 +540,7 @@
     ]
   },
   "footer": {
-    "intro": "DNA 之上，足球之中。男足女足两支球队，欢迎来学院运动场看我们踢球，也欢迎加入 HUST Life FC。",
+    "intro": "HUST生命学院足球俱乐部的每一位成员将始终保持对足球的热爱，欢迎您的关注，期待您的加入。",
     "links": [
       {
         "label": "新闻动态",
@@ -576,7 +573,7 @@
         "href": "#contact"
       }
     ],
-    "copyright": "© 2026 HUST 生命学院足球俱乐部 · LIFE FC",
+    "copyright": "© 2026 HUST 生命学院足球俱乐部 · HUST LIFE FC",
     "contact": [
       {
         "label": "邮箱",
@@ -584,11 +581,7 @@
       },
       {
         "label": "地址",
-        "value": "华中科技大学东校区生命科学院"
-      },
-      {
-        "label": "训练时间",
-        "value": "每周二/四 18:30-20:30，东操场"
+        "value": "湖北省武汉市洪山区关山街道珞喻路415号（东11楼）"
       }
     ]
   },

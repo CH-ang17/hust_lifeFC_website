@@ -55,11 +55,11 @@
     }).join("");
 
     var copy =
-      '<p class="eyebrow hero__eyebrow reveal">' + esc(h.eyebrow) + '</p>' +
+      (h.eyebrow ? '<p class="eyebrow hero__eyebrow reveal">' + esc(h.eyebrow) + '</p>' : '') +
       '<h1 class="display hero__title reveal">' + esc(h.titleA) + '<br>' +
         '<span class="accent">' + esc(h.titleB) + '</span>' +
-        '<span class="outline">' + esc(h.titleC) + '</span></h1>' +
-      '<p class="lead hero__lead reveal">' + ml(h.lead) + '</p>' +
+        (h.titleC ? '<span class="outline">' + esc(h.titleC) + '</span>' : '') + '</h1>' +
+      (h.lead ? '<p class="lead hero__lead reveal">' + ml(h.lead) + '</p>' : '') +
       '<dl class="hero__facts reveal">' + facts + '</dl>' +
       '<div class="hero__actions reveal">' +
         '<a class="btn btn--primary" href="#news">最新动态 <span class="arrow">→</span></a>' +
@@ -170,10 +170,19 @@
     }
   }
 
-  /* 教练 / 领队卡片：与球员完全相同的 .player 大卡片（深蓝 + 细弧线），不单独分区 */
+  /* 卡片背面：人物图片，未上传则显示「暂无图片」 */
+  function cardBack(obj) {
+    var img = obj.img;
+    var back = img
+      ? '<img class="player__photo" src="' + esc(img) + '" alt="' + esc(obj.name) + '" loading="lazy">'
+      : '<div class="player__noimg">暂无图片</div>';
+    return '<div class="player__face player__face--back">' + back + '</div>';
+  }
+
+  /* 教练 / 领队卡片：与球员完全相同的 .player 大卡片（深蓝 + 细弧线），可翻转 */
   function staffCard(s) {
     var role = s.role ? '<span class="player__role-top">' + esc(s.role) + '</span>' : "";
-    return '<article class="player reveal" tabindex="0">' +
+    var front = '<div class="player__face player__face--front">' +
       '<div class="player__visual">' +
         (role ? role : '') +
         '<div class="player__silhouette">' + SILHOUETTE + '</div>' +
@@ -181,6 +190,9 @@
           '<span class="player__name">' + esc(s.name) + '</span>' +
         '</div>' +
       '</div>' +
+    '</div>';
+    return '<article class="player reveal" tabindex="0">' +
+      '<div class="player__inner">' + front + cardBack(s) + '</div>' +
     '</article>';
   }
 
@@ -238,7 +250,7 @@
         if (!list.length) return "";
         var cards = list.map(function (p) {
           var cap = p.captain ? '<span class="player__cap">C</span>' : "";
-          return '<article class="player reveal" tabindex="0">' +
+          var front = '<div class="player__face player__face--front">' +
             '<div class="player__visual">' +
               '<div class="player__silhouette">' + SILHOUETTE + '</div>' +
               '<span class="player__num">' + esc(p.num) + '</span>' +
@@ -246,6 +258,9 @@
               '<div class="player__center"><span class="player__name">' + esc(p.name) + '</span></div>' +
             '</div>' +
             '<div class="player__info"><span class="player__pos">' + esc(p.pos) + '</span></div>' +
+          '</div>';
+          return '<article class="player reveal" tabindex="0">' +
+            '<div class="player__inner">' + front + cardBack(p) + '</div>' +
           '</article>';
         }).join("");
         return '<div class="pos-group reveal">' +
@@ -263,6 +278,19 @@
     }).join("");
 
     gridEl.innerHTML = panelsHtml;
+
+    /* 点击卡片翻转，显示人物图片（键盘 Enter/Space 亦可） */
+    gridEl.querySelectorAll(".player").forEach(function (card) {
+      card.addEventListener("click", function () {
+        this.classList.toggle("is-flipped");
+      });
+      card.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          this.classList.toggle("is-flipped");
+        }
+      });
+    });
   }
 
   function showSquad(id) {
@@ -277,9 +305,22 @@
   function renderCompetitions(comps) {
     var el = document.getElementById("compsStrip");
     if (!el) return;
-    var all = '<button class="comp comp--tab is-active" data-comp="">全部</button>';
+    var all = '<button class="comp comp--tab is-active" data-comp="" data-team="">全部</button>';
     var html = comps.map(function (c) {
-      return '<button class="comp comp--tab" data-comp="' + esc(c.name) + '">' +
+      /* 有 teams 子项的（如华科杯）渲染为可展开按钮 */
+      if (c.teams && c.teams.length) {
+        return '<div class="comp comp--group">' +
+          '<button class="comp comp--tab" data-comp="' + esc(c.name) + '" data-team="" aria-expanded="false">' +
+            '<strong>' + esc(c.name) + '</strong>' +
+            (c.desc ? '<small>' + esc(c.desc) + '</small>' : '') +
+            '<span class="comp__chev">▾</span></button>' +
+          '<div class="comp__subs">' +
+            c.teams.map(function (t) {
+              return '<button class="comp comp--sub" data-comp="' + esc(c.name) + '" data-team="' + esc(t) + '">' + esc(t) + '</button>';
+            }).join("") +
+          '</div></div>';
+      }
+      return '<button class="comp comp--tab" data-comp="' + esc(c.name) + '" data-team="">' +
         '<strong>' + esc(c.name) + '</strong>' +
         (c.desc ? '<small>' + esc(c.desc) + '</small>' : '') +
         '</button>';
@@ -288,9 +329,30 @@
 
     el.querySelectorAll(".comp--tab").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        el.querySelectorAll(".comp--tab").forEach(function (b) { b.classList.remove("is-active"); });
+        var isGroup = this.closest(".comp--group");
+        if (isGroup && this.getAttribute("data-team") === "") {
+          // 可展开的主按钮：切换子菜单显隐
+          var expanded = this.getAttribute("aria-expanded") === "true";
+          this.setAttribute("aria-expanded", String(!expanded));
+          isGroup.classList.toggle("is-open");
+          return;
+        }
+        // 普通按钮：激活并筛选
+        el.querySelectorAll(".comp--tab, .comp--sub").forEach(function (b) { b.classList.remove("is-active"); });
         this.classList.add("is-active");
         MATCH_FILTER.comp = this.getAttribute("data-comp") || "";
+        MATCH_FILTER.team = this.getAttribute("data-team") || "";
+        applyMatchFilter();
+      });
+    });
+
+    /* 子选项点击 */
+    el.querySelectorAll(".comp--sub").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        el.querySelectorAll(".comp--tab, .comp--sub").forEach(function (b) { b.classList.remove("is-active"); });
+        this.classList.add("is-active");
+        MATCH_FILTER.comp = this.getAttribute("data-comp") || "";
+        MATCH_FILTER.team = this.getAttribute("data-team") || "";
         applyMatchFilter();
       });
     });
@@ -323,7 +385,7 @@
 
   /* ===== 比赛（#matches）—— 支持赛事 + 年份筛选 ===== */
   var MATCH_DATA = { recent: [], upcoming: [] };
-  var MATCH_FILTER = { comp: "", year: "" };
+  var MATCH_FILTER = { comp: "", year: "", team: "" };
 
   function renderFixtures(f) {
     MATCH_DATA.recent = f.recent || [];
@@ -336,7 +398,7 @@
     var sel = document.getElementById("matchYear");
     if (sel) {
       sel.innerHTML = '<option value="">全部年份</option>' +
-        yearList.map(function (y) { return '<option value="' + esc(y) + '">' + esc(y) + ' 赛季</option>'; }).join("");
+        yearList.map(function (y) { var s = String(y); return '<option value="' + esc(y) + '">' + esc((parseInt(s)-1) + '-' + s + '赛季') + '</option>'; }).join("");
       sel.onchange = function () {
         MATCH_FILTER.year = this.value;
         applyMatchFilter();
@@ -346,10 +408,11 @@
   }
 
   function applyMatchFilter() {
-    var comp = MATCH_FILTER.comp, year = MATCH_FILTER.year;
+    var comp = MATCH_FILTER.comp, year = MATCH_FILTER.year, team = MATCH_FILTER.team;
     function pass(m) {
       if (comp && m.comp !== comp) return false;
       if (year && m.year !== year) return false;
+      if (team && m.team !== team) return false;
       return true;
     }
     var recent = MATCH_DATA.recent.filter(pass);
@@ -381,7 +444,10 @@
     if (ft.social) document.getElementById("footerSocial").innerHTML =
       ft.social.map(function (l) { return '<a href="' + esc(l.href) + '">' + esc(l.label) + '</a>'; }).join("");
     if (ft.contact) document.getElementById("footerContact").innerHTML =
-      ft.contact.map(function (c) { return '<p><strong>' + esc(c.label) + '</strong> ' + esc(c.value) + '</p>'; }).join("");
+      ft.contact.map(function (c) {
+        var val = esc(c.value).replace(/\n/g, '<br>&nbsp;&nbsp;');
+        return '<p><strong>' + esc(c.label) + '</strong> ' + val + '</p>';
+      }).join("");
   }
 
   /* ---------- 主题 ---------- */

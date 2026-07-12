@@ -89,13 +89,13 @@
   --ink-soft:  oklch(74% 0.010 95);
   --ink-faint: oklch(58% 0.010 95);
 
-  --club:      oklch(50% 0.10 250);     /* brighter navy on dark */
-  --club-deep: oklch(40% 0.09 250);
-  --club-tint: oklch(24% 0.04 250);
+  --club:      oklch(55% 0.08 195);     /* 暖青色，暗底舒适不刺眼 */
+  --club-deep: oklch(45% 0.065 195);
+  --club-tint: oklch(22% 0.025 195);
 
   /* aliases update automatically via var() */
-  --signal:    oklch(72% 0.05 250);      /* brighter accent */
-  --signal-deep: oklch(60% 0.07 250);
+  --signal:    oklch(68% 0.05 195);       /* 暖青强调色 */
+  --signal-deep: oklch(56% 0.06 195);
 
   --win:   oklch(65% 0.13 150);
   --draw:  oklch(62% 0.018 95);
@@ -249,7 +249,7 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
   padding-block: clamp(3rem, 8vw, 6rem) clamp(3.5rem, 9vw, 7rem);
 }
 @media (min-width: 900px) {
-  .hero__grid { grid-template-columns: 1.15fr 0.85fr; gap: var(--space-2xl); }
+  .hero__grid { grid-template-columns: 1.4fr 0.6fr; gap: var(--space-2xl); }
 }
 
 .hero__eyebrow { margin-bottom: var(--space-lg); }
@@ -331,25 +331,72 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 }
 /* ── 球员大卡片（深色背景 + 人物剪影区 + 底部信息） ── */
 .player {
-  background: var(--card-bg, var(--club));
   border-radius: var(--r-lg);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
   position: relative;
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
   color: #fff;
   min-height: 280px;
+  perspective: 1200px;
+  cursor: pointer;
+  transition: box-shadow var(--dur) var(--ease);
 }
-.player:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+.player:hover { box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+.player:focus-visible { outline: 2px solid var(--club); outline-offset: 3px; }
 
-/* 细装饰弧线：大圆边缘在卡内露出一道弧（参考 Hero 视觉卡片） */
-.player::after {
+/* 翻转内层 */
+.player__inner {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  transform-style: preserve-3d;
+  transition: transform 600ms cubic-bezier(.4, .2, .2, 1);
+  border-radius: var(--r-lg);
+}
+.player.is-flipped .player__inner { transform: rotateY(180deg); }
+
+/* 正反两面 */
+.player__face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  background: var(--pitch);
+}
+.player__face--front {
+  display: flex;
+  flex-direction: column;
+}
+.player__face--back {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.player__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.player__noimg {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, .72);
+}
+
+/* 淡淡弧线装饰（与 Hero 视觉卡同款） —— 仅正面显示 */
+.player__face--front::before {
   content: "";
   position: absolute;
-  inset: -45%;
-  border: 1px solid rgba(255,255,255,.12);
+  right: -30%;
+  top: -20%;
+  width: 130%;
+  aspect-ratio: 1;
   border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .22);
   pointer-events: none;
 }
 
@@ -364,12 +411,7 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
   padding: var(--space-md);
 }
 .player__silhouette {
-  width: 100%;
-  height: 160px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  opacity: .35;
+  display: none;
 }
 .player__silhouette svg {
   width: 100px;
@@ -442,9 +484,11 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
   gap: 2px;
 }
 .player__pos {
-  font-family: var(--font-mono);
-  font-size: var(--fs-xs); letter-spacing: 0.1em;
-  color: rgba(255,255,255,.7);
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,.85);
   text-transform: uppercase;
 }
 .player__name {
@@ -505,44 +549,160 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 .fix__col h3 .dot { width: 9px; height: 9px; border-radius: 50%; }
 .dot--win { background: var(--win); } .dot--up { background: var(--signal); }
 
-/* Competitions strip (新生杯 / 华科杯 / 毕业杯) */
-/* 比赛筛选区：赛事标签 + 年份选择 */
+/* Competitions strip — 统一药丸标签风格 */
 .match__filters {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-  gap: var(--space-lg); margin-bottom: var(--space-xl);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
 }
-.comps { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.comps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* 统一赛事标签：药丸形，紧凑一致 */
 .comp {
-  display: flex; flex-direction: column; gap: 2px;
-  padding: var(--space-md) var(--space-lg);
-  border: 1px solid var(--line); border-radius: var(--r-md);
-  background: var(--paper-2);
+  display: inline-flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.5em;
+  padding: 0.65em 1.4em;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 200ms ease;
+  white-space: nowrap;
+  line-height: 1;
+  letter-spacing: 0.02em;
 }
-.comp strong { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; }
-.comp small { font-size: var(--fs-xs); color: var(--ink-faint); }
+.comp strong { color: var(--ink); }
+.comp small {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.03em;
+}
+.comp:hover { border-color: var(--club); color: var(--club); }
+.comp:hover strong { color: var(--club); }
+.comp.is-active {
+  background: var(--club);
+  border-color: var(--club);
+  color: #fff;
+}
+.comp.is-active strong { color: #fff; }
+.comp.is-active small { color: rgba(255,255,255,.65); }
 
 /* 可点击赛事标签 */
 .comp--tab {
-  appearance: none; -webkit-appearance: none; cursor: pointer;
-  font-family: var(--font-display); transition: all 150ms ease;
-  align-items: flex-start;
+  appearance: none;
+  -webkit-appearance: none;
 }
-.comp--tab:hover { border-color: var(--club); color: var(--club); }
-.comp--tab.is-active { background: var(--club); border-color: var(--club); color: #fff; }
-.comp--tab.is-active small { color: rgba(255,255,255,.75); }
+.comp--tab:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.comp--tab.is-active { box-shadow: 0 4px 12px rgba(0,40,90,.2); }
 
-/* 年份选择 */
+/* 可展开赛事组（华科杯等）*/
+.comp--group {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  border-radius: var(--r-pill);
+}
+.comp--group .comp--tab {
+  border-radius: var(--r-pill);
+}
+.comp__chev {
+  margin-left: 6px;
+  font-size: 0.7rem;
+  transition: transform var(--dur) var(--ease);
+  display: inline-flex;
+  opacity: 0.55;
+}
+.comp--group.is-open .comp__chev { transform: rotate(180deg); opacity: 1; }
+.comp--group.is-open .comp--tab {
+  border-bottom-left-radius: var(--r-pill);
+  border-bottom-right-radius: var(--r-pill);
+}
+
+/* 子选项：内联展开行，非悬浮下拉 */
+.comp__subs {
+  display: none;
+  position: relative;   /* 不再 absolute 悬浮 */
+  top: auto; left: auto;
+  min-width: auto;
+  z-index: auto;
+  background: transparent;
+  border: none;
+  border-top: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  margin-top: var(--space-xs);
+  padding: 0;
+}
+.comp--group.is-open .comp__subs {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-xs);
+}
+.comp--sub {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--paper-2);
+  border: 1.5px solid var(--line-strong);
+  padding: 0.5em 1.1em;
+  border-radius: var(--r-pill);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 200ms ease;
+  letter-spacing: 0.02em;
+}
+.comp--sub:hover { border-color: var(--club); color: var(--club); background: var(--club-tint); }
+.comp--sub.is-active { background: var(--club); border-color: var(--club); color: #fff; }
+
+/* 年份选择 — 与标签风格统一 */
 .match__year-wrap { display: flex; align-items: center; gap: var(--space-sm); flex-shrink: 0; }
-.match__year-wrap label { font-size: var(--fs-sm); color: var(--ink-soft); font-weight: 600; }
+.match__year-wrap label {
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
 .match__year {
   appearance: none; -webkit-appearance: none;
-  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-sm);
-  padding: var(--space-sm) var(--space-lg); padding-right: 2.2rem;
-  border: 1px solid var(--line); border-radius: var(--r-md);
-  background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 0.8rem center;
-  color: var(--ink); cursor: pointer; transition: border-color 150ms ease;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  padding: 0.6em 2.2em 0.6em 1.1em;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 0.85rem center;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 200ms ease;
+  letter-spacing: 0.02em;
 }
-.match__year:hover, .match__year:focus { border-color: var(--club); outline: none; }
+.match__year:hover, .match__year:focus { border-color: var(--club); outline: none; box-shadow: var(--shadow-sm); }
 
 /* 空状态 */
 .match__empty { color: var(--ink-faint); font-size: var(--fs-sm); padding: var(--space-lg) 0; }
@@ -558,6 +718,7 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 @media (max-width: 640px) {
   .match__filters { flex-direction: column; align-items: stretch; }
   .match__year-wrap { justify-content: space-between; }
+  .comps { justify-content: flex-start; }
 }
 
 /* Match · team / competition tags */
@@ -693,6 +854,22 @@ body.admin { background: var(--paper-2); }
 .a-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
 .a-grid--row { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
 .a-field--full { grid-column: 1 / -1; }
+
+/* 后台图片上传字段 */
+.a-img-preview {
+  width: 96px; height: 96px;
+  border-radius: var(--r-sm);
+  border: 1px dashed var(--line-strong);
+  background: var(--paper-2);
+  overflow: hidden;
+  display: grid; place-items: center;
+  margin-bottom: var(--space-sm);
+}
+.a-img-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.a-img-empty { font-size: 0.75rem; color: var(--ink-faint); }
+.a-field--img .a-input[type="file"] {
+  font-size: 0.8rem; padding: 6px; margin-bottom: 6px;
+}
 @media (max-width: 620px) { .a-grid { grid-template-columns: 1fr; } }
 
 .a-list { display: grid; gap: var(--space-sm); margin-top: var(--space-md); }
@@ -871,21 +1048,34 @@ body.admin { background: var(--paper-2); }
    ============================================================= */
 .squad__tabs { margin-bottom: var(--space-xl); }
 .squad__tab-bar {
-  display: inline-flex; gap: 0; border: 1px solid var(--border);
-  border-radius: var(--radius-md); overflow: hidden; background: var(--paper);
+  display: inline-flex; gap: var(--space-md);
 }
 .squad__tab {
-  appearance: none; -webkit-appearance: none; background: none;
-  border: none; padding: var(--space-3) var(--space-6);
-  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-sm);
-  color: var(--ink-faint); cursor: pointer;
-  transition: all 150ms ease; white-space: nowrap;
+  appearance: none; -webkit-appearance: none;
+  background: transparent;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-xl);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-base);
+  letter-spacing: 0.15em;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: all 200ms ease;
+  white-space: nowrap;
   position: relative;
 }
-.squad__tab:hover { color: var(--ink); }
+.squad__tab:hover {
+  border-color: var(--club);
+  color: var(--club);
+  transform: translateY(-1px);
+}
 .squad__tab.is-active {
-  background: var(--club); color: #fff;
-  box-shadow: inset 0 0 0 1px var(--club-deep, rgba(0,0,0,.15));
+  background: var(--club);
+  color: #fff;
+  border-color: var(--club);
+  box-shadow: 0 4px 14px rgba(0,40,90,.25);
 }
 
 /* 阵容面板（切换隐藏） */
