@@ -259,6 +259,7 @@
     C.fixtures = C.fixtures || {}; C.fixtures.recent = C.fixtures.recent || []; C.fixtures.upcoming = C.fixtures.upcoming || [];
     C.story = C.story || {}; C.story.values = C.story.values || [];
     C.footer = C.footer || {}; C.footer.links = C.footer.links || []; C.footer.social = C.footer.social || []; C.footer.contact = C.footer.contact || [];
+    C.squadHistory = C.squadHistory || {}; C.staffHistory = C.staffHistory || {}; C.achievements = C.achievements || {};
 
     /* Tab 栏 + 面板 */
     var TABS = [
@@ -269,6 +270,9 @@
       { id: "men",    label: "男足阵容" },
       { id: "women",  label: "女足阵容" },
       { id: "fix",    label: "赛程 · 战报" },
+      { id: "squadHist", label: "历史阵容" },
+      { id: "staffHist", label: "历史官员" },
+      { id: "ach",    label: "历史成绩" },
       { id: "footer", label: "页脚 · 联系" }
     ];
     var tabbar = el("div", { class: "a-tabs", role: "tablist" });
@@ -307,7 +311,7 @@
       textField(C, "hero.season.num", "赛季编号"),
       textField(C, "hero.season.label", "赛季标签")
     ]));
-    pb.appendChild(repeatable("球队分组（男足 / 女足）", C.teams, [
+    pb.appendChild(repeatable("球队分组（男足/女足）", C.teams, [
       { key: "id", label: "标识(men/women)" }, { key: "name", label: "全称" },
       { key: "short", label: "简称(男足/女足)" }, { key: "group", label: "组别" }
     ], { label: "添加球队" }));
@@ -420,6 +424,23 @@
         defaults: { comp: comp }
       }));
     });
+
+    /* ===== 历史阵容（赛季 → 赛事 → 男足/女足 三级） ===== */
+    editNestedHistory(panels.squadHist, C.squadHistory, [
+      { key: "num", label: "号码" },
+      { key: "name", label: "姓名" },
+      { key: "pos", label: "位置" },
+      { key: "captain", label: "队长", type: "checkbox" }
+    ], "球员");
+
+    /* ===== 历史官员（同上三级结构） ===== */
+    editNestedHistory(panels.staffHist, C.staffHistory, [
+      { key: "role", label: "职务" },
+      { key: "name", label: "姓名" }
+    ], "官员");
+
+    /* ===== 历史成绩（按赛季 + 键/值） ===== */
+    editAchievements(panels.ach, C);
 
     /* ===== 页脚 · 联系 ===== */
     var pf2 = panels.footer;
@@ -626,6 +647,141 @@
     });
 
     return s;
+  }
+
+  /* ---------- 历史嵌套编辑器：season → comp → team(men/women) ---------- */
+  function editNestedHistory(panel, rootObj, itemDefs, itemLabel) {
+    panel.appendChild(el("p", { class: "a-hint" },
+      "按「赛季 → 赛事 → 男足/女足」三级管理" + itemLabel + "。用按钮新增赛季/赛事，列表内可逐条增删与编辑，改完点「保存修改」提交。"));
+
+    var addSeason = el("button", { class: "btn btn--primary btn--sm", type: "button" }, "+ 添加赛季");
+    addSeason.addEventListener("click", function () {
+      var name = (window.prompt("赛季名称（如 2025-2026）：") || "").trim();
+      if (!name) return;
+      if (!rootObj[name]) rootObj[name] = {};
+      renderSeasons();
+    });
+    panel.appendChild(addSeason);
+
+    var box = el("div", { class: "a-nested" });
+    panel.appendChild(box);
+
+    function renderSeasons() {
+      box.innerHTML = "";
+      Object.keys(rootObj).forEach(function (season) {
+        if (!rootObj[season] || typeof rootObj[season] !== "object") return;
+        var sec = el("section", { class: "a-nest-sec" });
+        var head = el("div", { class: "a-section__head" });
+        head.appendChild(el("h3", { class: "a-section__title" }, esc(season)));
+        var addComp = el("button", { class: "btn btn--ghost btn--sm", type: "button" }, "+ 添加赛事");
+        addComp.addEventListener("click", function () {
+          var name = (window.prompt("赛事名称（如 华科杯 / 新生杯 / 毕业杯）：") || "").trim();
+          if (!name) return;
+          if (!rootObj[season][name]) rootObj[season][name] = { men: [], women: [] };
+          renderSeasons();
+        });
+        head.appendChild(addComp);
+        sec.appendChild(head);
+
+        var compBox = el("div", { class: "a-nest-2" });
+        Object.keys(rootObj[season]).forEach(function (comp) {
+          if (!rootObj[season][comp] || typeof rootObj[season][comp] !== "object") return;
+          var cs = el("div", { class: "a-nest-comp" });
+          cs.appendChild(el("h4", { class: "a-nest-title" }, esc(comp)));
+          var teamsObj = rootObj[season][comp];
+          ["men", "women"].forEach(function (teamKey) {
+            if (!Array.isArray(teamsObj[teamKey])) teamsObj[teamKey] = [];
+            cs.appendChild(repeatable(
+              (teamKey === "men" ? "男足" : "女足") + " " + itemLabel,
+              teamsObj[teamKey],
+              itemDefs,
+              { label: "添加" + itemLabel }
+            ));
+          });
+          compBox.appendChild(cs);
+        });
+        sec.appendChild(compBox);
+        box.appendChild(sec);
+      });
+    }
+    renderSeasons();
+  }
+
+  /* ---------- 历史成绩编辑器：season + 键/值 ---------- */
+  function editAchievements(panel, C) {
+    C.achievements = C.achievements || {};
+    panel.appendChild(el("p", { class: "a-hint" },
+      "按赛季填写各赛事最终成绩。华科杯分男足/女足，键名请写「华科杯|男足」「华科杯|女足」；其余赛事直接写赛事名（如 新生杯、毕业杯）。"));
+
+    var addSeason = el("button", { class: "btn btn--primary btn--sm", type: "button" }, "+ 添加赛季");
+    addSeason.addEventListener("click", function () {
+      var name = (window.prompt("赛季名称（如 2025-2026）：") || "").trim();
+      if (!name) return;
+      if (!C.achievements[name]) C.achievements[name] = {};
+      renderAch();
+    });
+    panel.appendChild(addSeason);
+
+    var box = el("div", { class: "a-nested" });
+    panel.appendChild(box);
+
+    function renderAch() {
+      box.innerHTML = "";
+      Object.keys(C.achievements).forEach(function (season) {
+        if (!C.achievements[season] || typeof C.achievements[season] !== "object") return;
+        var sec = el("section", { class: "a-nest-sec" });
+        sec.appendChild(el("h3", { class: "a-section__title" }, esc(season)));
+        var obj = C.achievements[season];
+
+        var list = el("div", { class: "a-list" });
+        sec.appendChild(list);
+
+        function renderRows() {
+          list.innerHTML = "";
+          Object.keys(obj).forEach(function (key) {
+            var row = el("div", { class: "a-row-card" });
+            var grid = el("div", { class: "a-grid a-grid--row" });
+
+            var kfw = el("label", { class: "a-field" });
+            kfw.appendChild(el("span", null, "赛事键（华科杯用 华科杯|男足）"));
+            var kinp = el("input", { class: "a-input", type: "text", value: key });
+            kinp.addEventListener("change", function () {
+              var nv = kinp.value.trim();
+              if (!nv || nv === key) { kinp.value = key; return; }
+              if (obj[nv] != null) { toast("该赛事键已存在", true); kinp.value = key; return; }
+              var v = obj[key]; delete obj[key]; obj[nv] = v; key = nv;
+            });
+            kfw.appendChild(kinp);
+            grid.appendChild(kfw);
+
+            var vfw = el("label", { class: "a-field" });
+            vfw.appendChild(el("span", null, "成绩"));
+            var vinp = el("input", { class: "a-input", type: "text", value: obj[key] == null ? "" : obj[key] });
+            vinp.addEventListener("input", function () { obj[key] = vinp.value; });
+            vfw.appendChild(vinp);
+            grid.appendChild(vfw);
+
+            row.appendChild(grid);
+            var rm = el("button", { class: "a-row-remove", type: "button", title: "删除" }, "✕");
+            rm.addEventListener("click", function () { delete obj[key]; renderRows(); });
+            row.appendChild(rm);
+            list.appendChild(row);
+          });
+        }
+        renderRows();
+
+        var addBtn = el("button", { class: "btn btn--ghost btn--sm", type: "button" }, "+ 添加成绩项");
+        addBtn.addEventListener("click", function () {
+          var def = "华科杯|男足", i = 1;
+          while (obj[def] != null) { def = "新赛事" + i; i++; }
+          obj[def] = "";
+          renderRows();
+        });
+        sec.appendChild(addBtn);
+        box.appendChild(sec);
+      });
+    }
+    renderAch();
   }
 
   /* ---------- 导出 / 导入 / 退出 ---------- */

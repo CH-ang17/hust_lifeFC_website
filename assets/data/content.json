@@ -21,11 +21,11 @@
       },
       {
         "label": "现役",
-        "value": "42 人"
+        "value": "46 人"
       }
     ],
     "season": {
-      "num": "26",
+      "num": "HUST LIFE FC",
       "label": "2025-2026 赛季"
     }
   },
@@ -33,7 +33,7 @@
     {
       "num": "2",
       "unit": "支",
-      "label": "球队（男足 / 女足）"
+      "label": "球队（男足/女足）"
     },
     {
       "num": "3",
@@ -41,17 +41,17 @@
       "label": "年度赛事"
     },
     {
-      "num": "128",
+      "num": "19",
       "unit": "",
       "label": "总场次"
     },
     {
-      "num": "86",
+      "num": "12",
       "unit": "胜",
       "label": "Wins"
     },
     {
-      "num": "274",
+      "num": "54",
       "unit": "",
       "label": "进球"
     }
@@ -127,73 +127,41 @@
   ],
   "news": [
     {
-      "date": "2026.05.24",
-      "tag": "战报",
-      "title": "男足 3:1 力克计算机学院，华科杯乙组收官战告捷",
-      "summary": "林川传射建功，黄野、赵临各入一球。球队以不败战绩结束本赛季华科杯征程。",
-      "team": "男足",
-      "comp": "华科杯",
-      "body": "5 月 24 日下午，华科杯乙组收官战在中心操场打响。面对实力不俗的计算机学院，Life FC 男足从开场便掌控节奏。\n\n第 23 分钟，林川中路灵巧摆脱后直塞，黄野插上推射破门，1:0。易边再战，计算机学院利用定位球扳平比分。关键时刻林川第 67 分钟接赵临助攻远射再度超出，并在补时阶段锦上添花，最终比分定格在 3:1。\n\n此役过后，球队以不败战绩结束本赛季华科杯征程，提前锁定小组头名。主教练赛后表示：‘这场胜利属于每一个拼到最后的队员。’",
-      "images": [
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500'%3E%3Crect width='800' height='500' fill='%2300395e'/%3E%3Crect x='40' y='40' width='720' height='420' fill='none' stroke='%23ffffff' stroke-width='4'/%3E%3Ccircle cx='400' cy='250' r='60' fill='none' stroke='%23ffffff' stroke-width='4'/%3E%3Cline x1='400' y1='40' x2='400' y2='460' stroke='%23ffffff' stroke-width='4'/%3E%3Ctext x='400' y='490' font-size='20' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E示例配图：比赛瞬间%3C/text%3E%3C/svg%3E",
-        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500'%3E%3Crect width='800' height='500' fill='%23003B5C'/%3E%3Ctext x='400' y='260' font-size='40' fill='%23ffffff' text-anchor='middle' font-family='sans-serif'%3E示例配图：合影%3C/text%3E%3C/svg%3E"
-      ]
-    },
-    {
-      "date": "2026.04.20",
-      "tag": "战报",
-      "title": "女足 2:0 战胜光电学院，保持不败金身",
-      "summary": "苏晴后防稳健，梁悦与宋雨联手破门。女足女子组六轮不败，稳居小组第一。",
-      "team": "女足",
-      "comp": "华科杯",
-      "body": "4 月 20 日，女足在小组赛第六轮对阵光电学院。开场后 Life FC 女足便展开高位逼抢，第 18 分钟梁悦禁区内抢点破门，1:0。\n\n下半场苏晴领衔的后防线多次化解对手反击，宋雨在第 71 分钟接边路传中头球锁定胜局，2:0。\n\n至此女足女子组六轮不败，稳居小组第一，出线形势一片大好。"
-    },
-    {
-      "date": "2026.04.01",
-      "tag": "公告",
-      "title": "2026 毕业杯报名启动：送别大四队员",
-      "summary": "每年夏季传统赛事即将开打，欢迎全院同学报名参赛。本届毕业杯预计 6 月中旬开幕。",
-      "team": "",
-      "comp": "",
-      "body": "毕业杯是生命学院每年夏季的传统赛事，既是送别大四队员的温情之战，也是全院足球爱好者的狂欢。\n\n本届毕业杯预计 6 月中旬开幕，设男足、女足两个组别。欢迎全院在读同学（含研究生）报名参赛，有无基础均可。报名方式请关注班级群通知或联系球队领队。\n\n一起为青春最后一场球，踢出最燃的夏天！"
-    },
-    {
-      "date": "2026.03.15",
+      "title": "第一届生命杯成功举办，硕博队夺冠",
+      "date": "2026.6.23",
       "tag": "动态",
-      "title": "春季招新圆满结束：15 位新成员加入 Life FC",
-      "summary": "经过两周试训与选拔，男足新增 8 人、女足新增 7 人。新鲜血液注入，新赛季值得期待！",
-      "team": "",
-      "comp": "",
-      "body": "经过两周的试训与选拔，2026 春季招新圆满结束。本季共有 15 位新成员加入 Life FC：男足新增 8 人、女足新增 7 人，覆盖大一至研一多个年级。\n\n招新期间，教练组从基本功、比赛阅读与团队意识三个维度进行综合评估。新成员将在接下来的训练中逐步融入球队体系。\n\n新鲜血液注入，新赛季值得期待！欢迎大家在训练场上认识新朋友。"
-    },
-    {
-      "date": "2025.12.20",
-      "tag": "荣誉",
-      "title": "2025 年度总结：男足乙组第四 · 女足亚军",
-      "summary": "回顾 2025 赛季的点点滴滴——从新生杯到毕业杯，两支球队共出战 42 场，进 89 球。",
-      "team": "",
-      "comp": "",
-      "body": "2025 赛季落下帷幕，Life FC 两支球队交出了一份亮眼的成绩单：男足乙组第四、女足斩获亚军。\n\n从新生杯到毕业杯，两支球队全年共出战 42 场，攻入 89 球。每一项数据背后，都是无数次傍晚的训练与周末的奔波。\n\n感谢每一位队员、领队与后勤同学的付出。2026，我们继续在场上见！"
+      "comp": "院内赛",
+      "summary": "历时三周，单循环共10场比赛，硕博队以4场全胜战绩夺得第一届生命杯冠军。",
+      "images": [
+        "assets/images/life-cup-2026-standings.svg",
+        "assets/images/life-cup-2026-fixtures.svg",
+        "assets/images/life-cup-2026-match-01.jpg",
+        "assets/images/life-cup-2026-match-02.jpg"
+      ],
+      "body": "历时三周，单循环共10场比赛，大一、大二、大三、大四、硕博五支队伍共同角逐第一届生命杯。\n\n6月14日下午15:00，东操小场，赛事最后一场比赛在硕博队和大一队之间打响，这也是决定冠军归属的一战。最终硕博队3:2战胜大一队，以4场全胜战绩夺冠。\n\n本次赛事促进了学院内部的足球交流，使更多的同学参与足球运动。\n\n2026年第一届生命杯足球赛最终积分榜如下："
     }
   ],
   "club": {
-    "intro": "华中科技大学生命科学与技术学院足球俱乐部（HUST生命学院足球俱乐部，HUST LIFE FC），由学院一群热爱足球的同学在学院团委指导下建立。俱乐部下设男子足球队、女子足球队两支队伍，常年参加华中科技大学「新生杯」「华科杯」「毕业杯」三项校级足球赛事，取得多项荣誉，是一支不可忽视的力量。在华中科技大学足球联赛（华科杯）中，男子足球队征战乙组，女子足球队征战女子组。\n\nHUST Life FC 始终秉承「拼搏·团结·快乐」的精神，热爱足球，享受足球。",
+    "intro": "华中科技大学生命科学与技术学院足球俱乐部（HUST生命学院足球俱乐部，HUST LIFE FC），由学院一群热爱足球的同学在学院团委指导下建立。俱乐部下设男子足球队、女子足球队两支队伍，常年参加华中科技大学「新生杯」「华科杯」「毕业杯」三项校级足球赛事，取得多项荣誉，是一支不可忽视的力量。在华中科技大学足球联赛（华科杯）中，男子足球队征战男足，女子足球队征战女足。\n\nHUST Life FC 始终秉承「拼搏·团结·快乐」的精神，热爱足球，享受足球。",
     "honors": [
       {
         "year": "2026",
         "comp": "华科杯",
+        "format": "十一人制",
         "group": "女子组",
         "rank": "亚军"
       },
       {
         "year": "2025",
         "comp": "华科杯",
+        "format": "十一人制",
         "group": "女子组",
         "rank": "冠军"
       },
       {
         "year": "2024",
         "comp": "华科杯",
+        "format": "十一人制",
         "group": "女子组",
         "rank": "亚军"
       },
@@ -212,6 +180,7 @@
       {
         "year": "2021",
         "comp": "华科杯",
+        "format": "十一人制",
         "group": "乙组",
         "rank": "亚军"
       },
@@ -230,15 +199,15 @@
     ],
     "timeline": [
       {
-        "year": "2025",
+        "year": "2025.4.26",
         "text": "女足获得华中科技大学足球联赛（华科杯）女子组冠军，首次夺冠"
       },
       {
-        "year": "2021",
+        "year": "2021.4.24",
         "text": "男足获得华中科技大学足球联赛（华科杯）乙组亚军，重返甲组"
       },
       {
-        "year": "2019",
+        "year": "2019.10.17",
         "text": "获得新生杯冠军"
       }
     ]
@@ -414,6 +383,13 @@
         "note": ""
       },
       {
+        "num": "12",
+        "name": "田齐",
+        "pos": "CDM · 防守中场",
+        "captain": false,
+        "season": "2026-2027"
+      },
+      {
         "num": "25",
         "name": "罗阮烨",
         "pos": "RW · 右边锋",
@@ -450,35 +426,35 @@
         "name": "蔡天宇",
         "pos": "LB · 左后卫",
         "captain": false,
-        "season": "2025-2026,2026-2027"
+        "season": "2026-2027"
       },
       {
         "num": "23",
         "name": "习城玮",
         "pos": "RW · 右边锋",
         "captain": false,
-        "season": "2025-2026,2026-2027"
+        "season": "2026-2027"
       },
       {
         "num": "33",
         "name": "雷嘉杭",
         "pos": "LW · 左边锋",
         "captain": false,
-        "season": "2025-2026,2026-2027"
+        "season": "2026-2027"
       },
       {
         "num": "41",
         "name": "张润泽",
         "pos": "RW · 右边锋",
         "captain": false,
-        "season": "2025-2026,2026-2027"
+        "season": "2026-2027"
       },
       {
         "num": "26",
         "name": "徐楚淇",
         "pos": "RB · 右后卫",
         "captain": false,
-        "season": "2025-2026,2026-2027"
+        "season": "2026-2027"
       }
     ],
     "women": [
@@ -533,7 +509,7 @@
       },
       {
         "num": "15",
-        "name": "柳亮涵",
+        "name": "柳竞涵",
         "pos": "CF · 中锋",
         "captain": false,
         "season": "2025-2026,2026-2027"
@@ -589,198 +565,858 @@
       }
     ]
   },
+  "squadHistory": {
+    "2025-2026": {
+      "华科杯": {
+        "men": [
+          {
+            "num": "1",
+            "name": "吴鸣鹤",
+            "pos": "GK · 门将",
+            "captain": false
+          },
+          {
+            "num": "28",
+            "name": "张明睿",
+            "pos": "GK · 门将",
+            "captain": false
+          },
+          {
+            "num": "55",
+            "name": "苏毅",
+            "pos": "GK · 门将",
+            "captain": false
+          },
+          {
+            "num": "2",
+            "name": "丁一航",
+            "pos": "RB · 右后卫",
+            "captain": false
+          },
+          {
+            "num": "3",
+            "name": "李霄鹤",
+            "pos": "LB · 左后卫",
+            "captain": false
+          },
+          {
+            "num": "4",
+            "name": "巨鹏远",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "5",
+            "name": "俞善文",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "6",
+            "name": "邓旺杰",
+            "pos": "LB · 左后卫",
+            "captain": false
+          },
+          {
+            "num": "17",
+            "name": "程航",
+            "pos": "RB · 右后卫",
+            "captain": false
+          },
+          {
+            "num": "32",
+            "name": "王鹏程",
+            "pos": "RB · 右后卫",
+            "captain": false
+          },
+          {
+            "num": "42",
+            "name": "谢高翔",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "66",
+            "name": "吴晟楷",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "8",
+            "name": "周琦凯",
+            "pos": "CDM · 防守中场",
+            "captain": false
+          },
+          {
+            "num": "14",
+            "name": "戴晨曦",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "16",
+            "name": "刘骏贤",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "18",
+            "name": "陈天",
+            "pos": "CAM · 进攻中场",
+            "captain": true
+          },
+          {
+            "num": "20",
+            "name": "苏暹懿",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "21",
+            "name": "邹元晔",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "7",
+            "name": "张德睿",
+            "pos": "RW · 右边锋",
+            "captain": false
+          },
+          {
+            "num": "10",
+            "name": "Bhahat Lawlley Zimba",
+            "pos": "CF · 中锋",
+            "captain": false
+          },
+          {
+            "num": "11",
+            "name": "曹洲荣",
+            "pos": "LW · 左边锋",
+            "captain": false
+          },
+          {
+            "num": "25",
+            "name": "罗阮烨",
+            "pos": "RW · 右边锋",
+            "captain": false
+          },
+          {
+            "num": "30",
+            "name": "徐浩轩",
+            "pos": "LW · 左边锋",
+            "captain": false
+          },
+          {
+            "num": "47",
+            "name": "祁潇赫",
+            "pos": "RW · 右边锋",
+            "captain": false
+          },
+          {
+            "num": "99",
+            "name": "李羽城",
+            "pos": "ST · 前锋",
+            "captain": false
+          }
+        ],
+        "women": [
+          {
+            "num": "1",
+            "name": "高梦圆",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "6",
+            "name": "金梦露",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "7",
+            "name": "苏婕欣",
+            "pos": "CF · 中锋",
+            "captain": false
+          },
+          {
+            "num": "9",
+            "name": "苏雨婷",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "10",
+            "name": "蒋欣玥",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "11",
+            "name": "刘水远",
+            "pos": "CAM · 进攻中场",
+            "captain": false
+          },
+          {
+            "num": "12",
+            "name": "丁冉",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "15",
+            "name": "柳竞涵",
+            "pos": "CF · 中锋",
+            "captain": false
+          },
+          {
+            "num": "17",
+            "name": "周加翌",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "18",
+            "name": "黄粲",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "20",
+            "name": "和谐",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "24",
+            "name": "周孟雪",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "27",
+            "name": "郭文佳",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "73",
+            "name": "陈心格",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "93",
+            "name": "杨傲茹",
+            "pos": "GK · 门将",
+            "captain": false
+          }
+        ]
+      },
+      "新生杯": {
+        "men": [
+          {
+            "num": "1",
+            "name": "吴鸣鹤",
+            "pos": "GK"
+          },
+          {
+            "num": "13",
+            "name": "朱宸昕",
+            "pos": "DF"
+          },
+          {
+            "num": "18",
+            "name": "王鹏程",
+            "pos": "RB"
+          },
+          {
+            "num": "20",
+            "name": "苏暹懿",
+            "pos": "CM"
+          },
+          {
+            "num": "24",
+            "name": "宁志行",
+            "pos": "CB"
+          },
+          {
+            "num": "27",
+            "name": "叶嘉诺",
+            "pos": "CB"
+          },
+          {
+            "num": "28",
+            "name": "张明睿",
+            "pos": "LB"
+          },
+          {
+            "num": "32",
+            "name": "李汶羲",
+            "pos": "FW"
+          },
+          {
+            "num": "39",
+            "name": "田金杰",
+            "pos": "LB"
+          },
+          {
+            "num": "47",
+            "name": "祁潇赫",
+            "pos": "RW"
+          },
+          {
+            "num": "66",
+            "name": "吴晟楷",
+            "pos": "CB"
+          },
+          {
+            "num": "77",
+            "name": "郑钦文",
+            "pos": "CM"
+          },
+          {
+            "num": "88",
+            "name": "张润泽",
+            "pos": "LB"
+          },
+          {
+            "num": "99",
+            "name": "李羽城",
+            "pos": "CF"
+          }
+        ],
+        "women": [
+          {
+            "num": "1",
+            "name": "高梦圆",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "6",
+            "name": "金梦露",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "7",
+            "name": "苏婕欣",
+            "pos": "CF · 中锋",
+            "captain": false
+          },
+          {
+            "num": "9",
+            "name": "苏雨婷",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "10",
+            "name": "蒋欣玥",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "11",
+            "name": "刘水远",
+            "pos": "CAM · 进攻中场",
+            "captain": false
+          },
+          {
+            "num": "12",
+            "name": "丁冉",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "15",
+            "name": "柳竞涵",
+            "pos": "CF · 中锋",
+            "captain": false
+          },
+          {
+            "num": "17",
+            "name": "周加翌",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "18",
+            "name": "黄粲",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "20",
+            "name": "和谐",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "24",
+            "name": "周孟雪",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "27",
+            "name": "郭文佳",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "73",
+            "name": "陈心格",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "93",
+            "name": "杨傲茹",
+            "pos": "GK · 门将",
+            "captain": false
+          }
+        ]
+      },
+      "毕业杯": {
+        "men": [
+          {
+            "num": "3",
+            "name": "李霄鹤",
+            "pos": "DF"
+          },
+          {
+            "num": "4",
+            "name": "巨鹏远",
+            "pos": "DF"
+          },
+          {
+            "num": "6",
+            "name": "黎瀛寰",
+            "pos": "FW"
+          },
+          {
+            "num": "10",
+            "name": "Bhahat Lawlley Zimba",
+            "pos": "FW"
+          },
+          {
+            "num": "11",
+            "name": "曹洲荣",
+            "pos": "FW"
+          },
+          {
+            "num": "12",
+            "name": "熊兆壹",
+            "pos": "GK"
+          },
+          {
+            "num": "35",
+            "name": "蒋俊杰",
+            "pos": "DF"
+          },
+          {
+            "num": "41",
+            "name": "蔺星硕",
+            "pos": "MF"
+          },
+          {
+            "num": "55",
+            "name": "苏毅",
+            "pos": "GK"
+          },
+          {
+            "num": "88",
+            "name": "张喆",
+            "pos": "MF"
+          },
+          {
+            "num": "99",
+            "name": "和谐",
+            "pos": "FW"
+          }
+        ],
+        "women": [
+          {
+            "num": "1",
+            "name": "高梦圆",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "6",
+            "name": "金梦露",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "7",
+            "name": "苏婕欣",
+            "pos": "CF · 中锋",
+            "captain": false
+          },
+          {
+            "num": "9",
+            "name": "苏雨婷",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "10",
+            "name": "蒋欣玥",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "11",
+            "name": "刘水远",
+            "pos": "CAM · 进攻中场",
+            "captain": false
+          },
+          {
+            "num": "12",
+            "name": "丁冉",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "15",
+            "name": "柳竞涵",
+            "pos": "CF · 中锋",
+            "captain": false
+          },
+          {
+            "num": "17",
+            "name": "周加翌",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "18",
+            "name": "黄粲",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "20",
+            "name": "和谐",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "24",
+            "name": "周孟雪",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "27",
+            "name": "郭文佳",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "73",
+            "name": "陈心格",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "93",
+            "name": "杨傲茹",
+            "pos": "GK · 门将",
+            "captain": false
+          }
+        ]
+      }
+    }
+  },
   "fixtures": {
     "recent": [
       {
-        "date": "05.24",
-        "team": "男足",
-        "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "计算机学院",
-        "score": "3–1",
+        "date": "06.14",
+        "comp": "友谊赛",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "雪铁龙",
+        "score": "2–2",
+        "result": "D",
+        "round": "友谊赛",
+        "venue": "韵苑操场",
+        "year": "2026"
+      },
+      {
+        "date": "06.05",
+        "comp": "毕业杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "机械科学与工程学院",
+        "score": "0–4",
+        "result": "L",
+        "round": "淘汰赛 · 1/4决赛",
+        "venue": "紫菘五人制1号足球场",
+        "year": "2026"
+      },
+      {
+        "date": "06.03",
+        "comp": "毕业杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "材料科学与工程学院",
+        "score": "4–3",
         "result": "W",
-        "round": "乙组 · 第 11 轮",
+        "round": "小组赛 · 第 5 轮",
+        "venue": "紫菘五人制2号足球场",
+        "year": "2026"
+      },
+      {
+        "date": "06.01",
+        "comp": "毕业杯",
+        "format": "五人制",
+        "home": "集成电路学院",
+        "away": "生命科学与技术学院",
+        "score": "1–1",
+        "result": "D",
+        "round": "小组赛 · 第 4 轮",
+        "venue": "紫菘五人制2号足球场",
+        "year": "2026"
+      },
+      {
+        "date": "05.31",
+        "comp": "毕业杯",
+        "format": "五人制",
+        "home": "建筑与城市规划学院",
+        "away": "生命科学与技术学院",
+        "score": "0–8",
+        "result": "W",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "紫菘五人制1号足球场",
+        "year": "2026"
+      },
+      {
+        "date": "05.27",
+        "comp": "毕业杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "管理学院",
+        "score": "3–0",
+        "result": "W",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "紫菘五人制1号足球场",
         "year": "2026"
       },
       {
         "date": "05.17",
-        "team": "男足",
-        "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "物理学院",
-        "score": "0–0",
-        "result": "D",
-        "round": "乙组 · 第 10 轮",
-        "year": "2026"
-      },
-      {
-        "date": "05.10",
-        "team": "男足",
-        "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "化学学院",
-        "score": "2–1",
-        "result": "W",
-        "round": "乙组 · 第 9 轮",
-        "year": "2026"
-      },
-      {
-        "date": "04.20",
-        "team": "女足",
-        "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "光电学院",
+        "comp": "友谊赛",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "管理学院",
         "score": "2–0",
         "result": "W",
-        "round": "女子组 · 第 6 轮",
+        "round": "友谊赛",
+        "venue": "韵苑操场",
         "year": "2026"
       },
       {
-        "date": "04.13",
+        "date": "04.25",
         "team": "女足",
         "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "外国语学院",
-        "score": "1–1",
-        "result": "D",
-        "round": "女子组 · 第 5 轮",
-        "year": "2026"
-      },
-      {
-        "date": "12.10",
-        "year": "2025",
-        "team": "男足",
-        "comp": "毕业杯",
-        "home": "LIFE FC",
-        "away": "软件学院",
-        "score": "4–2",
-        "result": "W",
-        "round": "决赛"
-      },
-      {
-        "date": "11.28",
-        "year": "2025",
-        "team": "女足",
-        "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "机械学院",
-        "score": "1–3",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "物理学院",
+        "score": "0(3–4)0",
         "result": "L",
-        "round": "女子组 · 决赛"
+        "round": "淘汰赛 · 决赛",
+        "venue": "紫菘五人制足球场1",
+        "year": "2026"
+      },
+      {
+        "date": "04.26",
+        "comp": "友谊赛",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "经济航空联队",
+        "score": "2–2",
+        "result": "D",
+        "round": "友谊赛",
+        "venue": "韵苑操场",
+        "year": "2026"
+      },
+      {
+        "date": "04.18",
+        "team": "女足",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "能源与动力工程学院",
+        "score": "1–0",
+        "result": "W",
+        "round": "淘汰赛 · 半决赛",
+        "venue": "紫菘五人制足球场1",
+        "year": "2026"
+      },
+      {
+        "date": "04.12",
+        "team": "女足",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "电气与电子工程学院",
+        "score": "1–0",
+        "result": "W",
+        "round": "小组赛 · 第 5 轮",
+        "venue": "紫菘五人制足球场1",
+        "year": "2026"
+      },
+      {
+        "date": "04.09",
+        "team": "男足",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "计算机科学与技术学院",
+        "away": "生命科学与技术学院",
+        "score": "2–1",
+        "result": "L",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "中心操场",
+        "year": "2026"
+      },
+      {
+        "date": "04.08",
+        "team": "女足",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "管理学院",
+        "score": "2–0",
+        "result": "W",
+        "round": "小组赛 · 第 4 轮",
+        "venue": "紫菘五人制足球场2",
+        "year": "2026"
+      },
+      {
+        "date": "03.29",
+        "team": "女足",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "光电-未来-国光联队",
+        "away": "生命科学与技术学院",
+        "score": "1–3",
+        "result": "W",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "紫菘五人制足球场2",
+        "year": "2026"
+      },
+      {
+        "date": "03.25",
+        "team": "男足",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "法学院",
+        "score": "11–1",
+        "result": "W",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "紫菘操场",
+        "year": "2026"
+      },
+      {
+        "date": "03.22",
+        "team": "女足",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "土木与水利工程学院",
+        "away": "生命科学与技术学院",
+        "score": "0–1",
+        "result": "W",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "紫菘五人制足球场2",
+        "year": "2026"
+      },
+      {
+        "date": "03.15",
+        "team": "男足",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "物理学院",
+        "away": "生命科学与技术学院",
+        "score": "4–1",
+        "result": "L",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "韵苑操场",
+        "year": "2026"
+      },
+      {
+        "date": "10.18",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "电气与电子工程学院",
+        "away": "生命科学与技术学院",
+        "score": "3–0",
+        "result": "L",
+        "round": "淘汰赛 · 1/4决赛",
+        "venue": "中心操场北",
+        "year": "2025"
       },
       {
         "date": "10.15",
-        "year": "2025",
-        "team": "男足",
-        "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "电气学院",
-        "score": "2–2",
-        "result": "D",
-        "round": "乙组 · 第 8 轮"
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "土木与水利工程学院",
+        "away": "生命科学与技术学院",
+        "score": "1–2",
+        "result": "W",
+        "round": "淘汰赛 · 1/8决赛",
+        "venue": "韵苑操场北",
+        "year": "2025"
+      },
+      {
+        "date": "10.11",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "新闻与信息传播学院",
+        "away": "生命科学与技术学院",
+        "score": "0–7",
+        "result": "W",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "韵苑操场北",
+        "year": "2025"
+      },
+      {
+        "date": "09.30",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "网络空间安全学院",
+        "score": "5–0",
+        "result": "W",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "韵苑操场北",
+        "year": "2025"
+      },
+      {
+        "date": "09.23",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "材料科学与工程学院",
+        "away": "生命科学与技术学院",
+        "score": "6–0",
+        "result": "L",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "韵苑操场北",
+        "year": "2025"
       }
     ],
-    "upcoming": [
-      {
-        "date": "06.07",
-        "team": "男足",
-        "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "数学学院",
-        "time": "15:00",
-        "venue": "主场",
-        "round": "乙组 · 第 12 轮",
-        "year": "2026"
-      },
-      {
-        "date": "06.14",
-        "team": "男足",
-        "comp": "华科杯",
-        "home": "工程学院",
-        "away": "LIFE FC",
-        "time": "16:30",
-        "venue": "客场",
-        "round": "乙组 · 第 13 轮",
-        "year": "2026"
-      },
-      {
-        "date": "06.21",
-        "team": "男足",
-        "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "材料学院",
-        "time": "15:00",
-        "venue": "主场",
-        "round": "乙组 · 第 14 轮",
-        "year": "2026"
-      },
-      {
-        "date": "06.08",
-        "team": "女足",
-        "comp": "华科杯",
-        "home": "LIFE FC",
-        "away": "自动化学院",
-        "time": "14:00",
-        "venue": "主场",
-        "round": "女子组 · 第 7 轮",
-        "year": "2026"
-      },
-      {
-        "date": "06.15",
-        "team": "女足",
-        "comp": "华科杯",
-        "home": "能源学院",
-        "away": "LIFE FC",
-        "time": "15:30",
-        "venue": "客场",
-        "round": "女子组 · 第 8 轮",
-        "year": "2026"
-      },
-      {
-        "date": "09.15",
-        "team": "男足",
-        "comp": "新生杯",
-        "home": "LIFE FC",
-        "away": "自动化学院",
-        "time": "16:00",
-        "venue": "主场",
-        "round": "小组赛",
-        "year": "2026"
-      },
-      {
-        "date": "09.20",
-        "team": "女足",
-        "comp": "新生杯",
-        "home": "LIFE FC",
-        "away": "公管学院",
-        "time": "15:00",
-        "venue": "主场",
-        "round": "小组赛",
-        "year": "2026"
-      },
-      {
-        "date": "09.10",
-        "year": "2025",
-        "team": "男足",
-        "comp": "新生杯",
-        "home": "LIFE FC",
-        "away": "物理学院",
-        "time": "16:00",
-        "venue": "主场",
-        "round": "小组赛"
-      },
-      {
-        "date": "06.30",
-        "year": "2025",
-        "team": "女足",
-        "comp": "毕业杯",
-        "home": "LIFE FC",
-        "away": "医学院",
-        "time": "15:00",
-        "venue": "主场",
-        "round": "半决赛"
-      }
-    ]
+    "upcoming": []
+  },
+  "achievements": {
+    "2025-2026": {
+      "新生杯": "8强",
+      "毕业杯": "8强",
+      "华科杯|女足": "亚军",
+      "华科杯|男足": "未出线（小组第三）"
+    }
   },
   "story": {
     "quote": "我们不只踢球，\n我们在院里\n有了第二个家。",
@@ -823,25 +1459,12 @@
         "href": "#matches"
       }
     ],
-    "social": [
-      {
-        "label": "微信公众号",
-        "href": "#contact"
-      },
-      {
-        "label": "院队抖音",
-        "href": "#contact"
-      },
-      {
-        "label": "球迷微信群",
-        "href": "#contact"
-      }
-    ],
+    "social": [],
     "copyright": "© 2026 HUST 生命学院足球俱乐部 · HUST LIFE FC",
     "contact": [
       {
         "label": "邮箱",
-        "value": "hustlifefc@example.com"
+        "value": "hustlifefc@163.com"
       },
       {
         "label": "地址",
@@ -852,5 +1475,69 @@
   "squadSeasons": [
     "2025-2026",
     "2026-2027"
-  ]
+  ],
+  "staffHistory": {
+    "2025-2026": {
+      "华科杯": {
+        "men": [
+          {
+            "role": "领队",
+            "name": "任鑫琦"
+          },
+          {
+            "role": "主教练",
+            "name": "罗胤凯"
+          },
+          {
+            "role": "助理教练",
+            "name": "刘昱熙"
+          },
+          {
+            "role": "新闻官",
+            "name": "徐楚淇"
+          }
+        ]
+      },
+      "新生杯": {
+        "men": [
+          {
+            "role": "领队",
+            "name": "丁一航"
+          },
+          {
+            "role": "主教练",
+            "name": "张德睿"
+          },
+          {
+            "role": "助理教练",
+            "name": "曹洲荣"
+          },
+          {
+            "role": "队医",
+            "name": "谢高翔"
+          }
+        ]
+      },
+      "毕业杯": {
+        "men": [
+          {
+            "role": "领队",
+            "name": "任鑫琦"
+          },
+          {
+            "role": "主教练",
+            "name": "谢高翔"
+          },
+          {
+            "role": "助理教练",
+            "name": "戴晨曦"
+          },
+          {
+            "role": "队医",
+            "name": "丁一航"
+          }
+        ]
+      }
+    }
+  }
 }

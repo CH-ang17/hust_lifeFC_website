@@ -43,8 +43,8 @@
       // 盾形奖章（中间圆环）
       body = '<path ' + fill + ' d="M24 5 L39 11 V30 C39 43 32 51 24 57 C16 51 9 43 9 30 V11 Z"/>' +
              '<circle cx="24" cy="29" r="7.5" fill="none" ' + stroke + ' stroke-width="2.6"/>';
-    } else if (comp === "华科杯" && group === "女子组") {
-      // 华科杯女子组：足总杯式奖杯（高身宽口 + 双耳 + 顶盖 + 红绶带）
+    } else if (comp === "华科杯" && group === "女足") {
+      // 华科杯女足：足总杯式奖杯（高身宽口 + 双耳 + 顶盖 + 红绶带）
       // 顶部盖钮
       body = '<path ' + fill + ' d="M22 2 H26 L25.5 5 H22.5 Z"/>' +
              '<circle cx="24" cy="1.8" r="1.3" ' + fill + '/>' +
@@ -67,7 +67,7 @@
       handles = '<path ' + stroke + ' fill="none" stroke-width="3.5" d="M16 15 C5 15 3 32 14 35"/>' +
                 '<path ' + stroke + ' fill="none" stroke-width="3.5" d="M32 15 C43 15 45 32 34 35"/>';
     } else {
-      // 华科杯乙组（默认）：双耳杯
+      // 华科杯男足（默认）：双耳杯
       body = '<path ' + fill + ' d="M11 8 H37 V19 C37 29 31 34 24 34 C17 34 11 29 11 19 Z"/>' +
              '<rect ' + fill + ' x="22" y="34" width="4" height="13"/>' +
              '<path ' + fill + ' d="M14 47 H34 L39 58 H9 Z"/>';
@@ -79,7 +79,7 @@
 
   /* ---------- 渲染 ---------- */
   function render(data) {
-    console.log("[HUST FC] app.js version: 20260712c");
+    console.log("[HUST FC] app.js version: 20260713h");
     if (!data) return;
 
     // 站点名 / 页脚
@@ -89,7 +89,12 @@
     setText("footerBrandAbbr", data.site && data.site.abbr);
 
     if (data.hero) renderHero(data.hero, data.teams);
-    if (data.stats) renderStats(data.stats);
+    if (data.stats) {
+      /* 前两项（球队/赛事）保留静态数据，后三项（场次/胜/进球）由赛程自动计算 */
+      var matchStats = (data.fixtures) ? calcMatchStats(data.fixtures) : [];
+      var finalStats = data.stats.slice(0, 2).concat(matchStats);
+      renderStats(finalStats);
+    }
     if (data.news) renderNews(data.news);
     if (data.club) renderClub(data.club, data.story);
     if (data.teams && data.squad) renderSquad(data.squad, data.teams, data.squadSeasons);
@@ -127,11 +132,21 @@
     }).join("");
 
     var visual =
-      '<div class="hv__top">' +
-        '<span class="hv__tag">Season</span>' +
-      '</div>' +
       '<div class="hv__season">' +
-        '<div class="num mono">' + esc(h.season && h.season.num) + '</div>' +
+        (function () {
+          var n = h.season && h.season.num;
+          var isText = n && /[A-Za-z]/.test(n);
+          var inner = '';
+          if (n) {
+            if (isText) {
+              var sp = n.indexOf(' ');
+              inner = sp > 0 ? esc(n.slice(0, sp)) + '<br>' + esc(n.slice(sp + 1)) : esc(n);
+            } else {
+              inner = esc(n);
+            }
+          }
+          return '<div class="num mono' + (isText ? ' num--text' : '') + '">' + inner + '</div>';
+        })() +
         '<div class="lbl">' + esc(h.season && h.season.label) + '</div>' +
       '</div>' +
       '<div class="hv__bottom">' + (teamsHtml || '<div><strong>—</strong></div>') + '</div>';
@@ -139,6 +154,43 @@
   }
 
   /* ===== Stats Bar ===== */
+  /* 从赛程数据自动计算总场次 / 胜场 / 进球（仅统计华科杯、新生杯、毕业杯） */
+  function calcMatchStats(fixtures) {
+    var official = (fixtures.recent || []).filter(function (m) {
+      return ["华科杯", "新生杯", "毕业杯"].indexOf(m.comp) !== -1;
+    });
+    var wins = 0, goals = 0;
+    var HOME = "生命科学与技术学院";
+    official.forEach(function (m) {
+      if (m.result === "W") wins++;
+      var g = 0;
+      if (m.score.indexOf("(") !== -1) {
+        // 点球格式 0(3–4)0 — 只取括号外的常规比分，点球不计入进球
+        var reg = m.score.match(/^(\d+)\(/);
+        if (reg) {
+          var rh = parseInt(reg[1], 10) || 0, ra = 0;
+          // 末尾的常规比分（如 0(3–4)0 中的末尾 0）
+          var endMatch = m.score.match(/\)(\d+)$/);
+          ra = endMatch ? (parseInt(endMatch[1], 10) || 0) : 0;
+          g = (m.home === HOME) ? rh : ra;
+        }
+      } else {
+        // 常规格式 4–3
+        var parts = m.score.split("–");
+        if (parts.length === 2) {
+          var h = parseInt(parts[0], 10) || 0, a = parseInt(parts[1], 10) || 0;
+          g = (m.home === HOME) ? h : a;
+        }
+      }
+      goals += g;
+    });
+    return [
+      { num: String(official.length), unit: "", label: "总场次" },
+      { num: String(wins), unit: "胜", label: "Wins" },
+      { num: String(goals), unit: "", label: "进球" }
+    ];
+  }
+
   function renderStats(stats) {
     var html = stats.map(function (s) {
       var unit = s.unit ? '<span class="unit">' + esc(s.unit) + '</span>' : "";
@@ -174,6 +226,8 @@
       '</article>';
     }).join("");
     document.getElementById("newsList").innerHTML = html;
+    /* 立即让新闻卡片可见（不依赖 IO 时序） */
+    document.querySelectorAll("#newsList .reveal").forEach(function (el) { el.classList.add("is-in"); });
   }
 
   /* ===== 新闻详情（点击卡片进入） ===== */
@@ -432,6 +486,9 @@
 
       gridEl.innerHTML = panelsHtml;
 
+      /* 立即让所有新渲染的 reveal 元素可见（不依赖 IO 时序） */
+      gridEl.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("is-in"); });
+
       /* 点击卡片翻转，显示人物图片（键盘 Enter/Space 亦可） */
       gridEl.querySelectorAll(".player").forEach(function (card) {
         card.addEventListener("click", function () {
@@ -536,48 +593,80 @@
   }
 
   /* ===== 比赛行 ===== */
+  var COMP_CLS = { "华科杯": "comp--hust", "新生杯": "comp--freshman", "毕业杯": "comp--graduation", "友谊赛": "comp--friendly" };
+  var TEAM_CLS = { "男足": "team--men", "女足": "team--women" };
   function matchRow(m, isRecent) {
+    var compCls = (m.comp && COMP_CLS[m.comp]) ? " " + COMP_CLS[m.comp] : "";
+    var teamCls = (m.team && TEAM_CLS[m.team]) ? " " + TEAM_CLS[m.team] : "";
+    /* 华科杯加组别标签：男足→乙组，女足→女子组 */
+    var groupTag = "";
+    if (m.comp === "华科杯" && m.team) {
+      var groupLabel = m.team === "男足" ? "乙组" : "女子组";
+      var groupCls = m.team === "男足" ? "team--men" : "team--women";
+      groupTag = '<span class="tag tag--team ' + groupCls + '">' + esc(groupLabel) + '</span>';
+    }
     var tags = '<span class="match__tags">' +
-      (m.team ? '<span class="tag tag--team">' + esc(m.team) + '</span>' : '') +
-      (m.comp ? '<span class="tag tag--comp">' + esc(m.comp) + '</span>' : '') +
+      (m.comp ? '<span class="tag tag--comp' + compCls + '">' + esc(m.comp) + '</span>' : '') +
+      groupTag +
+      (m.team ? '<span class="tag tag--team' + teamCls + '">' + esc(m.team) + '</span>' : '') +
       '</span>';
     if (isRecent) {
       var resMap = { "W": "胜", "D": "平", "L": "负" };
       var resCls = { "W": "res--W", "D": "res--D", "L": "res--L" };
       return '<div class="match">' + tags +
-        '<span class="match__date mono">' + esc(m.date) + '</span>' +
-        '<span class="match__teams"><b>' + esc(m.home) + ' ' + esc(m.score) + ' ' + esc(m.away) +
-          '</b><span>' + esc(m.round) + '</span></span>' +
-        '<span class="match__score mono">' + esc(m.score) +
+        '<span class="match__date mono">' + esc((m.year ? m.year + '.' : '') + m.date) + '</span>' +
+        '<span class="match__teams"><b>' + esc(m.home) + ' vs ' + esc(m.away) +
+          '</b><span>' + esc(m.round) + (m.venue ? ' · ' + esc(m.venue) : '') + (m.format ? ' · ' + esc(m.format) : '') + '</span></span>' +
+        '<span class="match__score mono ' + (resCls[m.result] || "") + '">' + esc(m.score) +
           '<span class="res ' + (resCls[m.result] || "") + '">' + (resMap[m.result] || esc(m.result)) + '</span></span>' +
       '</div>';
     }
     return '<div class="match">' + tags +
-      '<span class="match__date mono">' + esc(m.date) + '</span>' +
+      '<span class="match__date mono">' + esc((m.year ? m.year + '.' : '') + m.date) + '</span>' +
       '<span class="match__teams"><b>' + esc(m.home) + ' vs ' + esc(m.away) +
-        '</b><span>' + esc(m.round) + '</span></span>' +
+        '</b><span>' + esc(m.round) + (m.format ? ' · ' + esc(m.format) : '') + '</span></span>' +
       '<span class="match__meta mono">' + esc(m.time) + '<br>' + esc(m.venue) + '</span>' +
     '</div>';
   }
 
-  /* ===== 比赛（#matches）—— 支持赛事 + 年份筛选 ===== */
+  /* ===== 比赛（#matches）—— 支持赛事 + 年份筛选 + 分页 ===== */
   var MATCH_DATA = { recent: [], upcoming: [] };
-  var MATCH_FILTER = { comp: "", year: "", team: "" };
+  var MATCH_FILTER = { comp: "", season: "", team: "" };
+  var MATCH_PAGE = 1;
+  var MATCH_PAGE_SIZE = 10;
+
+  /* 按时间倒序：年份大的在前，同年按 MM.DD 降序 */
+  function sortMatches(a, b) {
+    var ya = parseInt(a.year, 10) || 0, yb = parseInt(b.year, 10) || 0;
+    if (ya !== yb) return yb - ya;
+    return (b.date || "").localeCompare(a.date || "");
+  }
+
+  /* 赛季 = 学年制：当年 9.1 ~ 次年 8.31 为「YYYY-(YYYY+1) 赛季」。
+     由完整日期（year + MM.DD）推断，9 月及以后归属当年起的学年。 */
+  function seasonOf(m) {
+    var y = parseInt(m.year, 10);
+    if (!y) return "";
+    var mo = parseInt((m.date || "").split(".")[0], 10) || 1;
+    return mo >= 9 ? (y + "-" + (y + 1)) : ((y - 1) + "-" + y);
+  }
 
   function renderFixtures(f) {
-    MATCH_DATA.recent = f.recent || [];
+    MATCH_DATA.recent = (f.recent || []).slice().sort(sortMatches);
     MATCH_DATA.upcoming = f.upcoming || [];
+    MATCH_PAGE = 1;
 
-    /* 年份下拉：从数据中提取可用年份，降序 */
-    var years = {};
-    MATCH_DATA.recent.concat(MATCH_DATA.upcoming).forEach(function (m) { if (m.year) years[m.year] = true; });
-    var yearList = Object.keys(years).sort().reverse();
+    /* 赛季下拉：由每场比赛完整日期推断学年赛季，降序 */
+    var seasons = {};
+    MATCH_DATA.recent.concat(MATCH_DATA.upcoming).forEach(function (m) { var s = seasonOf(m); if (s) seasons[s] = true; });
+    var seasonList = Object.keys(seasons).sort().reverse();
     var sel = document.getElementById("matchYear");
     if (sel) {
       sel.innerHTML = '<option value="">全部赛季</option>' +
-        yearList.map(function (y) { var s = String(y); return '<option value="' + esc(y) + '">' + esc((parseInt(s)-1) + '-' + s + '赛季') + '</option>'; }).join("");
+        seasonList.map(function (s) { return '<option value="' + esc(s) + '">' + esc(s + '赛季') + '</option>'; }).join("");
       sel.onchange = function () {
-        MATCH_FILTER.year = this.value;
+        MATCH_FILTER.season = this.value;
+        MATCH_PAGE = 1;
         applyMatchFilter();
       };
     }
@@ -585,18 +674,47 @@
   }
 
   function applyMatchFilter() {
-    var comp = MATCH_FILTER.comp, year = MATCH_FILTER.year, team = MATCH_FILTER.team;
+    var comp = MATCH_FILTER.comp, season = MATCH_FILTER.season, team = MATCH_FILTER.team;
     function pass(m) {
       if (comp && m.comp !== comp) return false;
-      if (year && m.year !== year) return false;
+      if (season && seasonOf(m) !== season) return false;
       if (team && m.team !== team) return false;
       return true;
     }
-    var recent = MATCH_DATA.recent.filter(pass);
+    var recentAll = MATCH_DATA.recent.filter(pass);
     var upcoming = MATCH_DATA.upcoming.filter(pass);
+
+    /* 分页：每页 MATCH_PAGE_SIZE 条 */
+    var totalPages = Math.max(1, Math.ceil(recentAll.length / MATCH_PAGE_SIZE));
+    if (MATCH_PAGE > totalPages) MATCH_PAGE = totalPages;
+    var start = (MATCH_PAGE - 1) * MATCH_PAGE_SIZE;
+    var recent = recentAll.slice(start, start + MATCH_PAGE_SIZE);
+
     document.getElementById("fixRecent").innerHTML = recent.length
       ? recent.map(function (m) { return matchRow(m, true); }).join("")
       : '<p class="match__empty">该筛选条件下暂无战报。</p>';
+
+    /* 分页控件 */
+    var pager = document.getElementById("fixRecentPager");
+    if (pager) {
+      if (recentAll.length > MATCH_PAGE_SIZE) {
+        pager.innerHTML =
+          '<div class="match__pager">' +
+            '<button class="match__pager-btn" data-page="' + (MATCH_PAGE - 1) + '"' + (MATCH_PAGE <= 1 ? ' disabled' : '') + '>上一页</button>' +
+            '<span class="match__pager-info">第 ' + MATCH_PAGE + ' / ' + totalPages + ' 页</span>' +
+            '<button class="match__pager-btn" data-page="' + (MATCH_PAGE + 1) + '"' + (MATCH_PAGE >= totalPages ? ' disabled' : '') + '>下一页</button>' +
+          '</div>';
+        pager.querySelectorAll(".match__pager-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var p = parseInt(this.getAttribute("data-page"), 10);
+            if (p >= 1 && p <= totalPages) { MATCH_PAGE = p; applyMatchFilter(); }
+          });
+        });
+      } else {
+        pager.innerHTML = "";
+      }
+    }
+
     document.getElementById("fixUpcoming").innerHTML = upcoming.length
       ? upcoming.map(function (m) { return matchRow(m, false); }).join("")
       : '<p class="match__empty">该筛选条件下暂无赛程。</p>';
@@ -618,13 +736,16 @@
     if (ft.copyright) document.getElementById("footerCopyright").textContent = ft.copyright;
     if (ft.links) document.getElementById("footerLinks").innerHTML =
       ft.links.map(function (l) { return '<a href="' + esc(l.href) + '">' + esc(l.label) + '</a>'; }).join("");
-    if (ft.social) document.getElementById("footerSocial").innerHTML =
+    if (ft.social && document.getElementById("footerSocial")) document.getElementById("footerSocial").innerHTML =
       ft.social.map(function (l) { return '<a href="' + esc(l.href) + '">' + esc(l.label) + '</a>'; }).join("");
-    if (ft.contact) document.getElementById("footerContact").innerHTML =
-      ft.contact.map(function (c) {
-        var val = esc(c.value).replace(/\n/g, '<br>&nbsp;&nbsp;');
-        return '<p><strong>' + esc(c.label) + '</strong> ' + val + '</p>';
-      }).join("");
+    if (ft.contact) {
+      var wrap = document.getElementById("footerContactWrap");
+      if (wrap) wrap.innerHTML =
+        ft.contact.map(function (c) {
+          var val = esc(c.value).replace(/\n/g, '<br>&nbsp;&nbsp;');
+          return '<p><strong>' + esc(c.label) + '：</strong>' + val + '</p>';
+        }).join("");
+    }
   }
 
   /* ---------- 主题 ---------- */
@@ -733,6 +854,93 @@
     });
   }
 
+  /* ---------- 点击放大（队徽 + 新闻图片，支持上一张/下一张，事件委托） ---------- */
+  function initLightbox() {
+    var list = [];      // 当前图集 [{src, alt}]
+    var idx = 0;        // 当前索引
+    var overlay = null; // 当前遮罩
+
+    function render() {
+      if (!overlay || !list.length) return;
+      var item = list[idx];
+      var img = overlay.querySelector("img");
+      img.src = item.src;
+      img.alt = item.alt || "";
+      var counter = overlay.querySelector(".ll-counter");
+      if (counter) counter.textContent = (list.length > 1) ? (idx + 1) + " / " + list.length : "";
+      var nav = overlay.querySelector(".ll-nav");
+      if (nav) nav.style.display = (list.length > 1) ? "flex" : "none";
+    }
+
+    function close() {
+      if (overlay && overlay.parentNode) document.body.removeChild(overlay);
+      document.body.classList.remove("no-scroll");
+      overlay = null; list = []; idx = 0;
+    }
+
+    function open(items, start) {
+      list = items; idx = start || 0;
+      overlay = document.createElement("div");
+      overlay.className = "logo-lightbox";
+      overlay.setAttribute("role", "dialog");
+      overlay.setAttribute("aria-label", "图片放大查看");
+      overlay.innerHTML =
+        '<button class="ll-close" type="button" aria-label="关闭">×</button>' +
+        '<button class="ll-nav ll-prev" type="button" aria-label="上一张">‹</button>' +
+        '<img src="" alt="" loading="eager" />' +
+        '<button class="ll-nav ll-next" type="button" aria-label="下一张">›</button>' +
+        '<span class="ll-counter"></span>';
+      /* 点击背景或图片关闭；按钮已 stopPropagation，不会触发关闭 */
+      overlay.addEventListener("click", function (e) {
+        if (e.target === overlay || e.target.tagName === "IMG") close();
+      });
+      overlay.querySelector(".ll-close").addEventListener("click", function (e) { e.stopPropagation(); close(); });
+      overlay.querySelector(".ll-prev").addEventListener("click", function (e) {
+        e.stopPropagation();
+        idx = (idx - 1 + list.length) % list.length;
+        render();
+      });
+      overlay.querySelector(".ll-next").addEventListener("click", function (e) {
+        e.stopPropagation();
+        idx = (idx + 1) % list.length;
+        render();
+      });
+      document.body.appendChild(overlay);
+      document.body.classList.add("no-scroll");
+      render();
+    }
+
+    document.addEventListener("click", function (e) {
+      var t = e.target;
+      if (!t || !t.matches) return;
+      if (t.matches(".brand__logo")) {
+        e.preventDefault(); e.stopPropagation();
+        open([{ src: t.getAttribute("src"), alt: t.getAttribute("alt") || "" }], 0);
+      } else if (t.matches(".news-detail__figure img")) {
+        e.preventDefault(); e.stopPropagation();
+        var gallery = t.closest(".news-detail__gallery");
+        var items = [], start = 0;
+        if (gallery) {
+          gallery.querySelectorAll("img").forEach(function (im, i) {
+            items.push({ src: im.getAttribute("src"), alt: im.getAttribute("alt") || "" });
+            if (im === t) start = i;
+          });
+        } else {
+          items = [{ src: t.getAttribute("src"), alt: t.getAttribute("alt") || "" }];
+        }
+        open(items, start);
+      }
+    });
+
+    /* ESC 关闭；左右方向键切换 */
+    document.addEventListener("keydown", function (e) {
+      if (!overlay) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft" && list.length > 1) { idx = (idx - 1 + list.length) % list.length; render(); }
+      else if (e.key === "ArrowRight" && list.length > 1) { idx = (idx + 1) % list.length; render(); }
+    });
+  }
+
   /* ---------- 启动 ---------- */
   initReveal();
 
@@ -745,6 +953,10 @@
     .then(function (data) {
       render(data);
       initReveal();
+      /* 安全兜底：1.5s 后强制所有 .reveal 可见（防止 IO 未触发） */
+      setTimeout(function () {
+        document.querySelectorAll(".reveal:not(.is-in)").forEach(function (el) { el.classList.add("is-in"); });
+      }, 1500);
     })
     .catch(function (err) {
       console.warn("内容加载失败（页面仍可浏览）：", err);
@@ -756,4 +968,5 @@
 
   initTheme();
   initChrome();
+  initLightbox();
 })();
