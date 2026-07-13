@@ -13,13 +13,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=Manrope:wght@300..800&family=Space+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=Manrope:wght@300..800&family=Poppins:wght@800&family=Space+Mono:wght@400;700&display=swap"
         onload="this.onload=null;this.rel='stylesheet'" />
   <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=Manrope:wght@300..800&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=Manrope:wght@300..800&family=Poppins:wght@800&family=Space+Mono:wght@400;700&display=swap" />
   </noscript>
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260712a" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260713ai" />
 </head>
 <body>
 
@@ -36,6 +36,7 @@
         <a href="#club">俱乐部</a>
         <a href="#team">球队</a>
         <a href="#matches">比赛</a>
+        <a href="data.html">数据</a>
         <a href="#contact">联系我们</a>
       </nav>
 
@@ -62,6 +63,7 @@
       <a href="#club">俱乐部</a>
       <a href="#team">球队</a>
       <a href="#matches">比赛</a>
+      <a href="data.html">数据</a>
       <a href="#contact">联系我们</a>
     </div>
   </header>
@@ -173,11 +175,12 @@
 
         <div class="fix__cols">
           <div class="fix__col reveal">
-            <h3><span class="dot dot--win"></span>最近战报</h3>
+            <h3><span class="dot dot--win"></span>赛程战报</h3>
             <div id="fixRecent"><!-- 由 app.js 渲染 --></div>
+            <div class="match__pager-wrap" id="fixRecentPager"></div>
           </div>
           <div class="fix__col reveal">
-            <h3><span class="dot dot--up"></span>接下来</h3>
+            <h3><span class="dot dot--up"></span>即将开赛</h3>
             <div id="fixUpcoming"><!-- 由 app.js 渲染 --></div>
           </div>
         </div>
@@ -205,21 +208,21 @@
         </div>
         <div>
           <h4>关注我们</h4>
-          <div class="footer__links" id="footerSocial"><!-- 由 app.js 渲染 --></div>
         </div>
         <div>
           <h4>联系我们</h4>
-          <div class="footer__contact" id="footerContact"><!-- 由 app.js 渲染 --></div>
+          <div id="footerContactWrap" class="footer__contact">
+            <!-- 由 app.js 渲染邮箱/地址 -->
+          </div>
         </div>
       </div>
       <div class="footer__bottom">
         <span id="footerCopyright">© 2026 HUST 生命学院足球俱乐部 · HUST LIFE FC</span>
         <span>LOVE FOOTBALL ♥ LOVE LIFE</span>
+        <a href="admin.html" class="admin-link">⚙ 管理</a>
       </div>
     </div>
   </footer>
-
-  <a class="admin-fab" href="admin.html" title="管理后台">⚙ 管理</a>
 
   <button class="to-top" id="toTop" type="button" title="回到顶部" aria-label="回到顶部">
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -230,6 +233,6 @@
   <!-- 新闻详情覆盖层 -->
   <div class="news-detail" id="newsDetail" aria-hidden="true"></div>
 
-  <script src="assets/js/app.js?v=20260712c"></script>
+  <script src="assets/js/app.js?v=20260713n"></script>
 </body>
 </html>
