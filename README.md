@@ -7,11 +7,13 @@
 ```
 .
 ├─ index.html              # 前台页面（外壳，内容由 app.js 渲染）
+├─ data.html               # 数据页：赛季阵容 / 赛事战绩（由 data.js 渲染）
 ├─ admin.html              # 管理后台（登录 + 表单编辑）
 ├─ start.py                # 零依赖本地预览服务器
 ├─ assets/
 │  ├─ css/styles.css       # 设计系统与全部样式（改这里换主题）
 │  ├─ js/app.js            # 前台：读取 content.json + 渲染 + 主题/动效
+│  ├─ js/data.js           # 数据页：读取 content.json + 渲染赛季数据/战绩
 │  ├─ js/admin.js          # 后台：GitHub API 连接 / 编辑 / 提交
 │  └─ data/
 │     ├─ content.json      # ★ 全站内容唯一数据源（改这个 = 改网站）
@@ -24,8 +26,10 @@
 直接双击 `index.html` 会因浏览器安全策略无法读取 `content.json`，请用本地服务器：
 
 ```bash
-python start.py            # 然后打开 http://localhost:8000
+python start.py            # 默认 http://localhost:8000
 python start.py 8080       # 自定义端口
+# 或等价地用 Python 自带服务器：
+python -m http.server 8150 # 然后打开 http://localhost:8150
 ```
 
 ## 二、部署到 GitHub Pages（让别人也能浏览）
@@ -54,6 +58,7 @@ python start.py 8080       # 自定义端口
    - 令牌**只保存在你当前浏览器**的 localStorage，不会上传到任何服务器。
 3. 首次进入会让你**设置站点口令**（也可留空不设）。之后每次进后台都要输口令——它只是防误改的 UI 门禁，**真正的写入权限来自上面的 PAT**。
 4. 在表单里改队名、阵容、赛程、数据、故事、页脚等，点 **「保存修改」** 即把 `content.json` 提交回仓库。GitHub Pages 通常 1 分钟内自动更新。
+   - 历史数据也能在线管理：后台另有 **「历史阵容 / 历史官员 / 历史成绩」** 三个 Tab，按「赛季 → 赛事 → 男足/女足」逐级编辑（历史成绩键名用 `华科杯|男足`、`华科杯|女足` 等形式），保存后即写回 `content.json`。
 5. 另有 **「导出 / 导入 JSON」** 作为兜底：可把内容下载到本地、改完再导入（导入后仍需点保存提交）。
 
 > 安全说明：`admin.config.json` 是公开文件，口令以 SHA-256 哈希存储，无法反推明文，但也只能挡住「随便点点的人」。对一支球队的站点足够；若日后要更强鉴权，可再上真后端。
@@ -62,7 +67,7 @@ python start.py 8080       # 自定义端口
 
 - **换配色 / 字体**：改 `assets/css/styles.css` 顶部的 `:root` 设计令牌（`--pitch` 草绿、`--signal` 琥珀、`--ink`/`--paper` 等）。深色模式在 `:root[data-theme="dark"]`。
 - **改内容**：要么直接在 `content.json` 里改（提交后生效），要么登录 `admin.html` 在线改。
-- **改文案结构**：前台渲染逻辑在 `assets/js/app.js`，后台表单字段在 `assets/js/admin.js` 的 `buildEditor()`。
+- **改文案结构**：前台渲染逻辑在 `assets/js/app.js`（首页）与 `assets/js/data.js`（数据页），后台表单字段在 `assets/js/admin.js` 的 `buildEditor()`。
 
 ## 五、已知限制
 
