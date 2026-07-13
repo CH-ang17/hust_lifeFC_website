@@ -408,7 +408,8 @@
       pf.appendChild(repeatable(comp + " · 最近战报", C.fixtures.recent, [
         { key: "date", label: "日期" }, { key: "home", label: "主队" }, { key: "away", label: "客队" },
         { key: "score", label: "比分" }, { key: "result", label: "结果", type: "select", options: resultOptions, default: "W" },
-        { key: "round", label: "轮次" }, { key: "team", label: "球队", type: "select", options: teamOptions, default: teamOptions[0].value }
+        { key: "round", label: "轮次" }, { key: "team", label: "球队", type: "select", options: teamOptions, default: teamOptions[0].value },
+        { key: "video", label: "视频链接" }
       ], {
         label: "添加战报",
         filter: function (x) { return x.comp === comp; },

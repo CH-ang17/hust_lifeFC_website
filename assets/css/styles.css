@@ -875,11 +875,14 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 .match:first-of-type { border-top: 1px solid var(--line); }
 .match__date { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-faint); letter-spacing: 0.06em; white-space: nowrap; }
 .match__teams { display: flex; flex-direction: column; gap: 2px; }
-.match__teams b { font-weight: 700; font-size: 1rem; }
-.match__teams span { font-size: var(--fs-xs); color: var(--ink-faint); }
+.match__vs { white-space: nowrap; font-size: 1rem; line-height: 1.4; }
+.match__teams b { font-weight: 700; }
+.match__teams .match__info { font-size: var(--fs-xs); color: var(--ink-faint); white-space: nowrap; }
 .match__score { font-family: var(--font-mono); font-weight: 700; font-size: 1.15rem; font-variant-numeric: tabular-nums; line-height: 1.25; }
 .match__score .res { font-size: 0.7rem; letter-spacing: 0.1em; margin-left: 6px; }
 .res--W { color: var(--win); } .res--D { color: var(--draw); } .res--L { color: var(--loss); }
+.match__video { color: var(--signal); font-weight: 600; font-size: inherit; text-decoration: none; white-space: nowrap; margin-left: .15rem; }
+.match__video:hover { text-decoration: underline; }
 .match__meta { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-faint); text-align: right; white-space: nowrap; }
 
 /* =============================================================
@@ -1509,3 +1512,5 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
 .comp-table .res--W.res { background: color-mix(in oklab, var(--win) 18%, transparent); }
 .comp-table .res--D.res { background: color-mix(in oklab, var(--ink-soft) 16%, transparent); }
 .comp-table .res--L.res { background: color-mix(in oklab, var(--loss) 16%, transparent); }
+.comp-table .c-video { color: #111; font-size: 1.05rem; line-height: 1; text-decoration: none; white-space: nowrap; display: inline-block; transition: opacity .15s ease; }
+.comp-table .c-video:hover { opacity: .6; }

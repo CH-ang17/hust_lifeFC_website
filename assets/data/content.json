@@ -127,6 +127,14 @@
   ],
   "news": [
     {
+      "title": "祝贺！生科女足队员周孟雪、苏婕欣入选华中科技大学校女子足球队全国赛大名单",
+      "date": "2026.7.13",
+      "tag": "动态",
+      "comp": "女足",
+      "summary": "生科女足队员周孟雪、苏婕欣入选校女足全国赛大名单，将出战 2026 年全国青少年校园足球四级联赛全国总决赛（大学女子乙组）。",
+      "body": "祝贺生命学院足球俱乐部女子足球队成员周孟雪、苏婕欣入选华中科技大学校女子足球队全国赛大名单，将于7月18日至7月28日在云南泸西，征战2026年全国青少年校园足球四级联赛全国总决赛（大学女子乙组）。两位队员作为校队成员在去年帮助校女足获得湖北省青少年校园足球联赛（大学组）女子校园组冠军，也在今年作为HUST LIFE FC女子足球队的主力成员，帮助球队获得华科杯女子组亚军。祝愿她们在这届全国赛中也有出色的发挥。"
+    },
+    {
       "title": "第一届生命杯成功举办，硕博队夺冠",
       "date": "2026.6.23",
       "tag": "动态",
@@ -1144,7 +1152,8 @@
         "result": "D",
         "round": "友谊赛",
         "venue": "韵苑操场",
-        "year": "2026"
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1L3JK6ZErm/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "06.05",
@@ -1216,7 +1225,8 @@
         "result": "W",
         "round": "友谊赛",
         "venue": "韵苑操场",
-        "year": "2026"
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1X9Lp6bEZd/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "04.25",
@@ -1229,7 +1239,8 @@
         "result": "L",
         "round": "淘汰赛 · 决赛",
         "venue": "紫菘五人制足球场1",
-        "year": "2026"
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1MBZcBbEL3/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "04.26",
@@ -1237,11 +1248,12 @@
         "format": "十一人制",
         "home": "生命科学与技术学院",
         "away": "经济航空联队",
-        "score": "2–2",
-        "result": "D",
+        "score": "6–1",
+        "result": "W",
         "round": "友谊赛",
         "venue": "韵苑操场",
-        "year": "2026"
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1fForBXEC7/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "04.18",
@@ -1254,7 +1266,8 @@
         "result": "W",
         "round": "淘汰赛 · 半决赛",
         "venue": "紫菘五人制足球场1",
-        "year": "2026"
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1KKdsBQECp/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "04.12",
@@ -1306,7 +1319,8 @@
         "result": "W",
         "round": "小组赛 · 第 3 轮",
         "venue": "紫菘五人制足球场2",
-        "year": "2026"
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1jMXDBvEmy/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "03.25",
@@ -1319,7 +1333,8 @@
         "result": "W",
         "round": "小组赛 · 第 2 轮",
         "venue": "紫菘操场",
-        "year": "2026"
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1StXnBuEXy/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "03.22",
@@ -1332,7 +1347,8 @@
         "result": "W",
         "round": "小组赛 · 第 2 轮",
         "venue": "紫菘五人制足球场2",
-        "year": "2026"
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV15TQQBcETd/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "03.15",
@@ -1345,7 +1361,8 @@
         "result": "L",
         "round": "小组赛 · 第 1 轮",
         "venue": "韵苑操场",
-        "year": "2026"
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1FWwuz1EMg/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "10.18",

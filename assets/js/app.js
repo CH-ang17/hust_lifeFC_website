@@ -8,6 +8,7 @@
   "use strict";
 
   var CREST = '<img class="hv__crest brand__logo" src="assets/images/logo-transparent.png" alt="HUST Life FC" width="64" height="72" />';
+  var HOME = "生命科学与技术学院";
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -615,16 +616,20 @@
       var resCls = { "W": "res--W", "D": "res--D", "L": "res--L" };
       return '<div class="match">' + tags +
         '<span class="match__date mono">' + esc((m.year ? m.year + '.' : '') + m.date) + '</span>' +
-        '<span class="match__teams"><b>' + esc(m.home) + ' vs ' + esc(m.away) +
-          '</b><span>' + esc(m.round) + (m.venue ? ' · ' + esc(m.venue) : '') + (m.format ? ' · ' + esc(m.format) : '') + '</span></span>' +
+        '<span class="match__teams">' +
+          '<span class="match__vs">' + (m.home === HOME ? '<b>' + esc(m.home) + '</b>' : esc(m.home)) + ' vs ' + (m.away === HOME ? '<b>' + esc(m.away) + '</b>' : esc(m.away)) + '</span>' +
+          '<span class="match__info">' + esc(m.round) + (m.venue ? ' · ' + esc(m.venue) : '') + (m.format ? ' · ' + esc(m.format) : '') + (m.video ? ' · <a class="match__video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">视频</a>' : '') + '</span>' +
+        '</span>' +
         '<span class="match__score mono ' + (resCls[m.result] || "") + '">' + esc(m.score) +
           '<span class="res ' + (resCls[m.result] || "") + '">' + (resMap[m.result] || esc(m.result)) + '</span></span>' +
       '</div>';
     }
     return '<div class="match">' + tags +
       '<span class="match__date mono">' + esc((m.year ? m.year + '.' : '') + m.date) + '</span>' +
-      '<span class="match__teams"><b>' + esc(m.home) + ' vs ' + esc(m.away) +
-        '</b><span>' + esc(m.round) + (m.format ? ' · ' + esc(m.format) : '') + '</span></span>' +
+      '<span class="match__teams">' +
+        '<span class="match__vs">' + (m.home === HOME ? '<b>' + esc(m.home) + '</b>' : esc(m.home)) + ' vs ' + (m.away === HOME ? '<b>' + esc(m.away) + '</b>' : esc(m.away)) + '</span>' +
+        '<span class="match__info">' + esc(m.round) + (m.format ? ' · ' + esc(m.format) : '') + '</span>' +
+      '</span>' +
       '<span class="match__meta mono">' + esc(m.time) + '<br>' + esc(m.venue) + '</span>' +
     '</div>';
   }

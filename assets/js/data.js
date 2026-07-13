@@ -241,12 +241,13 @@
         "<td>" + esc(m.venue) + "</td>" +
         '<td class="c-vs">' + vs + "</td>" +
         '<td class="c-score ' + resCls + '">' + esc(m.score) + '<span class="res ' + resCls + '">' + resLabel + "</span></td>" +
+        (m.video ? '<td><a class="c-video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">▶</a></td>' : "<td></td>") +
       "</tr>";
     }).join("");
 
     el.innerHTML = '<div class="comp-group">' + head +
       '<div class="comp-table-wrap"><table class="comp-table"><thead><tr>' +
-        "<th>时间</th><th>赛事</th><th>赛制</th><th>组别</th><th>轮次</th><th>场地</th><th>对阵双方</th><th>比分</th>" +
+        "<th>时间</th><th>赛事</th><th>赛制</th><th>组别</th><th>轮次</th><th>场地</th><th>对阵双方</th><th>比分</th><th>视频</th>" +
       "</tr></thead><tbody>" + body + "</tbody></table></div></div>";
   }
 
@@ -322,12 +323,13 @@
             "<td>" + esc(m.venue) + "</td>" +
             '<td class="c-vs">' + vs + "</td>" +
             '<td class="c-score ' + resCls + '">' + esc(m.score) + '<span class="res ' + resCls + '">' + resLabel + "</span></td>" +
+        (m.video ? '<td><a class="c-video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">▶</a></td>' : "<td></td>") +
           "</tr>";
         }).join("");
 
         return '<div class="comp-group">' + head +
           '<div class="comp-table-wrap"><table class="comp-table"><thead><tr>' +
-            "<th>时间</th><th>赛事</th><th>赛制</th><th>组别</th><th>轮次</th><th>场地</th><th>对阵双方</th><th>比分</th>" +
+            "<th>时间</th><th>赛事</th><th>赛制</th><th>组别</th><th>轮次</th><th>场地</th><th>对阵双方</th><th>比分</th><th>视频</th>" +
           "</tr></thead><tbody>" + body + "</tbody></table></div></div>";
       }).join("");
     }).join("");
