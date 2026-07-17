@@ -395,6 +395,10 @@
     var compNames = (C.competitions && C.competitions.length)
       ? C.competitions.map(function (c) { return c.name; })
       : ["新生杯", "华科杯", "毕业杯"];
+    /* 补全数据中实际存在、但未在 competitions 声明的赛事（如 友谊赛），使其也能录入 */
+    (C.fixtures.recent || []).concat(C.fixtures.upcoming || []).forEach(function (m) {
+      if (m.comp && compNames.indexOf(m.comp) === -1) compNames.push(m.comp);
+    });
     var teamOptions = (C.teams && C.teams.length)
       ? C.teams.map(function (t) { return { value: t.short, label: t.short }; })
       : [{ value: "男足", label: "男足" }, { value: "女足", label: "女足" }];
@@ -409,7 +413,18 @@
         { key: "date", label: "日期" }, { key: "home", label: "主队" }, { key: "away", label: "客队" },
         { key: "score", label: "比分" }, { key: "result", label: "结果", type: "select", options: resultOptions, default: "W" },
         { key: "round", label: "轮次" }, { key: "team", label: "球队", type: "select", options: teamOptions, default: teamOptions[0].value },
-        { key: "video", label: "视频链接" }
+        { key: "video", label: "视频链接" },
+        { key: "goals", label: "进球明细（球员 · 时间）", type: "events", itemLabel: "进球", fields: [
+          { key: "player", label: "球员" },
+          { key: "time", label: "时间(如 23')" }
+        ] },
+        { key: "cards", label: "红黄牌明细（球员 · 时间 · 类型）", type: "events", itemLabel: "红黄牌", fields: [
+          { key: "player", label: "球员" },
+          { key: "time", label: "时间(如 45')" },
+          { key: "type", label: "类型", type: "select", options: [
+            { value: "Y", label: "黄牌" }, { value: "R", label: "红牌" }
+          ], default: "Y" }
+        ] }
       ], {
         label: "添加战报",
         filter: function (x) { return x.comp === comp; },
@@ -616,6 +631,18 @@
           });
           ifw2.appendChild(addBtn);
           grid.appendChild(ifw2);
+        } else if (d.type === "events") {
+          /* 嵌套可重复列表：进球 / 红黄牌等明细（直接绑定到 item[d.key] 数组） */
+          var subArr = (item[d.key] || []);
+          item[d.key] = subArr;
+          var fw = el("label", { class: "a-field a-field--full" });
+          fw.appendChild(el("span", null, esc(d.label)));
+          var nested = repeatable((d.label || "明细"), subArr, d.fields || [], {
+            label: "添加" + (d.itemLabel || "条目")
+          });
+          nested.classList.add("a-section--nested");
+          fw.appendChild(nested);
+          grid.appendChild(fw);
         } else {
           var inp = el("input", { class: "a-input", type: "text", value: item[d.key] == null ? "" : item[d.key] });
           inp.addEventListener("input", function () { item[d.key] = inp.value; });

@@ -57,6 +57,119 @@
     return { gf: gf, ga: ga };
   }
 
+  /* ---------- 球员聚合：各赛事 进球 / 红黄牌 ---------- */
+  var STAT_COMPS = ["新生杯", "华科杯", "毕业杯"];
+  function aggregatePlayerStats(matches) {
+    var map = {};
+    function ensure(n) {
+      if (!map[n]) {
+        map[n] = { name: n, comps: {}, g: 0, y: 0, r: 0 };
+        STAT_COMPS.forEach(function (c) { map[n].comps[c] = { g: 0, y: 0, r: 0 }; });
+      }
+      return map[n];
+    }
+    matches.forEach(function (m) {
+      (m.goals || []).forEach(function (g) {
+        var p = ensure(g.player); p.g++;
+        if (p.comps[m.comp]) p.comps[m.comp].g++;
+      });
+      (m.cards || []).forEach(function (c) {
+        var p = ensure(c.player);
+        var t = c.type === "R" ? "r" : "y"; p[t]++;
+        if (p.comps[m.comp]) p.comps[m.comp][t]++;
+      });
+    });
+    return map;
+  }
+
+  /* ===== 射手榜（不计入对手乌龙） ===== */
+  function renderScorers(map) {
+    var el = document.getElementById("dataScorersGrid");
+    if (!el) return;
+    var players = Object.keys(map).map(function (n) { return map[n]; })
+      .filter(function (p) { return p.name !== "乌龙" && p.g > 0; });
+    players.sort(function (a, b) {
+      return b.g - a.g || (b.y + b.r) - (a.y + a.r) || a.name.localeCompare(b.name);
+    });
+    if (!players.length) { el.innerHTML = '<p class="match__empty">该筛选条件下暂无进球记录。</p>'; return; }
+
+    /* 并列排名：进球数相同的球员共享同一名次，下一不同进球数顺延 */
+    var prevG = null, rank = 0;
+    players.forEach(function (p, i) {
+      if (p.g !== prevG) { rank = i + 1; prevG = p.g; }
+      p.rank = rank;
+    });
+
+    /* 全部筛选时最多显示前 10 名 */
+    if (state.season === "all" && state.comp === "all" && state.team === "all") {
+      var top10Ranks = [];
+      players.slice(0, 10).forEach(function (p) { if (top10Ranks.indexOf(p.rank) < 0) top10Ranks.push(p.rank); });
+      /* 取完整名次档：如果第 10 人与第 11+ 人并列则一并包含 */
+      var lastRank = (players[9] || {}).rank;
+      players = players.filter(function (p) { return p.rank <= lastRank; });
+    }
+
+    /* 领奖台：取前 3 个名次档（每档所有并列球员各一张卡），其余进列表 */
+    var allRanks = [];
+    players.forEach(function (p) { if (allRanks.indexOf(p.rank) < 0) allRanks.push(p.rank); });
+    var topRanks = allRanks.slice(0, 3);
+    var podium = {};
+    var restList = [];
+    players.forEach(function (p) {
+      if (topRanks.indexOf(p.rank) >= 0) { (podium[p.rank] = podium[p.rank] || []).push(p); }
+      else { restList.push(p); }
+    });
+    var topHtml = '<div class="scorer__top">';
+    var medalClass = ['scorer__card--gold', 'scorer__card--silver', 'scorer__card--bronze'];
+    topRanks.forEach(function (rk, idx) {
+      var grp = podium[rk];
+      if (!grp || !grp.length) return;
+      var names = grp.map(function (p) {
+        return '<span class="scorer__name">' + esc(p.name) + '</span>';
+      }).join('<span class="scorer__sep"> / </span>');
+      topHtml += '<div class="scorer__card ' + (medalClass[idx] || '') + '">' +
+        '<span class="scorer__rank">' + rk + '</span>' +
+        '<div class="scorer__names">' + names + '</div>' +
+        '<span class="scorer__goals">' + grp[0].g + '</span>' +
+        '<span class="scorer__unit">进球</span>' +
+      '</div>';
+    });
+    topHtml += '</div>';
+    var listHtml = restList.length ? '<ol class="scorer__list">' + restList.map(function (p) {
+      return '<li><span class="scorer__pos">' + p.rank + '</span>' +
+        '<span class="scorer__name">' + esc(p.name) + '</span>' +
+        '<span class="scorer__goals">' + p.g + '</span></li>';
+    }).join("") + '</ol>' : '';
+    el.innerHTML = topHtml + listHtml;
+  }
+
+  /* ===== 球员数据 · 各赛事进球 ===== */
+  function renderPlayerStats(map) {
+    var el = document.getElementById("dataPlayerStatsGrid");
+    if (!el) return;
+    var rows = Object.keys(map).map(function (n) { return map[n]; })
+      .filter(function (p) { return p.g > 0; });
+    rows.sort(function (a, b) {
+      return b.g - a.g || (b.y + b.r) - (a.y + a.r) || a.name.localeCompare(b.name);
+    });
+    if (!rows.length) { el.innerHTML = '<p class="match__empty">该筛选条件下暂无球员进球数据。</p>'; return; }
+
+    var head = '<thead><tr><th>球员</th>' +
+      STAT_COMPS.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join("") +
+      '<th>合计</th></tr></thead>';
+    var body = rows.map(function (p) {
+      var cells = STAT_COMPS.map(function (c) {
+        var o = p.comps[c] || { g: 0 };
+        return '<td class="mono">' + (o.g || "–") + '</td>';
+      }).join("");
+      var note = p.name === "乌龙" ? ' <span class="pstats__note">(对手)</span>' : '';
+      return '<tr><td class="pstats__name">' + esc(p.name) + note + '</td>' +
+        cells + '<td class="mono pstats__total">' + p.g + '</td></tr>';
+    }).join("");
+    el.innerHTML = '<div class="comp-table-wrap"><table class="comp-table pstats-table">' +
+      head + '<tbody>' + body + '</tbody></table></div>';
+  }
+
   /* ---------- 筛选状态（IIFE 顶层，供 render 与 applyFilters 共享） ---------- */
   var state = { season: "", comp: "all", team: "all" };
 
@@ -89,8 +202,8 @@
     Object.keys(bySeason).forEach(function (s) { allSeasons[s] = true; });
     var seasonList = Object.keys(allSeasons).sort().reverse();
 
-    /* 默认显示有比赛数据的赛季 */
-    var defaultSeason = seasonList.find(function (s) { return bySeason[s] && bySeason[s].length; }) || seasonList[0];
+    /* 默认显示全部 */
+    var defaultSeason = "all";
 
     /* 各赛季各赛事最终成绩 */
     var achievements = data.achievements || {};
@@ -118,7 +231,7 @@
       }
 
       if (seasonSel) {
-        seasonSel.innerHTML = '<option value="all">全部</option>' +
+        seasonSel.innerHTML = '<option value="all"' + (def === "all" ? " selected" : "") + '>全部</option>' +
           seasons.map(function (s) {
             return '<option value="' + esc(s) + '"' + (s === def ? " selected" : "") + '>' + esc(s) + ' 赛季</option>';
           }).join("");
@@ -172,13 +285,18 @@
     /* 2. 各赛事战绩卡片 */
     renderCompCards(matches, state.comp, (state.ach && state.ach[state.season]) || null, state);
 
+    /* 2b. 射手榜 / 球员数据(各赛事进球) */
+    var pstats = aggregatePlayerStats(matches);
+    renderScorers(pstats);
+    renderPlayerStats(pstats);
+
     /* 3. 参赛人员（仅单赛季+单赛事时显示，选"全部赛季"或"全部赛事"时隐藏） */
     var squadEl = document.getElementById("dataSquad");
     if (squadEl) { squadEl.style.display = (state.season === "all" || state.comp === "all") ? "none" : ""; }
     if (state.season !== "all" && state.comp !== "all") renderSquad(data.squadHistory, state.season, state.comp, state.team, data.teams, data.staffHistory);
 
     /* 触发 reveal */
-    document.querySelectorAll("#dataStats .reveal,#dataCompetitions .reveal,#dataSquad .reveal")
+    document.querySelectorAll("#dataStats .reveal,#dataCompetitions .reveal,#dataSquad .reveal,#dataScorers .reveal,#dataPlayerStats .reveal")
       .forEach(function (el) { el.classList.add("is-in"); });
   }
 
@@ -196,6 +314,7 @@
   }
 
   /* ===== 全部全部全部 → 合并总表（按时间降序）===== */
+  var PAGE_SIZE = 12;
   function renderAllMatchesTable(matches, seasonAch) {
     var el = document.getElementById("dataCompCards");
     if (!el) return;
@@ -217,38 +336,70 @@
         '<span class="gh-stats">' + st.total + '场 · ' + st.wins + '胜 ' + st.draws + '平 ' + st.losses + '负 · 进球 ' + st.gf + ':' + st.ga + ' 失球</span>' +
       '</div>';
 
-    var body = sorted.map(function (m) {
-      var time = esc(m.year) + "." + esc(m.date);
-      var vs = (m.home === HOME ? "<b>生命科学与技术学院</b>" : esc(m.home)) + " <b>vs</b> " + (m.away === HOME ? "<b>生命科学与技术学院</b>" : esc(m.away));
-      var resCls = "res--" + (m.result || "");
-      var resLabel = RES[m.result] || "";
-      var cc = m.comp && COMP_CLS[m.comp] ? " " + COMP_CLS[m.comp] : "";
+    function buildTableRows(arr) {
+      return arr.map(function (m) {
+        var time = esc(m.year) + "." + esc(m.date);
+        var vs = (m.home === HOME ? "<b>生命科学与技术学院</b>" : esc(m.home)) + " <b>vs</b> " + (m.away === HOME ? "<b>生命科学与技术学院</b>" : esc(m.away));
+        var resCls = "res--" + (m.result || "");
+        var resLabel = RES[m.result] || "";
+        var cc = m.comp && COMP_CLS[m.comp] ? " " + COMP_CLS[m.comp] : "";
 
-      /* 组别显示：华科杯用映射，其余直接取 team */
-      var groupLabel = "";
-      if (m.comp === "华科杯" && m.team) {
-        groupLabel = m.team === "男足" ? "乙组" : "女子组";
-      } else {
-        groupLabel = m.team || "—";
-      }
+        /* 组别显示：华科杯用映射，其余直接取 team */
+        var groupLabel = "";
+        if (m.comp === "华科杯" && m.team) {
+          groupLabel = m.team === "男足" ? "乙组" : "女子组";
+        } else {
+          groupLabel = m.team || "—";
+        }
 
-      return "<tr>" +
-        '<td class="c-time">' + time + "</td>" +
-        '<td><span class="tag tag--comp' + cc + '">' + esc(m.comp) + "</span></td>" +
-        '<td class="c-format">' + esc(m.format) + "</td>" +
-        "<td>" + esc(groupLabel) + "</td>" +
-        "<td>" + esc(m.round) + "</td>" +
-        "<td>" + esc(m.venue) + "</td>" +
-        '<td class="c-vs">' + vs + "</td>" +
-        '<td class="c-score ' + resCls + '">' + esc(m.score) + '<span class="res ' + resCls + '">' + resLabel + "</span></td>" +
-        (m.video ? '<td><a class="c-video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">▶</a></td>' : "<td></td>") +
-      "</tr>";
-    }).join("");
+        return "<tr>" +
+          '<td class="c-time">' + time + "</td>" +
+          '<td><span class="tag tag--comp' + cc + '">' + esc(m.comp) + "</span></td>" +
+          "<td>" + esc(groupLabel) + "</td>" +
+          '<td class="c-format">' + esc(m.format) + "</td>" +
+          "<td>" + esc(m.round) + "</td>" +
+          "<td>" + esc(m.venue) + "</td>" +
+          '<td class="c-vs">' + vs + "</td>" +
+          '<td class="c-score ' + resCls + '">' + esc(m.score) + '<span class="res ' + resCls + '">' + resLabel + "</span></td>" +
+          (m.video ? '<td><a class="c-video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">▶</a></td>' : "<td></td>") +
+        "</tr>";
+      }).join("");
+    }
+
+    function buildPagination(total, current, onPageChange) {
+      var totalPages = Math.ceil(total / PAGE_SIZE);
+      if (totalPages <= 1) return "";
+      var html = '<div class="table__pagination">';
+      html += '<button class="pag__btn' + (current <= 1 ? ' pag__btn--disabled' : '') + '" data-page="' + (current - 1) + '" aria-label="上一页">‹</button>';
+      html += '<span class="pag__info">' + current + ' / ' + totalPages + '</span>';
+      html += '<button class="pag__btn' + (current >= totalPages ? ' pag__btn--disabled' : '') + '" data-page="' + (current + 1) + '" aria-label="下一页">›</button>';
+      html += '</div>';
+      return html;
+    }
+
+    var containerId = "__allTable__";
+    var currentPage = window.__tablePage && window.__tablePage[containerId] ? window.__tablePage[containerId] : 1;
+    var totalPages = Math.ceil(sorted.length / PAGE_SIZE);
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    var pageSlice = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+    var body = buildTableRows(pageSlice);
 
     el.innerHTML = '<div class="comp-group">' + head +
       '<div class="comp-table-wrap"><table class="comp-table"><thead><tr>' +
-        "<th>时间</th><th>赛事</th><th>赛制</th><th>组别</th><th>轮次</th><th>场地</th><th>对阵双方</th><th>比分</th><th>视频</th>" +
-      "</tr></thead><tbody>" + body + "</tbody></table></div></div>";
+        "<th>时间</th><th>赛事</th><th>组别</th><th>赛制</th><th>轮次</th><th>场地</th><th>对阵双方</th><th>比分</th><th>视频</th>" +
+      "</tr></thead><tbody>" + body + "</tbody></table></div>" +
+      buildPagination(sorted.length, currentPage, null) + '</div>';
+
+    /* 绑定翻页事件 */
+    if (!window.__tablePage) window.__tablePage = {};
+    el.querySelectorAll(".table__pagination .pag__btn:not(.pag__btn--disabled)").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var p = parseInt(this.getAttribute("data-page"), 10);
+        window.__tablePage[containerId] = p;
+        renderAllMatchesTable(matches, seasonAch);
+      });
+    });
   }
 
   /* ===== 各赛事战绩 · 分组表格 ===== */
@@ -287,10 +438,20 @@
           return a.localeCompare(b);
         }).map(function (k) { return { team: k, ms: g[k] }; });
       } else {
-        subgroups = [{ team: null, ms: ms }];
+        subgroups = [{ team: null, ms: ms.slice().sort(function (a, b) {
+          var da = (a.year || "") + "." + (a.date || "");
+          var db = (b.year || "") + "." + (b.date || "");
+          return da < db ? 1 : da > db ? -1 : 0;
+        }) }];
       }
 
-      return subgroups.map(function (sg) {
+      return subgroups.map(function (sg, sgIdx) {
+        /* 子组内按 year.date 降序（近期在上） */
+        sg.ms.sort(function (a, b) {
+          var da = (a.year || "") + "." + (a.date || "");
+          var db = (b.year || "") + "." + (b.date || "");
+          return da < db ? 1 : da > db ? -1 : 0;
+        });
         var st = calcStats(sg.ms);
         var achTxt = "";
         if (seasonAch) achTxt = sg.team ? (seasonAch[c + "|" + sg.team] || "") : (seasonAch[c] || "");
@@ -309,32 +470,65 @@
             '<span class="gh-stats">' + st.total + '场 · ' + st.wins + '胜 ' + st.draws + '平 ' + st.losses + '负 · 进球 ' + st.gf + ':' + st.ga + ' 失球</span>' +
           '</div>';
 
-        var body = sg.ms.map(function (m) {
-          var time = esc(m.year) + "." + esc(m.date);
-          var vs = (m.home === HOME ? "<b>生命科学与技术学院</b>" : esc(m.home)) + " <b>vs</b> " + (m.away === HOME ? "<b>生命科学与技术学院</b>" : esc(m.away));
-          var resCls = "res--" + (m.result || "");
-          var resLabel = RES[m.result] || "";
-          return "<tr>" +
-            '<td class="c-time">' + time + "</td>" +
-            '<td><span class="tag tag--comp' + compCls + '">' + esc(m.comp) + "</span></td>" +
-            '<td class="c-format">' + esc(m.format) + "</td>" +
-            "<td>" + esc(groupLabel || "—") + "</td>" +
-            "<td>" + esc(m.round) + "</td>" +
-            "<td>" + esc(m.venue) + "</td>" +
-            '<td class="c-vs">' + vs + "</td>" +
-            '<td class="c-score ' + resCls + '">' + esc(m.score) + '<span class="res ' + resCls + '">' + resLabel + "</span></td>" +
-        (m.video ? '<td><a class="c-video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">▶</a></td>' : "<td></td>") +
-          "</tr>";
-        }).join("");
+        /* 分页：每表最多 PAGE_SIZE 条 */
+        if (!window.__tablePage) window.__tablePage = {};
+        var pgId = c + "|" + (sg.team || "_") + "|";
+        var curPg = window.__tablePage[pgId] || 1;
+        var totalPg = Math.ceil(sg.ms.length / PAGE_SIZE);
+        if (curPg > totalPg) curPg = totalPg;
+        if (curPg < 1) curPg = 1;
 
-        return '<div class="comp-group">' + head +
+        var pageSlice = sg.ms.slice((curPg - 1) * PAGE_SIZE, curPg * PAGE_SIZE);
+
+        function buildRows(arr) {
+          return arr.map(function (m) {
+            var time = esc(m.year) + "." + esc(m.date);
+            var vs = (m.home === HOME ? "<b>生命科学与技术学院</b>" : esc(m.home)) + " <b>vs</b> " + (m.away === HOME ? "<b>生命科学与技术学院</b>" : esc(m.away));
+            var resCls = "res--" + (m.result || "");
+            var resLabel = RES[m.result] || "";
+            return "<tr>" +
+              '<td class="c-time">' + time + "</td>" +
+              '<td><span class="tag tag--comp' + compCls + '">' + esc(m.comp) + "</span></td>" +
+              "<td>" + esc(groupLabel || "—") + "</td>" +
+              '<td class="c-format">' + esc(m.format) + "</td>" +
+              "<td>" + esc(m.round) + "</td>" +
+              "<td>" + esc(m.venue) + "</td>" +
+              '<td class="c-vs">' + vs + "</td>" +
+              '<td class="c-score ' + resCls + '">' + esc(m.score) + '<span class="res ' + resCls + '">' + resLabel + "</span></td>" +
+            (m.video ? '<td><a class="c-video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">▶</a></td>' : "<td></td>") +
+              "</tr>";
+          }).join("");
+        }
+
+        var pagHtml = "";
+        if (totalPg > 1) {
+          pagHtml = '<div class="table__pagination">' +
+            '<button class="pag__btn' + (curPg <= 1 ? ' pag__btn--disabled' : '') + '" data-pg="' + pgId + '" data-page="' + (curPg - 1) + '" aria-label="上一页">‹</button>' +
+            '<span class="pag__info">' + curPg + ' / ' + totalPg + '</span>' +
+            '<button class="pag__btn' + (curPg >= totalPg ? ' pag__btn--disabled' : '') + '" data-pg="' + pgId + '" data-page="' + (curPg + 1) + '" aria-label="下一页">›</button>' +
+            '</div>';
+        }
+
+        return '<div class="comp-group" data-pg-id="' + esc(pgId) + '">' + head +
           '<div class="comp-table-wrap"><table class="comp-table"><thead><tr>' +
-            "<th>时间</th><th>赛事</th><th>赛制</th><th>组别</th><th>轮次</th><th>场地</th><th>对阵双方</th><th>比分</th><th>视频</th>" +
-          "</tr></thead><tbody>" + body + "</tbody></table></div></div>";
+            "<th>时间</th><th>赛事</th><th>组别</th><th>赛制</th><th>轮次</th><th>场地</th><th>对阵双方</th><th>比分</th><th>视频</th>" +
+          "</tr></thead><tbody>" + buildRows(pageSlice) + "</tbody></table></div>" +
+          pagHtml + '</div>';
       }).join("");
     }).join("");
 
     el.innerHTML = html;
+
+    /* 绑定分组表格翻页事件 */
+    el.querySelectorAll(".table__pagination .pag__btn:not(.pag__btn--disabled)").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var pgKey = this.getAttribute("data-pg");
+        var p = parseInt(this.getAttribute("data-page"), 10);
+        if (!window.__tablePage) window.__tablePage = {};
+        window.__tablePage[pgKey] = p;
+        applyFilters(data, bySeason, squad);
+      });
+    });
   }
 
   function renderMatchRow(m) {

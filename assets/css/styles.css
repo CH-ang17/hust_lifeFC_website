@@ -874,16 +874,51 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 }
 .match:first-of-type { border-top: 1px solid var(--line); }
 .match__date { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-faint); letter-spacing: 0.06em; white-space: nowrap; }
-.match__teams { display: flex; flex-direction: column; gap: 2px; }
+.match__teams { display: flex; flex-direction: column; gap: 2px; position: relative; justify-self: start; }
 .match__vs { white-space: nowrap; font-size: 1rem; line-height: 1.4; }
 .match__teams b { font-weight: 700; }
-.match__teams .match__info { font-size: var(--fs-xs); color: var(--ink-faint); white-space: nowrap; }
+.match__teams .match__info { font-size: var(--fs-xs); color: var(--ink-faint); white-space: nowrap; align-self: flex-start; }
+/* 进球/红黄牌：绝对定位在 match__teams 内（定位上下文 = 两行最长那行），不参与文档流（不撑高容器、不增大行距）；
+   left:100% 锚在 match__teams 右缘 = 队名行 / 信息行中最长那一行文字右端；margin-left:1em 距约 1 字符；bottom:0 底边与信息同行；
+   每 3 条为一列（由 JS 包 .match__col），列间留间距，超出自动排到右侧下一列 */
+.match__events { position: absolute; left: 100%; margin-left: 1em; bottom: 0; display: flex; flex-direction: row; align-items: flex-start; gap: 1.2em; font-size: var(--fs-xs); color: var(--ink-soft); white-space: nowrap; }
+.match__note { font-style: italic; color: var(--ink-faint); white-space: nowrap; }
+.match__col { display: flex; flex-direction: column; gap: 1px; align-items: flex-start; }
 .match__score { font-family: var(--font-mono); font-weight: 700; font-size: 1.15rem; font-variant-numeric: tabular-nums; line-height: 1.25; }
 .match__score .res { font-size: 0.7rem; letter-spacing: 0.1em; margin-left: 6px; }
 .res--W { color: var(--win); } .res--D { color: var(--draw); } .res--L { color: var(--loss); }
 .match__video { color: var(--signal); font-weight: 600; font-size: inherit; text-decoration: none; white-space: nowrap; margin-left: .15rem; }
 .match__video:hover { text-decoration: underline; }
 .match__meta { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-faint); text-align: right; white-space: nowrap; }
+
+.match__line { display: flex; align-items: baseline; gap: 4px; }
+.ev__tag {
+  flex: none; font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.08em; padding: 1px 7px; border-radius: var(--r-pill); text-transform: uppercase;
+}
+.ev__tag--goal { color: inherit; background: transparent; padding: 1px 4px; font-size: 0.95rem; line-height: 1; }
+.ev__tag--card { color: var(--ink-faint); }
+.ev__list { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 4px; }
+.ev__item { white-space: nowrap; }
+.match__cards .ev__list { flex-wrap: nowrap; }
+.ev__time { font-size: 0.95em; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.ev__sep { color: var(--line); }
+.ev__card {
+  flex: none; display: inline-block;
+  width: .77rem; height: .95rem;
+  border-radius: 2px; border: 1px solid rgba(0,0,0,.15);
+  margin: 0; vertical-align: middle;
+}
+.ev__card--y { background: #f1c40f; }
+.ev__card--r { background: #e74c3c; }
+
+/* 后台嵌套明细编辑器（进球 / 红黄牌）弱化样式 */
+.a-section--nested { margin: 6px 0 2px; padding: 8px; border: 1px dashed var(--line); border-radius: var(--r-sm); background: color-mix(in oklch, var(--paper) 70%, var(--club-tint)); }
+.a-section--nested > .a-section__head { margin-bottom: 6px; }
+.a-section--nested .a-section__title { font-size: 0.82rem; }
+.a-section--nested .a-list { display: flex; flex-direction: column; gap: 8px; }
+.a-section--nested .a-row-card { background: var(--paper); padding: 8px; }
+.a-section--nested .a-grid--row { grid-template-columns: 1fr 1fr; gap: 6px 10px; }
 
 /* =============================================================
    STORY
@@ -1514,3 +1549,43 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
 .comp-table .res--L.res { background: color-mix(in oklab, var(--loss) 16%, transparent); }
 .comp-table .c-video { color: #111; font-size: 1.05rem; line-height: 1; text-decoration: none; white-space: nowrap; display: inline-block; transition: opacity .15s ease; }
 .comp-table .c-video:hover { opacity: .6; }
+
+/* ===== 表格分页 ===== */
+.table__pagination { display: flex; align-items: center; justify-content: center; gap: .7rem; padding: .8rem 0 .2rem; }
+.pag__btn { width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper-2); color: var(--ink); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s ease; }
+.pag__btn:hover:not(.pag__btn--disabled) { border-color: var(--ink); background: var(--paper-3); }
+.pag__btn--disabled { opacity: .35; pointer-events: none; }
+.pag__info { font-size: .85rem; color: var(--ink-faint); min-width: 48px; text-align: center; }
+
+/* ===== 数据页：射手榜 / 球员数据 / 红黄牌榜 ===== */
+.scorer__top { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--space-md); margin-bottom: .8rem; }
+.scorer__card { position: relative; background: var(--paper-2); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 2px; }
+.scorer__rank { position: absolute; top: 10px; right: 12px; font-family: var(--font-mono); font-size: .8rem; font-weight: 700; color: var(--ink-faint); }
+.scorer__card--gold { border-color: #e6b800; background: color-mix(in oklab, #ffd633 30%, var(--paper-2)); }
+.scorer__card--silver { border-color: #9aa3ad; background: color-mix(in oklab, #9aa3ad 16%, var(--paper-2)); }
+.scorer__card--bronze { border-color: #b5713c; background: color-mix(in oklab, #b5713c 16%, var(--paper-2)); }
+.scorer__card--gold .scorer__rank { color: #c79100; }
+.scorer__card--silver .scorer__rank { color: #7c8590; }
+.scorer__card--bronze .scorer__rank { color: #a85f30; }
+:root[data-theme="dark"] .scorer__card--gold { background: color-mix(in oklab, #ffd633 36%, var(--paper-2)); }
+:root[data-theme="dark"] .scorer__card--silver { background: color-mix(in oklab, #9aa3ad 22%, var(--paper-2)); }
+:root[data-theme="dark"] .scorer__card--bronze { background: color-mix(in oklab, #b5713c 22%, var(--paper-2)); }
+:root[data-theme="dark"] .scorer__card--gold .scorer__rank { color: #ffd95e; }
+:root[data-theme="dark"] .scorer__card--silver .scorer__rank { color: #c2cad4; }
+:root[data-theme="dark"] .scorer__card--bronze .scorer__rank { color: #d08a55; }
+.scorer__name { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--ink); }
+.scorer__names { display: flex; flex-direction: row; flex-wrap: wrap; gap: 0; }
+.scorer__sep { color: var(--ink-faint); font-size: .82rem; margin: 0 .15rem; }
+.scorer__goals { font-family: var(--font-mono); font-weight: 800; font-size: 2.4rem; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.scorer__unit { font-size: .72rem; color: var(--ink-faint); letter-spacing: .06em; }
+.scorer__list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.scorer__list li { display: flex; align-items: center; gap: .8rem; padding: .6rem 1rem; border-bottom: 1px solid var(--line); }
+.scorer__list li:last-child { border-bottom: none; }
+.scorer__list .scorer__pos { width: 1.6rem; text-align: center; font-family: var(--font-mono); font-weight: 700; color: var(--ink-faint); }
+.scorer__list .scorer__name { flex: 1; font-size: .95rem; color: var(--ink); }
+.scorer__list .scorer__goals { font-size: 1.1rem; font-family: var(--font-mono); font-weight: 700; color: var(--ink); }
+
+.pstats-table td, .pstats-table th { text-align: left; padding-left: 1rem; }
+.pstats-table .pstats__name { text-align: left; font-weight: 600; color: var(--ink); }
+.pstats-table .pstats__total { font-weight: 800; color: var(--club); }
+.pstats__note { font-size: .7rem; color: var(--ink-faint); font-weight: 400; }

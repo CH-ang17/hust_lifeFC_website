@@ -80,7 +80,7 @@
 
   /* ---------- 渲染 ---------- */
   function render(data) {
-    console.log("[HUST FC] app.js version: 20260713h");
+    console.log("[HUST FC] app.js version: 20260714a");
     if (!data) return;
 
     // 站点名 / 页脚
@@ -596,6 +596,77 @@
   /* ===== 比赛行 ===== */
   var COMP_CLS = { "华科杯": "comp--hust", "新生杯": "comp--freshman", "毕业杯": "comp--graduation", "友谊赛": "comp--friendly" };
   var TEAM_CLS = { "男足": "team--men", "女足": "team--women" };
+
+  /* 进球 / 红黄牌 明细：仅有数据时渲染，合并到对阵信息同一行 */
+  function hasEvents(m) {
+    return ((m.goals && m.goals.length) || (m.cards && m.cards.length) || m.note) ? true : false;
+  }
+  function matchEvents(m) {
+    var goals = m.goals || [];
+    var cards = m.cards || [];
+    var note = m.note || "";
+    if (!goals.length && !cards.length && !note) return "";
+    /* 取时间字符串中的分钟数用于排序（如 "33' (P)" → 33） */
+    function minOf(t) {
+      var n = parseInt(String(t).replace(/[^0-9]/g, ""), 10);
+      return isNaN(n) ? 9999 : n;
+    }
+    var html = '<div class="match__events">';
+    if (note) {
+      html += '<div class="match__note">' + esc(note) + '</div>';
+      if (!goals.length && !cards.length) { html += '</div>'; return html; }
+    }
+    /* 按球员分组 + 统一排序（进球和红黄牌混合按时间升序，早在上） */
+    var gBest = {};
+    goals.forEach(function (g) {
+      var name = g.player || "未知";
+      var min = minOf(g.time);
+      if (!gBest[name]) gBest[name] = { min: min, times: [], type: "goal" };
+      gBest[name].times.push(g.time || "");
+      if (min < gBest[name].min) gBest[name].min = min;
+    });
+    var cBest = {};
+    cards.forEach(function (c) {
+      var name = c.player || "未知";
+      var min = minOf(c.time);
+      if (!cBest[name] || min < cBest[name].min) cBest[name] = { min: min, card: c };
+    });
+    /* 合并成统一事件列表 */
+    var allEvents = [];
+    Object.keys(gBest).forEach(function (name) {
+      allEvents.push({ name: name, min: gBest[name].min, times: gBest[name].times, type: "goal" });
+    });
+    Object.keys(cBest).forEach(function (name) {
+      allEvents.push({ name: name, min: cBest[name].min, card: cBest[name].card, type: "card" });
+    });
+    allEvents.sort(function (a, b) { return a.min - b.min; });
+    /* 每 3 条一行成一列，超出换右列（确定性，不依赖行高） */
+    var PER_COL = 3;
+    for (var ci = 0; ci < allEvents.length; ci += PER_COL) {
+      var chunk = allEvents.slice(ci, ci + PER_COL);
+      html += '<div class="match__col">';
+      chunk.forEach(function (ev) {
+        if (ev.type === "goal") {
+          var times = ev.times.join(" ");
+          html += '<div class="match__line match__goals">' +
+            '<span class="ev__tag ev__tag--goal">⚽</span>' +
+            '<span class="ev__item">' + esc(ev.name) +
+            (times ? ' <span class="ev__time mono">' + esc(times) + '</span>' : '') + '</span></div>';
+        } else {
+          var isRed = ev.card.type === "R";
+          var badge = '<span class="ev__card ' + (isRed ? 'ev__card--r' : 'ev__card--y') + '"></span>';
+          html += '<div class="match__line match__cards">' +
+            '<span class="ev__tag ev__tag--goal" style="position:relative;color:transparent;user-select:none">⚽<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">' + badge + '</span></span>' +
+            '<span class="ev__item">' + esc(ev.name) +
+            (ev.card.time ? ' <span class="ev__time mono">' + esc(ev.card.time) + '</span>' : '') + '</span></div>';
+        }
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+    return html;
+  }
+
   function matchRow(m, isRecent) {
     var compCls = (m.comp && COMP_CLS[m.comp]) ? " " + COMP_CLS[m.comp] : "";
     var teamCls = (m.team && TEAM_CLS[m.team]) ? " " + TEAM_CLS[m.team] : "";
@@ -619,6 +690,7 @@
         '<span class="match__teams">' +
           '<span class="match__vs">' + (m.home === HOME ? '<b>' + esc(m.home) + '</b>' : esc(m.home)) + ' vs ' + (m.away === HOME ? '<b>' + esc(m.away) + '</b>' : esc(m.away)) + '</span>' +
           '<span class="match__info">' + esc(m.round) + (m.venue ? ' · ' + esc(m.venue) : '') + (m.format ? ' · ' + esc(m.format) : '') + (m.video ? ' · <a class="match__video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">视频</a>' : '') + '</span>' +
+          (hasEvents(m) ? matchEvents(m) : '') +
         '</span>' +
         '<span class="match__score mono ' + (resCls[m.result] || "") + '">' + esc(m.score) +
           '<span class="res ' + (resCls[m.result] || "") + '">' + (resMap[m.result] || esc(m.result)) + '</span></span>' +
@@ -629,6 +701,7 @@
       '<span class="match__teams">' +
         '<span class="match__vs">' + (m.home === HOME ? '<b>' + esc(m.home) + '</b>' : esc(m.home)) + ' vs ' + (m.away === HOME ? '<b>' + esc(m.away) + '</b>' : esc(m.away)) + '</span>' +
         '<span class="match__info">' + esc(m.round) + (m.format ? ' · ' + esc(m.format) : '') + '</span>' +
+          (hasEvents(m) ? matchEvents(m) : '') +
       '</span>' +
       '<span class="match__meta mono">' + esc(m.time) + '<br>' + esc(m.venue) + '</span>' +
     '</div>';

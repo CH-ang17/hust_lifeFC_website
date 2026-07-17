@@ -484,7 +484,7 @@
         "num": "7",
         "name": "苏婕欣",
         "pos": "CF · 中锋",
-        "captain": false,
+        "captain": true,
         "season": "2025-2026,2026-2027"
       },
       {
@@ -584,18 +584,6 @@
             "captain": false
           },
           {
-            "num": "28",
-            "name": "张明睿",
-            "pos": "GK · 门将",
-            "captain": false
-          },
-          {
-            "num": "55",
-            "name": "苏毅",
-            "pos": "GK · 门将",
-            "captain": false
-          },
-          {
             "num": "2",
             "name": "丁一航",
             "pos": "RB · 右后卫",
@@ -626,33 +614,27 @@
             "captain": false
           },
           {
-            "num": "17",
-            "name": "程航",
-            "pos": "RB · 右后卫",
-            "captain": false
-          },
-          {
-            "num": "32",
-            "name": "王鹏程",
-            "pos": "RB · 右后卫",
-            "captain": false
-          },
-          {
-            "num": "42",
-            "name": "谢高翔",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "66",
-            "name": "吴晟楷",
-            "pos": "CB · 中后卫",
+            "num": "7",
+            "name": "张德睿",
+            "pos": "RW · 右边锋",
             "captain": false
           },
           {
             "num": "8",
             "name": "周琦凯",
             "pos": "CDM · 防守中场",
+            "captain": false
+          },
+          {
+            "num": "10",
+            "name": "Bhahat Lawlley Zimba",
+            "pos": "CF · 中锋",
+            "captain": false
+          },
+          {
+            "num": "11",
+            "name": "曹洲荣",
+            "pos": "LW · 左边锋",
             "captain": false
           },
           {
@@ -665,6 +647,12 @@
             "num": "16",
             "name": "刘骏贤",
             "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "17",
+            "name": "程航",
+            "pos": "RB · 右后卫",
             "captain": false
           },
           {
@@ -686,27 +674,15 @@
             "captain": false
           },
           {
-            "num": "7",
-            "name": "张德睿",
-            "pos": "RW · 右边锋",
-            "captain": false
-          },
-          {
-            "num": "10",
-            "name": "Bhahat Lawlley Zimba",
-            "pos": "CF · 中锋",
-            "captain": false
-          },
-          {
-            "num": "11",
-            "name": "曹洲荣",
-            "pos": "LW · 左边锋",
-            "captain": false
-          },
-          {
             "num": "25",
             "name": "罗阮烨",
             "pos": "RW · 右边锋",
+            "captain": false
+          },
+          {
+            "num": "28",
+            "name": "张明睿",
+            "pos": "GK · 门将",
             "captain": false
           },
           {
@@ -716,9 +692,33 @@
             "captain": false
           },
           {
+            "num": "32",
+            "name": "王鹏程",
+            "pos": "RB · 右后卫",
+            "captain": false
+          },
+          {
+            "num": "42",
+            "name": "谢高翔",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
             "num": "47",
             "name": "祁潇赫",
             "pos": "RW · 右边锋",
+            "captain": false
+          },
+          {
+            "num": "55",
+            "name": "苏毅",
+            "pos": "GK · 门将",
+            "captain": false
+          },
+          {
+            "num": "66",
+            "name": "吴晟楷",
+            "pos": "CB · 中后卫",
             "captain": false
           },
           {
@@ -745,7 +745,7 @@
             "num": "7",
             "name": "苏婕欣",
             "pos": "CF · 中锋",
-            "captain": false
+            "captain": true
           },
           {
             "num": "9",
@@ -1138,6 +1138,162 @@
           }
         ]
       }
+    },
+    "2024-2025": {
+      "华科杯": {
+        "men": [
+          {
+            "num": "2",
+            "name": "Vincent Langat",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "3",
+            "name": "丁一航",
+            "pos": "LB · 左后卫",
+            "captain": false
+          },
+          {
+            "num": "4",
+            "name": "巨鹏远",
+            "pos": "CB · 中后卫",
+            "captain": true
+          },
+          {
+            "num": "5",
+            "name": "邹元晔",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "6",
+            "name": "周琦凯",
+            "pos": "CDM · 防守中场",
+            "captain": false
+          },
+          {
+            "num": "7",
+            "name": "Bhahat Lawlley Zimba",
+            "pos": "CF · 中锋",
+            "captain": false
+          },
+          {
+            "num": "9",
+            "name": "张德睿",
+            "pos": "RW · 右边锋",
+            "captain": false
+          },
+          {
+            "num": "10",
+            "name": "谢高翔",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "12",
+            "name": "戴晨曦",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "15",
+            "name": "俞善文",
+            "pos": "CB · 中后卫",
+            "captain": false
+          },
+          {
+            "num": "16",
+            "name": "程航",
+            "pos": "RB · 右后卫",
+            "captain": false
+          },
+          {
+            "num": "17",
+            "name": "潘一辉",
+            "pos": "RW · 右边锋",
+            "captain": false
+          },
+          {
+            "num": "18",
+            "name": "陈天",
+            "pos": "CAM · 进攻中场",
+            "captain": false
+          },
+          {
+            "num": "19",
+            "name": "刘骏贤",
+            "pos": "CM · 中场",
+            "captain": false
+          },
+          {
+            "num": "21",
+            "name": "罗阮烨",
+            "pos": "RW · 右边锋",
+            "captain": false
+          },
+          {
+            "num": "22",
+            "name": "郭鸿铭",
+            "pos": "GK · 门将",
+            "captain": false
+          },
+          {
+            "num": "26",
+            "name": "徐楚淇",
+            "pos": "RB · 右后卫",
+            "captain": false
+          },
+          {
+            "num": "27",
+            "name": "曹洲荣",
+            "pos": "LW · 左边锋",
+            "captain": false
+          },
+          {
+            "num": "30",
+            "name": "徐浩轩",
+            "pos": "LW · 左边锋",
+            "captain": false
+          },
+          {
+            "num": "35",
+            "name": "吕文杰",
+            "pos": "ST · 前锋",
+            "captain": false
+          },
+          {
+            "num": "55",
+            "name": "苏毅",
+            "pos": "GK · 门将",
+            "captain": false
+          },
+          {
+            "num": "56",
+            "name": "杜浩华",
+            "pos": "LB · 左后卫",
+            "captain": false
+          },
+          {
+            "num": "57",
+            "name": "林俊衡",
+            "pos": "RB · 右后卫",
+            "captain": false
+          },
+          {
+            "num": "88",
+            "name": "张喆",
+            "pos": "LW · 左边锋",
+            "captain": false
+          },
+          {
+            "num": "99",
+            "name": "彭则栋",
+            "pos": "ST · 前锋",
+            "captain": false
+          }
+        ]
+      }
     }
   },
   "fixtures": {
@@ -1165,7 +1321,14 @@
         "result": "L",
         "round": "淘汰赛 · 1/4决赛",
         "venue": "紫菘五人制1号足球场",
-        "year": "2026"
+        "year": "2026",
+        "cards": [
+          {
+            "player": "蔺星硕",
+            "type": "Y",
+            "time": "18'"
+          }
+        ]
       },
       {
         "date": "06.03",
@@ -1177,7 +1340,25 @@
         "result": "W",
         "round": "小组赛 · 第 5 轮",
         "venue": "紫菘五人制2号足球场",
-        "year": "2026"
+        "year": "2026",
+        "goals": [
+          {
+            "player": "曹洲荣",
+            "time": "3'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "15'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "20'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "30'"
+          }
+        ]
       },
       {
         "date": "06.01",
@@ -1189,7 +1370,13 @@
         "result": "D",
         "round": "小组赛 · 第 4 轮",
         "venue": "紫菘五人制2号足球场",
-        "year": "2026"
+        "year": "2026",
+        "goals": [
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "6'"
+          }
+        ]
       },
       {
         "date": "05.31",
@@ -1201,7 +1388,41 @@
         "result": "W",
         "round": "小组赛 · 第 3 轮",
         "venue": "紫菘五人制1号足球场",
-        "year": "2026"
+        "year": "2026",
+        "goals": [
+          {
+            "player": "李霄鹤",
+            "time": "3'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "9'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "20'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "29'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "35'"
+          },
+          {
+            "player": "巨鹏远",
+            "time": "28'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "30'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "40'"
+          }
+        ]
       },
       {
         "date": "05.27",
@@ -1213,7 +1434,10 @@
         "result": "W",
         "round": "小组赛 · 第 1 轮",
         "venue": "紫菘五人制1号足球场",
-        "year": "2026"
+        "year": "2026",
+        "note": "对手弃赛",
+        "goals": [],
+        "cards": []
       },
       {
         "date": "05.17",
@@ -1267,7 +1491,13 @@
         "round": "淘汰赛 · 半决赛",
         "venue": "紫菘五人制足球场1",
         "year": "2026",
-        "video": "https://www.bilibili.com/video/BV1KKdsBQECp/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+        "video": "https://www.bilibili.com/video/BV1KKdsBQECp/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87",
+        "goals": [
+          {
+            "player": "周孟雪",
+            "time": "37'"
+          }
+        ]
       },
       {
         "date": "04.12",
@@ -1280,7 +1510,25 @@
         "result": "W",
         "round": "小组赛 · 第 5 轮",
         "venue": "紫菘五人制足球场1",
-        "year": "2026"
+        "year": "2026",
+        "goals": [
+          {
+            "player": "郭文佳",
+            "time": "12'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "和谐",
+            "type": "Y",
+            "time": "11'"
+          },
+          {
+            "player": "苏婕欣",
+            "type": "Y",
+            "time": "39'"
+          }
+        ]
       },
       {
         "date": "04.09",
@@ -1293,7 +1541,13 @@
         "result": "L",
         "round": "小组赛 · 第 3 轮",
         "venue": "中心操场",
-        "year": "2026"
+        "year": "2026",
+        "goals": [
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "43'"
+          }
+        ]
       },
       {
         "date": "04.08",
@@ -1306,7 +1560,24 @@
         "result": "W",
         "round": "小组赛 · 第 4 轮",
         "venue": "紫菘五人制足球场2",
-        "year": "2026"
+        "year": "2026",
+        "goals": [
+          {
+            "player": "苏婕欣",
+            "time": "10'"
+          },
+          {
+            "player": "周孟雪",
+            "time": "32'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "苏婕欣",
+            "type": "Y",
+            "time": "33'"
+          }
+        ]
       },
       {
         "date": "03.29",
@@ -1320,7 +1591,21 @@
         "round": "小组赛 · 第 3 轮",
         "venue": "紫菘五人制足球场2",
         "year": "2026",
-        "video": "https://www.bilibili.com/video/BV1jMXDBvEmy/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+        "video": "https://www.bilibili.com/video/BV1jMXDBvEmy/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87",
+        "goals": [
+          {
+            "player": "柳竞涵",
+            "time": "5'"
+          },
+          {
+            "player": "周孟雪",
+            "time": "25'"
+          },
+          {
+            "player": "周孟雪",
+            "time": "33' (P)"
+          }
+        ]
       },
       {
         "date": "03.25",
@@ -1334,7 +1619,53 @@
         "round": "小组赛 · 第 2 轮",
         "venue": "紫菘操场",
         "year": "2026",
-        "video": "https://www.bilibili.com/video/BV1StXnBuEXy/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+        "video": "https://www.bilibili.com/video/BV1StXnBuEXy/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87",
+        "goals": [
+          {
+            "player": "曹洲荣",
+            "time": "12'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "32'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "14'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "26'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "54'"
+          },
+          {
+            "player": "邓旺杰",
+            "time": "45'"
+          },
+          {
+            "player": "祁潇赫",
+            "time": "47'"
+          },
+          {
+            "player": "陈天",
+            "time": "67'"
+          },
+          {
+            "player": "徐浩轩",
+            "time": "79'"
+          },
+          {
+            "player": "乌龙",
+            "time": "19'"
+          },
+          {
+            "player": "乌龙",
+            "time": "43'"
+          }
+        ]
       },
       {
         "date": "03.22",
@@ -1348,7 +1679,13 @@
         "round": "小组赛 · 第 2 轮",
         "venue": "紫菘五人制足球场2",
         "year": "2026",
-        "video": "https://www.bilibili.com/video/BV15TQQBcETd/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+        "video": "https://www.bilibili.com/video/BV15TQQBcETd/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87",
+        "goals": [
+          {
+            "player": "周孟雪",
+            "time": "18'"
+          }
+        ]
       },
       {
         "date": "03.15",
@@ -1362,7 +1699,20 @@
         "round": "小组赛 · 第 1 轮",
         "venue": "韵苑操场",
         "year": "2026",
-        "video": "https://www.bilibili.com/video/BV1FWwuz1EMg/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+        "video": "https://www.bilibili.com/video/BV1FWwuz1EMg/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87",
+        "goals": [
+          {
+            "player": "曹洲荣",
+            "time": "30'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "谢高翔",
+            "type": "Y",
+            "time": "54'"
+          }
+        ]
       },
       {
         "date": "10.18",
@@ -1386,7 +1736,17 @@
         "result": "W",
         "round": "淘汰赛 · 1/8决赛",
         "venue": "韵苑操场北",
-        "year": "2025"
+        "year": "2025",
+        "goals": [
+          {
+            "player": "郑钦文",
+            "time": "15'"
+          },
+          {
+            "player": "郑钦文",
+            "time": "33'"
+          }
+        ]
       },
       {
         "date": "10.11",
@@ -1398,7 +1758,37 @@
         "result": "W",
         "round": "小组赛 · 第 3 轮",
         "venue": "韵苑操场北",
-        "year": "2025"
+        "year": "2025",
+        "goals": [
+          {
+            "player": "祁潇赫",
+            "time": "1'"
+          },
+          {
+            "player": "苏暹懿",
+            "time": "18'"
+          },
+          {
+            "player": "李羽城",
+            "time": "21'"
+          },
+          {
+            "player": "李羽城",
+            "time": "60'"
+          },
+          {
+            "player": "张明睿",
+            "time": "34'"
+          },
+          {
+            "player": "张明睿",
+            "time": "44'"
+          },
+          {
+            "player": "张润泽",
+            "time": "59'"
+          }
+        ]
       },
       {
         "date": "09.30",
@@ -1410,7 +1800,29 @@
         "result": "W",
         "round": "小组赛 · 第 2 轮",
         "venue": "韵苑操场北",
-        "year": "2025"
+        "year": "2025",
+        "goals": [
+          {
+            "player": "苏暹懿",
+            "time": "18'"
+          },
+          {
+            "player": "祁潇赫",
+            "time": "25'"
+          },
+          {
+            "player": "李羽城",
+            "time": "55'"
+          },
+          {
+            "player": "李羽城",
+            "time": "59'"
+          },
+          {
+            "player": "张润泽",
+            "time": "56'"
+          }
+        ]
       },
       {
         "date": "09.23",
@@ -1423,11 +1835,406 @@
         "round": "小组赛 · 第 1 轮",
         "venue": "韵苑操场北",
         "year": "2025"
+      },
+      {
+        "date": "03.16",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "物理学院",
+        "away": "生命科学与技术学院",
+        "score": "2–2",
+        "result": "D",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "中心操场",
+        "year": "2025",
+        "team": "男足",
+        "goals": [
+          {
+            "player": "彭则栋",
+            "time": "63'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "78'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "张德睿",
+            "type": "Y",
+            "time": "44'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1ewQ8YyEvz/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "03.27",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "法学院",
+        "away": "生命科学与技术学院",
+        "score": "0–6",
+        "result": "W",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "韵苑操场",
+        "year": "2025",
+        "team": "男足",
+        "goals": [
+          {
+            "player": "周琦凯",
+            "time": "24'"
+          },
+          {
+            "player": "潘一辉",
+            "time": "40'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "49'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "52'"
+          },
+          {
+            "player": "Bhahat Lawlley Zimba",
+            "time": "65'"
+          },
+          {
+            "player": "张德睿",
+            "time": "81' (P)"
+          }
+        ],
+        "cards": [
+          {
+            "player": "张德睿",
+            "type": "Y",
+            "time": "81'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1zDZ3YDEHU/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "04.05",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "社会学院",
+        "score": "3–1",
+        "result": "W",
+        "round": "小组赛 · 第 5 轮",
+        "venue": "紫菘操场",
+        "year": "2025",
+        "team": "男足",
+        "goals": [
+          {
+            "player": "陈天",
+            "time": "28'"
+          },
+          {
+            "player": "戴晨曦",
+            "time": "34'"
+          },
+          {
+            "player": "巨鹏远",
+            "time": "50'"
+          }
+        ]
+      },
+      {
+        "date": "04.13",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "船舶与海洋工程学院",
+        "away": "生命科学与技术学院",
+        "score": "2–0",
+        "result": "L",
+        "round": "淘汰赛 · 1/4决赛",
+        "venue": "中心操场",
+        "year": "2025",
+        "team": "男足",
+        "video": "https://www.bilibili.com/video/BV1hbojY7EKD/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "03.22",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "新闻与信息传播学院",
+        "away": "生命科学与技术学院",
+        "score": "0–4",
+        "result": "W",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "紫菘五人制足球场1",
+        "year": "2025",
+        "team": "女足",
+        "goals": [
+          {
+            "player": "刘水远",
+            "time": "3'"
+          },
+          {
+            "player": "苏婕欣",
+            "time": "18'"
+          },
+          {
+            "player": "苏婕欣",
+            "time": "22'"
+          },
+          {
+            "player": "刘水远",
+            "time": "34'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "苏雨婷",
+            "type": "Y",
+            "time": "39'"
+          }
+        ]
+      },
+      {
+        "date": "03.29",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "公共管理学院",
+        "away": "生命科学与技术学院",
+        "score": "0–2",
+        "result": "W",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "紫菘五人制足球场2",
+        "year": "2025",
+        "team": "女足",
+        "goals": [
+          {
+            "player": "周孟雪",
+            "time": "24'"
+          },
+          {
+            "player": "刘水远",
+            "time": "33'"
+          }
+        ]
+      },
+      {
+        "date": "04.05",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "管理学院",
+        "score": "1–0",
+        "result": "W",
+        "round": "小组赛 · 第 4 轮",
+        "venue": "紫菘五人制足球场1",
+        "year": "2025",
+        "team": "女足",
+        "goals": [
+          {
+            "player": "周孟雪",
+            "time": "24'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "周孟雪",
+            "type": "Y",
+            "time": "13'"
+          }
+        ]
+      },
+      {
+        "date": "04.12",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "能源与动力工程学院",
+        "score": "0–1",
+        "result": "L",
+        "round": "小组赛 · 第 5 轮",
+        "venue": "紫菘五人制足球场2",
+        "year": "2025",
+        "team": "女足",
+        "cards": [
+          {
+            "player": "苏婕欣",
+            "type": "Y",
+            "time": "12'"
+          }
+        ]
+      },
+      {
+        "date": "04.19",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "光学与电子信息学院",
+        "score": "4–0",
+        "result": "W",
+        "round": "淘汰赛 · 1/2决赛",
+        "venue": "紫菘五人制足球场1",
+        "year": "2025",
+        "team": "女足",
+        "goals": [
+          {
+            "player": "周孟雪",
+            "time": "3'"
+          },
+          {
+            "player": "周孟雪",
+            "time": "15'"
+          },
+          {
+            "player": "柳竞涵",
+            "time": "18'"
+          },
+          {
+            "player": "周孟雪",
+            "time": "33'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1xE5xzTEan/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "04.26",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "物理学院",
+        "score": "1–0",
+        "result": "W",
+        "round": "淘汰赛 · 决赛",
+        "venue": "紫菘五人制足球场3",
+        "year": "2025",
+        "team": "女足",
+        "goals": [
+          {
+            "player": "周孟雪",
+            "time": "33'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "柳竞涵",
+            "type": "Y",
+            "time": "35'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV12nL1z8Ens/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "09.30",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "化学与化工学院",
+        "away": "生命科学与技术学院",
+        "score": "2–1",
+        "result": "L",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "紫菘操场北",
+        "year": "2024",
+        "goals": [
+          {
+            "player": "晋青鸿",
+            "time": "32'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "徐楚淇",
+            "type": "Y",
+            "time": "35'"
+          },
+          {
+            "player": "陈炳欣",
+            "type": "Y",
+            "time": "40'"
+          },
+          {
+            "player": "蔡天宇",
+            "type": "R",
+            "time": "60'"
+          }
+        ]
+      },
+      {
+        "date": "10.10",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "基础医学院",
+        "away": "生命科学与技术学院",
+        "score": "0–0",
+        "result": "D",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "中心操场北",
+        "year": "2024",
+        "cards": [
+          {
+            "player": "姜若曾",
+            "type": "Y",
+            "time": "36'"
+          },
+          {
+            "player": "刘永汉",
+            "type": "Y",
+            "time": "52'"
+          }
+        ]
+      },
+      {
+        "date": "10.13",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "船舶与海洋工程学院",
+        "score": "2–2",
+        "result": "D",
+        "round": "小组赛 · 第 4 轮",
+        "venue": "中心操场南",
+        "year": "2024",
+        "goals": [
+          {
+            "player": "晋青鸿",
+            "time": "40'"
+          },
+          {
+            "player": "彭则栋",
+            "time": "53'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "刘恩华",
+            "type": "Y",
+            "time": "28'"
+          },
+          {
+            "player": "彭则栋",
+            "type": "Y",
+            "time": "31'"
+          }
+        ]
+      },
+      {
+        "date": "10.18",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "数学与统计学院",
+        "score": "0–0",
+        "result": "D",
+        "round": "小组赛 · 第 5 轮",
+        "venue": "韵苑操场北",
+        "year": "2024"
       }
     ],
     "upcoming": []
   },
   "achievements": {
+    "2024-2025": {
+      "华科杯|男足": "8强",
+      "华科杯|女足": "冠军",
+      "新生杯": "未出线（小组第四）"
+    },
     "2025-2026": {
       "新生杯": "8强",
       "毕业杯": "8强",
@@ -1552,6 +2359,20 @@
           {
             "role": "队医",
             "name": "丁一航"
+          }
+        ]
+      }
+    },
+    "2024-2025": {
+      "华科杯": {
+        "men": [
+          {
+            "role": "领队",
+            "name": "高金铭"
+          },
+          {
+            "role": "主教练",
+            "name": "刘永汉"
           }
         ]
       }
