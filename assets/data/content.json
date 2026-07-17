@@ -150,7 +150,7 @@
     }
   ],
   "club": {
-    "intro": "华中科技大学生命科学与技术学院足球俱乐部（HUST生命学院足球俱乐部，HUST LIFE FC），由学院一群热爱足球的同学在学院团委指导下建立。俱乐部下设男子足球队、女子足球队两支队伍，常年参加华中科技大学「新生杯」「华科杯」「毕业杯」三项校级足球赛事，取得多项荣誉，是一支不可忽视的力量。在华中科技大学足球联赛（华科杯）中，男子足球队征战男足，女子足球队征战女足。\n\nHUST Life FC 始终秉承「拼搏·团结·快乐」的精神，热爱足球，享受足球。",
+    "intro": "华中科技大学生命科学与技术学院足球俱乐部（HUST生命学院足球俱乐部，HUST LIFE FC），是由学院一群热爱足球的同学在学院团委指导下建立的院级社团。俱乐部下设男子足球队、女子足球队两支队伍，常年参加华中科技大学「新生杯」「华科杯」「毕业杯」三项校级足球赛事，取得多项荣誉，是一支不可忽视的力量。目前在华中科技大学足球联赛（华科杯）中，男子足球队征战乙组，女子足球队征战女子组。\n\nHUST Life FC 始终秉承「拼搏·团结·快乐」的精神，热爱足球，享受足球。",
     "honors": [
       {
         "year": "2026",
@@ -826,72 +826,86 @@
           {
             "num": "1",
             "name": "吴鸣鹤",
-            "pos": "GK"
+            "pos": "GK",
+            "captain": false
           },
           {
             "num": "13",
             "name": "朱宸昕",
-            "pos": "DF"
+            "pos": "DF",
+            "captain": false
           },
           {
             "num": "18",
             "name": "王鹏程",
-            "pos": "RB"
+            "pos": "RB",
+            "captain": false
           },
           {
             "num": "20",
             "name": "苏暹懿",
-            "pos": "CM"
+            "pos": "CM",
+            "captain": false
           },
           {
             "num": "24",
             "name": "宁志行",
-            "pos": "CB"
+            "pos": "CB",
+            "captain": false
           },
           {
             "num": "27",
             "name": "叶嘉诺",
-            "pos": "CB"
+            "pos": "CB",
+            "captain": false
           },
           {
             "num": "28",
             "name": "张明睿",
-            "pos": "LB"
+            "pos": "LB",
+            "captain": false
           },
           {
             "num": "32",
             "name": "李汶羲",
-            "pos": "FW"
+            "pos": "FW",
+            "captain": false
           },
           {
             "num": "39",
             "name": "田金杰",
-            "pos": "LB"
+            "pos": "LB",
+            "captain": false
           },
           {
             "num": "47",
             "name": "祁潇赫",
-            "pos": "RW"
+            "pos": "RW",
+            "captain": false
           },
           {
             "num": "66",
             "name": "吴晟楷",
-            "pos": "CB"
+            "pos": "CB",
+            "captain": false
           },
           {
             "num": "77",
             "name": "郑钦文",
-            "pos": "CM"
+            "pos": "CM",
+            "captain": false
           },
           {
             "num": "88",
             "name": "张润泽",
-            "pos": "LB"
+            "pos": "LB",
+            "captain": false
           },
           {
             "num": "99",
             "name": "李羽城",
-            "pos": "CF"
+            "pos": "CF",
+            "captain": true
           }
         ],
         "women": [
@@ -1290,6 +1304,82 @@
             "num": "99",
             "name": "彭则栋",
             "pos": "ST · 前锋",
+            "captain": false
+          }
+        ]
+      },
+      "新生杯": {
+        "men": [
+          {
+            "num": "2",
+            "name": "陈炳欣",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "3",
+            "name": "丁一航",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "13",
+            "name": "孙浩然",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "20",
+            "name": "余正熙",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "21",
+            "name": "胡孟良",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "26",
+            "name": "徐楚淇",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "28",
+            "name": "晋青鸿",
+            "pos": "",
+            "captain": true
+          },
+          {
+            "num": "36",
+            "name": "刘恩华",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "44",
+            "name": "董适",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "45",
+            "name": "蔡天宇",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "69",
+            "name": "姜若曾",
+            "pos": "",
+            "captain": false
+          },
+          {
+            "num": "99",
+            "name": "彭则栋",
+            "pos": "",
             "captain": false
           }
         ]
@@ -2373,6 +2463,18 @@
           {
             "role": "主教练",
             "name": "刘永汉"
+          }
+        ]
+      },
+      "新生杯": {
+        "men": [
+          {
+            "role": "领队",
+            "name": "刘永汉"
+          },
+          {
+            "role": "主教练",
+            "name": "张喆"
           }
         ]
       }

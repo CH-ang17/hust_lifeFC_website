@@ -155,10 +155,10 @@
   }
 
   /* ===== Stats Bar ===== */
-  /* 从赛程数据自动计算总场次 / 胜场 / 进球（仅统计华科杯、新生杯、毕业杯） */
+  /* 从赛程数据自动计算总场次 / 胜场 / 进球（仅统计当前赛季的华科杯、新生杯、毕业杯） */
   function calcMatchStats(fixtures) {
     var official = (fixtures.recent || []).filter(function (m) {
-      return ["华科杯", "新生杯", "毕业杯"].indexOf(m.comp) !== -1;
+      return ["华科杯", "新生杯", "毕业杯"].indexOf(m.comp) !== -1 && seasonOf(m) === "2025-2026";
     });
     var wins = 0, goals = 0;
     var HOME = "生命科学与技术学院";
