@@ -621,8 +621,9 @@
     goals.forEach(function (g) {
       var name = g.player || "未知";
       var min = minOf(g.time);
-      if (!gBest[name]) gBest[name] = { min: min, times: [], type: "goal" };
+      if (!gBest[name]) gBest[name] = { min: min, times: [], type: "goal", og: false };
       gBest[name].times.push(g.time || "");
+      if (g.og) gBest[name].og = true;
       if (min < gBest[name].min) gBest[name].min = min;
     });
     var cBest = {};
@@ -634,7 +635,7 @@
     /* 合并成统一事件列表 */
     var allEvents = [];
     Object.keys(gBest).forEach(function (name) {
-      allEvents.push({ name: name, min: gBest[name].min, times: gBest[name].times, type: "goal" });
+      allEvents.push({ name: name, min: gBest[name].min, times: gBest[name].times, type: "goal", og: gBest[name].og });
     });
     Object.keys(cBest).forEach(function (name) {
       allEvents.push({ name: name, min: cBest[name].min, card: cBest[name].card, type: "card" });
@@ -651,7 +652,7 @@
           html += '<div class="match__line match__goals">' +
             '<span class="ev__tag ev__tag--goal">⚽</span>' +
             '<span class="ev__item">' + esc(ev.name) +
-            (times ? ' <span class="ev__time mono">' + esc(times) + '</span>' : '') + '</span></div>';
+            (times ? ' <span class="ev__time mono">' + esc(times) + (ev.og ? ' (OG)' : '') + '</span>' : '') + '</span></div>';
         } else {
           var isRed = ev.card.type === "R";
           var badge = '<span class="ev__card ' + (isRed ? 'ev__card--r' : 'ev__card--y') + '"></span>';

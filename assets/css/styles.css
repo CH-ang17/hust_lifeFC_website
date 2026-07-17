@@ -902,6 +902,7 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 .ev__item { white-space: nowrap; }
 .match__cards .ev__list { flex-wrap: nowrap; }
 .ev__time { font-size: 0.95em; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+.ev__og { font-family: var(--font-mono); font-size: 0.95em; color: var(--ink-faint); font-variant-numeric: tabular-nums; margin-left: 0; }
 .ev__sep { color: var(--line); }
 .ev__card {
   flex: none; display: inline-block;
@@ -1578,6 +1579,7 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
 .scorer__sep { color: var(--ink-faint); font-size: .82rem; margin: 0 .15rem; }
 .scorer__goals { font-family: var(--font-mono); font-weight: 800; font-size: 2.4rem; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
 .scorer__unit { font-size: .72rem; color: var(--ink-faint); letter-spacing: .06em; }
+.data__note { margin: .9rem 0 0; font-size: .78rem; color: var(--ink-faint); letter-spacing: .02em; }
 .scorer__list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .scorer__list li { display: flex; align-items: center; gap: .8rem; padding: .6rem 1rem; border-bottom: 1px solid var(--line); }
 .scorer__list li:last-child { border-bottom: none; }
@@ -1588,4 +1590,5 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
 .pstats-table td, .pstats-table th { text-align: left; padding-left: 1rem; }
 .pstats-table .pstats__name { text-align: left; font-weight: 600; color: var(--ink); }
 .pstats-table .pstats__total { font-weight: 800; color: var(--club); }
+.pstats-table .pstats__rank { font-weight: 700; color: var(--ink-faint); width: 3rem; }
 .pstats__note { font-size: .7rem; color: var(--ink-faint); font-weight: 400; }

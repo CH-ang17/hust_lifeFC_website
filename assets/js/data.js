@@ -63,15 +63,21 @@
     var map = {};
     function ensure(n) {
       if (!map[n]) {
-        map[n] = { name: n, comps: {}, g: 0, y: 0, r: 0 };
-        STAT_COMPS.forEach(function (c) { map[n].comps[c] = { g: 0, y: 0, r: 0 }; });
+        map[n] = { name: n, comps: {}, g: 0, y: 0, r: 0, pen: 0 };
+        STAT_COMPS.forEach(function (c) { map[n].comps[c] = { g: 0, y: 0, r: 0, pen: 0 }; });
       }
       return map[n];
     }
     matches.forEach(function (m) {
       (m.goals || []).forEach(function (g) {
+        if (g.og) return; /* 乌龙球不计入本方球员进球 */
         var p = ensure(g.player); p.g++;
-        if (p.comps[m.comp]) p.comps[m.comp].g++;
+        var isPen = /\(P\)/.test(g.time);
+        if (isPen) { p.pen++; }
+        if (p.comps[m.comp]) {
+          p.comps[m.comp].g++;
+          if (isPen) { p.comps[m.comp].pen++; }
+        }
       });
       (m.cards || []).forEach(function (c) {
         var p = ensure(c.player);
@@ -83,13 +89,15 @@
   }
 
   /* ===== 射手榜（不计入对手乌龙） ===== */
+  function fmtGoals(g, pen) { return (pen > 0) ? g + '(' + pen + ')' : String(g); }
+
   function renderScorers(map) {
     var el = document.getElementById("dataScorersGrid");
     if (!el) return;
     var players = Object.keys(map).map(function (n) { return map[n]; })
       .filter(function (p) { return p.name !== "乌龙" && p.g > 0; });
     players.sort(function (a, b) {
-      return b.g - a.g || (b.y + b.r) - (a.y + a.r) || a.name.localeCompare(b.name);
+      return b.g - a.g || (b.y + b.r) - (a.y + a.r) || a.pen - b.pen || a.name.localeCompare(b.name);
     });
     if (!players.length) { el.innerHTML = '<p class="match__empty">该筛选条件下暂无进球记录。</p>'; return; }
 
@@ -100,19 +108,17 @@
       p.rank = rank;
     });
 
-    /* 全部筛选时最多显示前 10 名 */
-    if (state.season === "all" && state.comp === "all" && state.team === "all") {
-      var top10Ranks = [];
-      players.slice(0, 10).forEach(function (p) { if (top10Ranks.indexOf(p.rank) < 0) top10Ranks.push(p.rank); });
-      /* 取完整名次档：如果第 10 人与第 11+ 人并列则一并包含 */
-      var lastRank = (players[9] || {}).rank;
-      players = players.filter(function (p) { return p.rank <= lastRank; });
-    }
+    /* 始终只显示前 10 名（含并列名次档） */
+    var top10Ranks = [];
+    players.slice(0, 10).forEach(function (p) { if (top10Ranks.indexOf(p.rank) < 0) top10Ranks.push(p.rank); });
+    /* 取完整名次档：如果第 10 人与第 11+ 人并列则一并包含 */
+    var lastRank = (players[Math.min(9, players.length - 1)] || {}).rank;
+    if (lastRank) players = players.filter(function (p) { return p.rank <= lastRank; });
 
-    /* 领奖台：取前 3 个名次档（每档所有并列球员各一张卡），其余进列表 */
+    /* 领奖台：取排名 ≤ 3 的名次档（并列跳号时避免第8名等挤入铜牌位），其余进列表 */
     var allRanks = [];
     players.forEach(function (p) { if (allRanks.indexOf(p.rank) < 0) allRanks.push(p.rank); });
-    var topRanks = allRanks.slice(0, 3);
+    var topRanks = allRanks.filter(function (r) { return r <= 3; });
     var podium = {};
     var restList = [];
     players.forEach(function (p) {
@@ -130,7 +136,7 @@
       topHtml += '<div class="scorer__card ' + (medalClass[idx] || '') + '">' +
         '<span class="scorer__rank">' + rk + '</span>' +
         '<div class="scorer__names">' + names + '</div>' +
-        '<span class="scorer__goals">' + grp[0].g + '</span>' +
+        '<span class="scorer__goals">' + fmtGoals(grp[0].g, grp[0].pen) + '</span>' +
         '<span class="scorer__unit">进球</span>' +
       '</div>';
     });
@@ -138,36 +144,64 @@
     var listHtml = restList.length ? '<ol class="scorer__list">' + restList.map(function (p) {
       return '<li><span class="scorer__pos">' + p.rank + '</span>' +
         '<span class="scorer__name">' + esc(p.name) + '</span>' +
-        '<span class="scorer__goals">' + p.g + '</span></li>';
+        '<span class="scorer__goals">' + fmtGoals(p.g, p.pen) + '</span></li>';
     }).join("") + '</ol>' : '';
     el.innerHTML = topHtml + listHtml;
   }
 
-  /* ===== 球员数据 · 各赛事进球 ===== */
+  /* ===== 球员数据 · 进球（含排名列 + 分页） ===== */
+  var PLAYER_PAGE_SIZE = 12;
+  window.__playerPage = window.__playerPage || 1;
+
   function renderPlayerStats(map) {
     var el = document.getElementById("dataPlayerStatsGrid");
     if (!el) return;
     var rows = Object.keys(map).map(function (n) { return map[n]; })
       .filter(function (p) { return p.g > 0; });
     rows.sort(function (a, b) {
-      return b.g - a.g || (b.y + b.r) - (a.y + a.r) || a.name.localeCompare(b.name);
+      return b.g - a.g || (b.y + b.r) - (a.y + a.r) || a.pen - b.pen || a.name.localeCompare(b.name);
     });
     if (!rows.length) { el.innerHTML = '<p class="match__empty">该筛选条件下暂无球员进球数据。</p>'; return; }
 
-    var head = '<thead><tr><th>球员</th>' +
+    /* 并列排名：进球数相同共享同一名次 */
+    var prevG = null, rank = 0;
+    rows.forEach(function (p, i) {
+      if (p.g !== prevG) { rank = i + 1; prevG = p.g; }
+      p._rank = rank;
+    });
+
+    /* 分页 */
+    var totalPages = Math.ceil(rows.length / PLAYER_PAGE_SIZE);
+    var page = Math.max(1, Math.min(window.__playerPage || 1, totalPages));
+    window.__playerPage = page;
+    var start = (page - 1) * PLAYER_PAGE_SIZE;
+    var pageRows = rows.slice(start, start + PLAYER_PAGE_SIZE);
+
+    var head = '<thead><tr><th>排名</th><th>球员</th>' +
       STAT_COMPS.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join("") +
       '<th>合计</th></tr></thead>';
-    var body = rows.map(function (p) {
+    var body = pageRows.map(function (p) {
       var cells = STAT_COMPS.map(function (c) {
-        var o = p.comps[c] || { g: 0 };
-        return '<td class="mono">' + (o.g || "–") + '</td>';
+        var o = p.comps[c] || { g: 0, pen: 0 };
+        return '<td class="mono">' + (o.g > 0 ? fmtGoals(o.g, o.pen) : "–") + '</td>';
       }).join("");
       var note = p.name === "乌龙" ? ' <span class="pstats__note">(对手)</span>' : '';
-      return '<tr><td class="pstats__name">' + esc(p.name) + note + '</td>' +
-        cells + '<td class="mono pstats__total">' + p.g + '</td></tr>';
+      return '<tr><td class="mono pstats__rank">' + p._rank + '</td><td class="pstats__name">' + esc(p.name) + note + '</td>' +
+        cells + '<td class="mono pstats__total">' + fmtGoals(p.g, p.pen) + '</td></tr>';
     }).join("");
+
+    /* 分页控件 */
+    var pagHtml = '';
+    if (totalPages > 1) {
+      pagHtml = '<div class="table__pagination">' +
+        '<button class="pag__btn' + (page <= 1 ? ' pag__btn--disabled' : '') + '" data-pg="' + (page - 1) + '">‹</button>' +
+        '<span class="pag__info">' + page + ' / ' + totalPages + '</span>' +
+        '<button class="pag__btn' + (page >= totalPages ? ' pag__btn--disabled' : '') + '" data-pg="' + (page + 1) + '">›</button></div>';
+    }
+
     el.innerHTML = '<div class="comp-table-wrap"><table class="comp-table pstats-table">' +
-      head + '<tbody>' + body + '</tbody></table></div>';
+      head + '<tbody>' + body + '</tbody></table></div>' + pagHtml;
+    /* 翻页由 #dataPlayerStatsGrid 上的事件委托统一处理（见初始化处） */
   }
 
   /* ---------- 筛选状态（IIFE 顶层，供 render 与 applyFilters 共享） ---------- */
@@ -214,6 +248,29 @@
     buildFilters(seasonList, defaultSeason);
     if (defaultSeason) applyFilters(data, bySeason, squad);
 
+    /* 一次性事件委托：处理赛事战绩表格 + 球员数据表格的分页点击 */
+    (function () {
+      var ccEl = document.getElementById("dataCompCards");
+      var psEl = document.getElementById("dataPlayerStatsGrid");
+      if (ccEl) ccEl.addEventListener("click", function (e) {
+        var btn = e.target.closest(".pag__btn:not(.pag__btn--disabled)");
+        if (!btn) return;
+        e.preventDefault();
+        var pg = btn.getAttribute("data-pg");
+        var p = parseInt(btn.getAttribute("data-page"), 10);
+        if (!window.__tablePage) window.__tablePage = {};
+        if (pg) { window.__tablePage[pg] = p; applyFilters(data, bySeason, squad); }
+        else { window.__tablePage["__allTable__"] = p; applyFilters(data, bySeason, squad); }
+      });
+      if (psEl) psEl.addEventListener("click", function (e) {
+        var btn = e.target.closest(".pag__btn:not(.pag__btn--disabled)");
+        if (!btn) return;
+        e.preventDefault();
+        var p = parseInt(btn.getAttribute("data-pg"), 10);
+        if (p) { window.__playerPage = p; applyFilters(data, bySeason, squad); }
+      });
+    })();
+
     /* ---------- 构建筛选栏（赛季 / 赛事 / 男女足） ---------- */
     function buildFilters(seasons, def) {
       var f = document.getElementById("dataFilters");
@@ -235,17 +292,18 @@
           seasons.map(function (s) {
             return '<option value="' + esc(s) + '"' + (s === def ? " selected" : "") + '>' + esc(s) + ' 赛季</option>';
           }).join("");
-        seasonSel.addEventListener("change", function () { state.season = this.value; applyFilters(data, bySeason, squad); });
+        seasonSel.addEventListener("change", function () { state.season = this.value; window.__playerPage = 1; applyFilters(data, bySeason, squad); });
       }
       if (compSel) {
         compSel.addEventListener("change", function () {
           state.comp = this.value;
+          window.__playerPage = 1;
           syncTeamFilter();
           applyFilters(data, bySeason, squad);
         });
       }
       if (teamSel) {
-        teamSel.addEventListener("change", function () { state.team = this.value; applyFilters(data, bySeason, squad); });
+        teamSel.addEventListener("change", function () { window.__playerPage = 1; state.team = this.value; applyFilters(data, bySeason, squad); });
       }
 
       /* 初始状态 */
@@ -390,16 +448,7 @@
         "<th>时间</th><th>赛事</th><th>组别</th><th>赛制</th><th>轮次</th><th>场地</th><th>对阵双方</th><th>比分</th><th>视频</th>" +
       "</tr></thead><tbody>" + body + "</tbody></table></div>" +
       buildPagination(sorted.length, currentPage, null) + '</div>';
-
-    /* 绑定翻页事件 */
-    if (!window.__tablePage) window.__tablePage = {};
-    el.querySelectorAll(".table__pagination .pag__btn:not(.pag__btn--disabled)").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var p = parseInt(this.getAttribute("data-page"), 10);
-        window.__tablePage[containerId] = p;
-        renderAllMatchesTable(matches, seasonAch);
-      });
-    });
+    /* 翻页由 #dataCompCards 上的事件委托统一处理（见初始化处） */
   }
 
   /* ===== 各赛事战绩 · 分组表格 ===== */
@@ -518,17 +567,7 @@
     }).join("");
 
     el.innerHTML = html;
-
-    /* 绑定分组表格翻页事件 */
-    el.querySelectorAll(".table__pagination .pag__btn:not(.pag__btn--disabled)").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var pgKey = this.getAttribute("data-pg");
-        var p = parseInt(this.getAttribute("data-page"), 10);
-        if (!window.__tablePage) window.__tablePage = {};
-        window.__tablePage[pgKey] = p;
-        applyFilters(data, bySeason, squad);
-      });
-    });
+    /* 翻页由 #dataCompCards 上的事件委托统一处理（见初始化处） */
   }
 
   function renderMatchRow(m) {
