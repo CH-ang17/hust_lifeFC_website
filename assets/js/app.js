@@ -626,19 +626,15 @@
       if (g.og) gBest[name].og = true;
       if (min < gBest[name].min) gBest[name].min = min;
     });
-    var cBest = {};
-    cards.forEach(function (c) {
-      var name = c.player || "未知";
-      var min = minOf(c.time);
-      if (!cBest[name] || min < cBest[name].min) cBest[name] = { min: min, card: c };
-    });
     /* 合并成统一事件列表 */
     var allEvents = [];
     Object.keys(gBest).forEach(function (name) {
       allEvents.push({ name: name, min: gBest[name].min, times: gBest[name].times, type: "goal", og: gBest[name].og });
     });
-    Object.keys(cBest).forEach(function (name) {
-      allEvents.push({ name: name, min: cBest[name].min, card: cBest[name].card, type: "card" });
+    /* 每张牌单独显示（同一球员可能有多张，如两黄变一红） */
+    cards.forEach(function (c) {
+      var name = c.player || "未知";
+      allEvents.push({ name: name, min: minOf(c.time), card: c, type: "card" });
     });
     allEvents.sort(function (a, b) { return a.min - b.min; });
     /* 每 3 条一行成一列，超出换右列（确定性，不依赖行高） */
@@ -659,7 +655,7 @@
           html += '<div class="match__line match__cards">' +
             '<span class="ev__tag ev__tag--goal" style="position:relative;color:transparent;user-select:none">⚽<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">' + badge + '</span></span>' +
             '<span class="ev__item">' + esc(ev.name) +
-            (ev.card.time ? ' <span class="ev__time mono">' + esc(ev.card.time) + '</span>' : '') + '</span></div>';
+            (ev.card.time ? ' <span class="ev__time mono">' + esc(ev.card.time) + (ev.card.note ? '（' + esc(ev.card.note) + '）' : '') + '</span>' : '') + '</span></div>';
         }
       });
       html += '</div>';

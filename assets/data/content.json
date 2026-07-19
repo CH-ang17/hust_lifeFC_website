@@ -574,6 +574,360 @@
     ]
   },
   "squadHistory": {
+    "2022-2023": {
+      "华科杯": {
+        "women": [
+          {
+            "num": "11",
+            "name": "张如兰",
+            "pos": ""
+          },
+          {
+            "num": "5",
+            "name": "施丹霖",
+            "pos": ""
+          },
+          {
+            "num": "29",
+            "name": "朱鹭云",
+            "pos": ""
+          },
+          {
+            "num": "21",
+            "name": "于是",
+            "pos": ""
+          },
+          {
+            "num": "10",
+            "name": "何淼",
+            "pos": ""
+          },
+          {
+            "num": "18",
+            "name": "刘水远",
+            "pos": ""
+          },
+          {
+            "num": "66",
+            "name": "余帆",
+            "pos": ""
+          },
+          {
+            "num": "88",
+            "name": "文可欣",
+            "pos": ""
+          },
+          {
+            "num": "55",
+            "name": "谭媛元",
+            "pos": ""
+          },
+          {
+            "num": "14",
+            "name": "曹与点",
+            "pos": ""
+          },
+          {
+            "num": "73",
+            "name": "丁周莹",
+            "pos": "",
+            "captain": true
+          },
+          {
+            "num": "3",
+            "name": "关欣妮",
+            "pos": ""
+          },
+          {
+            "num": "30",
+            "name": "宫鑫梅",
+            "pos": ""
+          }
+        ],
+        "men": [
+          {
+            "num": "2",
+            "name": "李霄鹤",
+            "pos": ""
+          },
+          {
+            "num": "19",
+            "name": "邱喆",
+            "pos": ""
+          },
+          {
+            "num": "7",
+            "name": "谢高翔",
+            "pos": ""
+          },
+          {
+            "num": "24",
+            "name": "阿古达木",
+            "pos": ""
+          },
+          {
+            "num": "10",
+            "name": "谷兆瑞",
+            "pos": "",
+            "captain": true
+          },
+          {
+            "num": "17",
+            "name": "程航",
+            "pos": ""
+          },
+          {
+            "num": "28",
+            "name": "李青成",
+            "pos": ""
+          },
+          {
+            "num": "31",
+            "name": "聂嘉琪",
+            "pos": ""
+          },
+          {
+            "num": "21",
+            "name": "孙廿一",
+            "pos": ""
+          },
+          {
+            "num": "8",
+            "name": "戴晨曦",
+            "pos": ""
+          },
+          {
+            "num": "29",
+            "name": "艾力夏提·喀迪尔",
+            "pos": ""
+          },
+          {
+            "num": "30",
+            "name": "徐浩轩",
+            "pos": ""
+          },
+          {
+            "num": "11",
+            "name": "聂江豪",
+            "pos": ""
+          },
+          {
+            "num": "1",
+            "name": "林远烨",
+            "pos": ""
+          },
+          {
+            "num": "20",
+            "name": "骆意",
+            "pos": ""
+          },
+          {
+            "num": "14",
+            "name": "刘永汉",
+            "pos": ""
+          },
+          {
+            "num": "66",
+            "name": "梁思远",
+            "pos": ""
+          },
+          {
+            "num": "88",
+            "name": "陈刚",
+            "pos": ""
+          },
+          {
+            "num": "25",
+            "name": "巨鹏远",
+            "pos": ""
+          },
+          {
+            "num": "22",
+            "name": "毛奕明",
+            "pos": ""
+          },
+          {
+            "num": "12",
+            "name": "汪柄佑",
+            "pos": ""
+          },
+          {
+            "num": "23",
+            "name": "姜溯源",
+            "pos": ""
+          },
+          {
+            "num": "9",
+            "name": "周俊扬",
+            "pos": ""
+          },
+          {
+            "num": "6",
+            "name": "周健",
+            "pos": ""
+          },
+          {
+            "num": "5",
+            "name": "荆明健",
+            "pos": ""
+          }
+        ]
+      },
+      "毕业杯": {
+        "men": [
+          {
+            "num": "",
+            "name": "何淼",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "曹与点",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "骆意",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "谷兆瑞",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "刘丹妮",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "李伟星",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "刘奕麟",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "何悦宁",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "施丹霏",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "王龙",
+            "pos": ""
+          },
+          {
+            "num": "",
+            "name": "关欣妮",
+            "pos": ""
+          }
+        ]
+      },
+      "新生杯": {
+        "men": [
+          {
+            "num": "19",
+            "name": "李雨霖",
+            "pos": ""
+          },
+          {
+            "num": "1",
+            "name": "林远烨",
+            "pos": ""
+          },
+          {
+            "num": "22",
+            "name": "毛奕明",
+            "pos": ""
+          },
+          {
+            "num": "26",
+            "name": "陈锡浩",
+            "pos": ""
+          },
+          {
+            "num": "5",
+            "name": "荆明健",
+            "pos": ""
+          },
+          {
+            "num": "9",
+            "name": "刘歆之",
+            "pos": ""
+          },
+          {
+            "num": "55",
+            "name": "张仁侠",
+            "pos": ""
+          },
+          {
+            "num": "23",
+            "name": "姜溯源",
+            "pos": ""
+          },
+          {
+            "num": "11",
+            "name": "聂江豪",
+            "pos": "",
+            "captain": true
+          },
+          {
+            "num": "88",
+            "name": "陈刚",
+            "pos": ""
+          },
+          {
+            "num": "35",
+            "name": "蒋俊杰",
+            "pos": ""
+          },
+          {
+            "num": "14",
+            "name": "刘永汉",
+            "pos": ""
+          },
+          {
+            "num": "21",
+            "name": "卓嘉辉",
+            "pos": ""
+          },
+          {
+            "num": "6",
+            "name": "张喆",
+            "pos": ""
+          },
+          {
+            "num": "28",
+            "name": "凌哲远",
+            "pos": ""
+          },
+          {
+            "num": "25",
+            "name": "蔺星硕",
+            "pos": ""
+          },
+          {
+            "num": "66",
+            "name": "梁思远",
+            "pos": ""
+          },
+          {
+            "num": "12",
+            "name": "汪柄佑",
+            "pos": ""
+          }
+        ]
+      }
+    },
     "2023-2024": {
       "毕业杯": {
         "men": [
@@ -802,19 +1156,71 @@
       },
       "新生杯": {
         "men": [
-          { "num": "4", "name": "汪天赐", "pos": "" },
-          { "num": "9", "name": "张德睿", "pos": "" },
-          { "num": "12", "name": "熊兆壹", "pos": "" },
-          { "num": "15", "name": "俞善文", "pos": "" },
-          { "num": "17", "name": "潘一辉", "pos": "" },
-          { "num": "18", "name": "陈天", "pos": "" },
-          { "num": "21", "name": "邹元晔", "pos": "" },
-          { "num": "22", "name": "郭鸿铭", "pos": "" },
-          { "num": "27", "name": "曹洲荣", "pos": "" },
-          { "num": "56", "name": "杜浩华", "pos": "" },
-          { "num": "59", "name": "谢博", "pos": "" },
-          { "num": "60", "name": "楼哲灿", "pos": "" },
-          { "num": "77", "name": "高金铭", "pos": "" }
+          {
+            "num": "4",
+            "name": "汪天赐",
+            "pos": ""
+          },
+          {
+            "num": "9",
+            "name": "张德睿",
+            "pos": ""
+          },
+          {
+            "num": "12",
+            "name": "熊兆壹",
+            "pos": ""
+          },
+          {
+            "num": "15",
+            "name": "俞善文",
+            "pos": ""
+          },
+          {
+            "num": "17",
+            "name": "潘一辉",
+            "pos": ""
+          },
+          {
+            "num": "18",
+            "name": "陈天",
+            "pos": ""
+          },
+          {
+            "num": "21",
+            "name": "邹元晔",
+            "pos": ""
+          },
+          {
+            "num": "22",
+            "name": "郭鸿铭",
+            "pos": ""
+          },
+          {
+            "num": "27",
+            "name": "曹洲荣",
+            "pos": ""
+          },
+          {
+            "num": "56",
+            "name": "杜浩华",
+            "pos": ""
+          },
+          {
+            "num": "59",
+            "name": "谢博",
+            "pos": ""
+          },
+          {
+            "num": "60",
+            "name": "楼哲灿",
+            "pos": ""
+          },
+          {
+            "num": "77",
+            "name": "高金铭",
+            "pos": ""
+          }
         ]
       }
     },
@@ -1633,6 +2039,567 @@
   "fixtures": {
     "recent": [
       {
+        "date": "09.19",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "外国语学院",
+        "score": "1–0",
+        "result": "W",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "韵苑操场1",
+        "year": "2022",
+        "goals": [
+          {
+            "player": "张喆",
+            "time": "15'"
+          }
+        ]
+      },
+      {
+        "date": "09.21",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "网络空间安全学院",
+        "score": "2–0",
+        "result": "W",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "韵苑操场1",
+        "year": "2022",
+        "goals": [
+          {
+            "player": "陈刚",
+            "time": "1'"
+          },
+          {
+            "player": "荆明健",
+            "time": "20'"
+          }
+        ]
+      },
+      {
+        "date": "09.26",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "物理学院",
+        "score": "2–0",
+        "result": "W",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "韵苑操场1",
+        "year": "2022",
+        "goals": [
+          {
+            "player": "汪柄佑",
+            "time": "18'"
+          },
+          {
+            "player": "张喆",
+            "time": "56'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "卓嘉辉",
+            "type": "Y",
+            "time": "50'"
+          },
+          {
+            "player": "刘歆之",
+            "type": "Y",
+            "time": "57'"
+          },
+          {
+            "player": "刘歆之",
+            "type": "R",
+            "time": "60'",
+            "note": "两黄变一红"
+          }
+        ]
+      },
+      {
+        "date": "10.04",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "光学与电子信息学院",
+        "score": "0–2",
+        "result": "L",
+        "round": "小组赛 · 第 4 轮",
+        "venue": "韵苑操场1",
+        "year": "2022"
+      },
+      {
+        "date": "10.11",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "化学与化工学院",
+        "score": "2–1",
+        "result": "W",
+        "round": "小组赛 · 第 5 轮",
+        "venue": "韵苑操场1",
+        "year": "2022",
+        "goals": [
+          {
+            "player": "聂江豪",
+            "time": "12'"
+          },
+          {
+            "player": "汪柄佑",
+            "time": "39'"
+          }
+        ]
+      },
+      {
+        "date": "10.17",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "船舶与海洋工程学院",
+        "away": "生命科学与技术学院",
+        "score": "0–2",
+        "result": "W",
+        "round": "淘汰赛 · 1/4决赛",
+        "venue": "中心操场2",
+        "year": "2022",
+        "goals": [
+          {
+            "player": "聂江豪",
+            "time": "37'"
+          },
+          {
+            "player": "聂江豪",
+            "time": "42'"
+          }
+        ]
+      },
+      {
+        "date": "10.21",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "光学与电子信息学院",
+        "away": "生命科学与技术学院",
+        "score": "6–2",
+        "result": "L",
+        "round": "淘汰赛 · 半决赛",
+        "venue": "中心操场1",
+        "year": "2022",
+        "goals": [
+          {
+            "player": "聂江豪",
+            "time": "20'"
+          },
+          {
+            "player": "聂江豪",
+            "time": "23'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "刘永汉",
+            "type": "Y",
+            "time": "2'"
+          }
+        ]
+      },
+      {
+        "date": "10.23",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "能源与动力工程学院",
+        "score": "2–1",
+        "result": "W",
+        "round": "淘汰赛 · 季军赛",
+        "venue": "中心操场1",
+        "year": "2022",
+        "goals": [
+          {
+            "player": "荆明健",
+            "time": "46'"
+          },
+          {
+            "player": "陈刚",
+            "time": "56'"
+          }
+        ]
+      },
+      {
+        "date": "05.18",
+        "comp": "毕业杯",
+        "format": "九人制",
+        "home": "环境科学与工程学院",
+        "away": "生命科学与技术学院",
+        "score": "10–2",
+        "result": "L",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "中心操场1",
+        "year": "2023",
+        "goals": [
+          {
+            "player": "谷兆瑞",
+            "time": "28'"
+          },
+          {
+            "player": "何悦宁",
+            "time": "32'",
+            "og": true
+          },
+          {
+            "player": "刘奕麟",
+            "time": "35'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "谷兆瑞",
+            "type": "Y",
+            "time": "19'"
+          },
+          {
+            "player": "曹与点",
+            "type": "Y",
+            "time": "59'"
+          },
+          {
+            "player": "何悦宁",
+            "type": "Y",
+            "time": "59'"
+          }
+        ]
+      },
+      {
+        "date": "05.22",
+        "comp": "毕业杯",
+        "format": "九人制",
+        "home": "计算机科学与技术学院",
+        "away": "生命科学与技术学院",
+        "score": "3–0",
+        "result": "L",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "中心操场2",
+        "year": "2023",
+        "note": "本队弃赛",
+        "goals": [],
+        "cards": []
+      },
+      {
+        "date": "05.28",
+        "comp": "毕业杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "航空航天学院",
+        "score": "2–3",
+        "result": "L",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "中心操场2",
+        "year": "2023",
+        "goals": [
+          {
+            "player": "李伟星",
+            "time": "5'"
+          },
+          {
+            "player": "刘奕麟",
+            "time": "47'"
+          }
+        ],
+        "cards": []
+      },
+      {
+        "date": "03.19",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "船舶与海洋工程学院",
+        "score": "2–1",
+        "result": "W",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "中心操场",
+        "year": "2023",
+        "team": "男足",
+        "goals": [
+          {
+            "player": "聂嘉琪",
+            "time": "10'"
+          },
+          {
+            "player": "徐浩轩",
+            "time": "21'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "艾力夏提·喀迪尔",
+            "type": "Y",
+            "time": "63'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1pM4y1m7vU/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "03.26",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "管理学院",
+        "score": "1–2",
+        "result": "L",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "中心操场",
+        "year": "2023",
+        "team": "男足",
+        "goals": [
+          {
+            "player": "聂嘉琪",
+            "time": "54'"
+          }
+        ],
+        "cards": [],
+        "video": "https://www.bilibili.com/video/BV1ys4y1S7sy/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "04.02",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "武汉国家光电研究中心",
+        "score": "6–0",
+        "result": "W",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "中心操场",
+        "year": "2023",
+        "team": "男足",
+        "goals": [
+          {
+            "player": "徐浩轩",
+            "time": "3'"
+          },
+          {
+            "player": "徐浩轩",
+            "time": "13'"
+          },
+          {
+            "player": "徐浩轩",
+            "time": "74'"
+          },
+          {
+            "player": "谷兆瑞",
+            "time": "21'"
+          },
+          {
+            "player": "谷兆瑞",
+            "time": "54'"
+          },
+          {
+            "player": "骆意",
+            "time": "34' (P)"
+          }
+        ],
+        "cards": [
+          {
+            "player": "聂嘉琪",
+            "type": "Y",
+            "time": "77'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1rh411g7BA/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "04.08",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "电气与电子工程学院",
+        "away": "生命科学与技术学院",
+        "score": "1–0",
+        "result": "L",
+        "round": "淘汰赛 · 1/4决赛",
+        "venue": "紫菘操场",
+        "year": "2023",
+        "team": "男足",
+        "goals": [],
+        "cards": [
+          {
+            "player": "戴晨曦",
+            "type": "Y",
+            "time": "38'"
+          },
+          {
+            "player": "巨鹏远",
+            "type": "R",
+            "time": "65'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1tm4y1B7bJ/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "04.20",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "光学与电子信息学院",
+        "away": "生命科学与技术学院",
+        "score": "1–0",
+        "result": "L",
+        "round": "淘汰赛 · 季军赛",
+        "venue": "紫菘小场1",
+        "year": "2023",
+        "team": "女足",
+        "goals": [],
+        "cards": []
+      },
+      {
+        "date": "04.15",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "电子信息与通信学院",
+        "away": "生命科学与技术学院",
+        "score": "3–0",
+        "result": "L",
+        "round": "淘汰赛 · 半决赛",
+        "venue": "紫菘小场2",
+        "year": "2023",
+        "team": "女足",
+        "goals": [],
+        "cards": [
+          {
+            "player": "李明坤",
+            "type": "Y",
+            "time": "20'"
+          },
+          {
+            "player": "何淼",
+            "type": "Y",
+            "time": "40'"
+          }
+        ]
+      },
+      {
+        "date": "04.13",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "物理学院",
+        "away": "生命科学与技术学院",
+        "score": "0–3",
+        "result": "W",
+        "round": "淘汰赛 · 1/4决赛",
+        "venue": "紫菘小场2",
+        "year": "2023",
+        "team": "女足",
+        "goals": [
+          {
+            "player": "刘水远",
+            "time": "7' (P)'"
+          },
+          {
+            "player": "刘水远",
+            "time": "29'"
+          },
+          {
+            "player": "刘水远",
+            "time": "31'"
+          }
+        ],
+        "cards": [
+          {
+            "player": "刘水远",
+            "type": "Y",
+            "time": "37'"
+          }
+        ]
+      },
+      {
+        "date": "04.09",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "电子信息与通信学院",
+        "away": "生命科学与技术学院",
+        "score": "4–0",
+        "result": "L",
+        "round": "小组赛 · 第 5 轮",
+        "venue": "紫菘小场1",
+        "year": "2023",
+        "team": "女足",
+        "goals": [],
+        "cards": []
+      },
+      {
+        "date": "04.06",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "光学与电子信息学院",
+        "away": "生命科学与技术学院",
+        "score": "0–2",
+        "result": "W",
+        "round": "小组赛 · 第 4 轮",
+        "venue": "紫菘小场1",
+        "year": "2023",
+        "team": "女足",
+        "goals": [
+          {
+            "player": "刘水远",
+            "time": "2'"
+          },
+          {
+            "player": "乌龙",
+            "time": "5'"
+          }
+        ],
+        "cards": []
+      },
+      {
+        "date": "03.29",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "经济学院",
+        "away": "生命科学与技术学院",
+        "score": "1–0",
+        "result": "L",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "紫菘小场2",
+        "year": "2023",
+        "team": "女足",
+        "goals": [],
+        "cards": []
+      },
+      {
+        "date": "03.18",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "新闻与信息传播学院",
+        "score": "5–3",
+        "result": "W",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "紫菘小场2",
+        "year": "2023",
+        "team": "女足",
+        "goals": [
+          {
+            "player": "何淼",
+            "time": "1'"
+          },
+          {
+            "player": "何淼",
+            "time": "19'"
+          },
+          {
+            "player": "刘水远",
+            "time": "5'"
+          },
+          {
+            "player": "刘水远",
+            "time": "13'"
+          },
+          {
+            "player": "刘水远",
+            "time": "18'"
+          }
+        ],
+        "cards": [],
+        "video": "https://www.bilibili.com/video/BV1Na4y1u7nL/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
         "date": "06.14",
         "comp": "友谊赛",
         "format": "十一人制",
@@ -2080,7 +3047,8 @@
             "player": "郑钦文",
             "time": "33'"
           }
-        ]
+        ],
+        "video": "https://www.bilibili.com/video/BV1rY4BzbEh3/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "10.11",
@@ -2654,14 +3622,32 @@
         "venue": "韵苑操场北",
         "year": "2023",
         "goals": [
-          { "player": "曹洲荣", "time": "18'" },
-          { "player": "曹洲荣", "time": "51' (P)" },
-          { "player": "曹洲荣", "time": "60'" }
+          {
+            "player": "曹洲荣",
+            "time": "18'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "51' (P)"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "60'"
+          }
         ],
         "cards": [
-          { "player": "郭鸿铭", "type": "Y", "time": "14'" },
-          { "player": "张德睿", "type": "Y", "time": "23'" }
-        ]
+          {
+            "player": "郭鸿铭",
+            "type": "Y",
+            "time": "14'"
+          },
+          {
+            "player": "张德睿",
+            "type": "Y",
+            "time": "23'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1Dw411i7Fw/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "09.21",
@@ -2675,12 +3661,23 @@
         "venue": "韵苑操场北",
         "year": "2023",
         "goals": [
-          { "player": "张德睿", "time": "18'" },
-          { "player": "张德睿", "time": "30'" }
+          {
+            "player": "张德睿",
+            "time": "18'"
+          },
+          {
+            "player": "张德睿",
+            "time": "30'"
+          }
         ],
         "cards": [
-          { "player": "刘永汉", "type": "Y", "time": "44'" }
-        ]
+          {
+            "player": "刘永汉",
+            "type": "Y",
+            "time": "44'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1Nh4y1a74V/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "09.28",
@@ -2694,13 +3691,29 @@
         "venue": "韵苑操场北",
         "year": "2023",
         "goals": [
-          { "player": "陈天", "time": "4'" },
-          { "player": "张德睿", "time": "5'" },
-          { "player": "曹洲荣", "time": "13'" },
-          { "player": "张德睿", "time": "15'" },
-          { "player": "张德睿", "time": "33'" }
+          {
+            "player": "陈天",
+            "time": "4'"
+          },
+          {
+            "player": "张德睿",
+            "time": "5'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "13'"
+          },
+          {
+            "player": "张德睿",
+            "time": "15'"
+          },
+          {
+            "player": "张德睿",
+            "time": "33'"
+          }
         ],
-        "cards": []
+        "cards": [],
+        "video": "https://www.bilibili.com/video/BV1DH4y1o759/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "10.07",
@@ -2714,15 +3727,42 @@
         "venue": "韵苑操场南",
         "year": "2023",
         "goals": [
-          { "player": "邹元晔", "time": "3'" },
-          { "player": "陈天", "time": "10'" },
-          { "player": "曹洲荣", "time": "13'" },
-          { "player": "张德睿", "time": "15'" },
-          { "player": "陈天", "time": "30'" },
-          { "player": "曹洲荣", "time": "37'" },
-          { "player": "张德睿", "time": "39'" },
-          { "player": "张德睿", "time": "43'" },
-          { "player": "张德睿", "time": "55'" }
+          {
+            "player": "邹元晔",
+            "time": "3'"
+          },
+          {
+            "player": "陈天",
+            "time": "10'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "13'"
+          },
+          {
+            "player": "张德睿",
+            "time": "15'"
+          },
+          {
+            "player": "陈天",
+            "time": "30'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "37'"
+          },
+          {
+            "player": "张德睿",
+            "time": "39'"
+          },
+          {
+            "player": "张德睿",
+            "time": "43'"
+          },
+          {
+            "player": "张德睿",
+            "time": "55'"
+          }
         ],
         "cards": []
       },
@@ -2738,15 +3778,35 @@
         "venue": "韵苑操场南",
         "year": "2023",
         "goals": [
-          { "player": "杜浩华", "time": "9'" },
-          { "player": "曹洲荣", "time": "13'" },
-          { "player": "曹洲荣", "time": "30'" },
-          { "player": "张德睿", "time": "50'" },
-          { "player": "张德睿", "time": "60'" }
+          {
+            "player": "杜浩华",
+            "time": "9'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "13'"
+          },
+          {
+            "player": "曹洲荣",
+            "time": "30'"
+          },
+          {
+            "player": "张德睿",
+            "time": "50'"
+          },
+          {
+            "player": "张德睿",
+            "time": "60'"
+          }
         ],
         "cards": [
-          { "player": "陈天", "type": "Y", "time": "21'" }
-        ]
+          {
+            "player": "陈天",
+            "type": "Y",
+            "time": "21'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1hy4y1N7vn/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "10.15",
@@ -2760,13 +3820,29 @@
         "venue": "中心操场北",
         "year": "2023",
         "goals": [
-          { "player": "张德睿", "time": "60'" }
+          {
+            "player": "张德睿",
+            "time": "60'"
+          }
         ],
         "cards": [
-          { "player": "杜浩华", "type": "Y", "time": "52'" },
-          { "player": "刘永汉", "type": "Y", "time": "60'" },
-          { "player": "邹元晔", "type": "Y", "time": "60'" }
-        ]
+          {
+            "player": "杜浩华",
+            "type": "Y",
+            "time": "52'"
+          },
+          {
+            "player": "刘永汉",
+            "type": "Y",
+            "time": "60'"
+          },
+          {
+            "player": "邹元晔",
+            "type": "Y",
+            "time": "60'"
+          }
+        ],
+        "video": "https://www.bilibili.com/video/BV1eM41197Ja/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "10.18",
@@ -2792,10 +3868,17 @@
         "venue": "中心操场南",
         "year": "2023",
         "goals": [
-          { "player": "张德睿", "time": "40' (P)" }
+          {
+            "player": "张德睿",
+            "time": "40' (P)"
+          }
         ],
         "cards": [
-          { "player": "邹元晔", "type": "Y", "time": "15'" }
+          {
+            "player": "邹元晔",
+            "type": "Y",
+            "time": "15'"
+          }
         ]
       },
       {
@@ -2831,7 +3914,8 @@
             "type": "Y",
             "time": "81'"
           }
-        ]
+        ],
+        "video": "https://www.bilibili.com/video/BV1Yy421v7Y9/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "03.20",
@@ -2927,7 +4011,8 @@
             "type": "Y",
             "time": "29'"
           }
-        ]
+        ],
+        "video": "https://www.bilibili.com/video/BV1BJ4m1V7kF/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       },
       {
         "date": "04.13",
@@ -3190,6 +4275,12 @@
     "upcoming": []
   },
   "achievements": {
+    "2022-2023": {
+      "华科杯|女足": "第四名",
+      "华科杯|男足": "八强",
+      "毕业杯": "未出线（小组第四）",
+      "新生杯": "季军"
+    },
     "2023-2024": {
       "华科杯|男足": "8强",
       "华科杯|女足": "亚军",
@@ -3267,6 +4358,50 @@
     "2026-2027"
   ],
   "staffHistory": {
+    "2022-2023": {
+      "华科杯": {
+        "women": [
+          {
+            "role": "主教练",
+            "name": "李明坤"
+          },
+          {
+            "role": "领队",
+            "name": "邱喆"
+          }
+        ],
+        "men": [
+          {
+            "role": "主教练",
+            "name": "李明坤"
+          },
+          {
+            "role": "领队",
+            "name": "李霄鹤"
+          }
+        ]
+      },
+      "毕业杯": {
+        "men": [
+          {
+            "role": "主教练",
+            "name": "李明坤"
+          }
+        ]
+      },
+      "新生杯": {
+        "men": [
+          {
+            "role": "主教练",
+            "name": "李明坤"
+          },
+          {
+            "role": "领队",
+            "name": "蒋晗洁"
+          }
+        ]
+      }
+    },
     "2023-2024": {
       "毕业杯": {
         "men": [
@@ -3304,7 +4439,10 @@
       },
       "新生杯": {
         "men": [
-          { "role": "主教练", "name": "刘永汉" }
+          {
+            "role": "主教练",
+            "name": "刘永汉"
+          }
         ]
       }
     },
