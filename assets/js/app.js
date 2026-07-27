@@ -82,6 +82,7 @@
   function render(data) {
     console.log("[HUST FC] app.js version: 20260714a");
     if (!data) return;
+    GROUP_HISTORY = data.groupHistory || {};
 
     // 站点名 / 页脚
     setText("brandName", data.site && data.site.name);
@@ -667,10 +668,11 @@
   function matchRow(m, isRecent) {
     var compCls = (m.comp && COMP_CLS[m.comp]) ? " " + COMP_CLS[m.comp] : "";
     var teamCls = (m.team && TEAM_CLS[m.team]) ? " " + TEAM_CLS[m.team] : "";
-    /* 华科杯加组别标签：男足→乙组，女足→女子组 */
+    /* 华科杯加组别标签：男足→乙组，女足→女子组；按赛季 groupHistory 覆盖 */
     var groupTag = "";
     if (m.comp === "华科杯" && m.team) {
-      var groupLabel = m.team === "男足" ? "乙组" : "女子组";
+      var grp = GROUP_HISTORY[seasonOf(m)] && GROUP_HISTORY[seasonOf(m)][m.comp] && GROUP_HISTORY[seasonOf(m)][m.comp][m.team];
+      var groupLabel = grp || (m.team === "男足" ? "乙组" : "女子组");
       var groupCls = m.team === "男足" ? "team--men" : "team--women";
       groupTag = '<span class="tag tag--team ' + groupCls + '">' + esc(groupLabel) + '</span>';
     }
@@ -706,6 +708,7 @@
 
   /* ===== 比赛（#matches）—— 支持赛事 + 年份筛选 + 分页 ===== */
   var MATCH_DATA = { recent: [], upcoming: [] };
+  var GROUP_HISTORY = {};
   var MATCH_FILTER = { comp: "", season: "", team: "" };
   var MATCH_PAGE = 1;
   var MATCH_PAGE_SIZE = 10;

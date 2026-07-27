@@ -241,9 +241,11 @@
 
     /* 各赛季各赛事最终成绩 */
     var achievements = data.achievements || {};
+    /* 各赛季华科杯组别（甲组/乙组），未记录则按默认回退 */
+    var groupHistory = data.groupHistory || {};
 
     /* 筛选状态：赛季 / 赛事 / 男女足（state 已在 IIFE 顶层声明） */
-    state = { season: defaultSeason || "", comp: "all", team: "all", ach: achievements };
+    state = { season: defaultSeason || "", comp: "all", team: "all", ach: achievements, groupHistory: groupHistory };
 
     buildFilters(seasonList, defaultSeason);
     if (defaultSeason) applyFilters(data, bySeason, squad);
@@ -506,7 +508,11 @@
         if (seasonAch) achTxt = sg.team ? (seasonAch[c + "|" + sg.team] || "") : (seasonAch[c] || "");
 
         var groupLabel = (c === "华科杯" && sg.team)
-          ? (sg.team === "男足" ? "乙组" : "女子组")
+          ? (function () {
+              var gh = filterState.groupHistory && filterState.groupHistory[filterState.season];
+              var grp = gh && gh[c] && gh[c][sg.team];
+              return grp || (sg.team === "男足" ? "乙组" : "女子组");
+            })()
           : (sg.team || "");
         var teamTagCls = (c === "华科杯" && sg.team)
           ? (sg.team === "男足" ? " team--men" : " team--women")
