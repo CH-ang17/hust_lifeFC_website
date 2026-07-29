@@ -574,6 +574,76 @@
     ]
   },
   "squadHistory": {
+    "2020-2021": {
+      "华科杯": {
+        "men": [
+          { "num": "2", "name": "张恩龙", "pos": "" },
+          { "num": "4", "name": "王元恺", "pos": "", "captain": true },
+          { "num": "5", "name": "唐瑜阳", "pos": "" },
+          { "num": "6", "name": "赖贞兵", "pos": "" },
+          { "num": "7", "name": "何奕康", "pos": "" },
+          { "num": "8", "name": "刘奕麟", "pos": "" },
+          { "num": "9", "name": "夏合沙提", "pos": "" },
+          { "num": "10", "name": "阿卜杜克热木", "pos": "" },
+          { "num": "12", "name": "李霄鹤", "pos": "" },
+          { "num": "14", "name": "聂嘉琪", "pos": "" },
+          { "num": "15", "name": "阿古达木", "pos": "" },
+          { "num": "16", "name": "温嘉毅", "pos": "" },
+          { "num": "17", "name": "程航", "pos": "" },
+          { "num": "18", "name": "王多骅", "pos": "" },
+          { "num": "20", "name": "骆意", "pos": "" },
+          { "num": "21", "name": "邱喆", "pos": "" },
+          { "num": "22", "name": "李伟星", "pos": "" },
+          { "num": "23", "name": "林能奇", "pos": "" },
+          { "num": "24", "name": "席秉瑞", "pos": "" },
+          { "num": "28", "name": "次仁玉杰", "pos": "" },
+          { "num": "32", "name": "戴晨曦", "pos": "" },
+          { "num": "36", "name": "谷兆瑞", "pos": "" },
+          { "num": "66", "name": "章晨晖", "pos": "" },
+          { "num": "77", "name": "周健", "pos": "" },
+          { "num": "99", "name": "田竞宇", "pos": "" }
+        ],
+        "women": [
+          { "num": "3", "name": "燕宇飞", "pos": "" },
+          { "num": "5", "name": "曹与点", "pos": "" },
+          { "num": "6", "name": "徐梓萌", "pos": "" },
+          { "num": "7", "name": "丁周莹", "pos": "" },
+          { "num": "8", "name": "何悦宁", "pos": "", "captain": true },
+          { "num": "9", "name": "王玉双", "pos": "" },
+          { "num": "10", "name": "何淼", "pos": "" },
+          { "num": "11", "name": "石锐", "pos": "" },
+          { "num": "17", "name": "李文蕊", "pos": "" },
+          { "num": "19", "name": "李可", "pos": "" },
+          { "num": "21", "name": "刘丹妮", "pos": "" },
+          { "num": "23", "name": "易嘉湘", "pos": "" },
+          { "num": "25", "name": "施丹霏", "pos": "" },
+          { "num": "26", "name": "杨洁", "pos": "" },
+          { "num": "29", "name": "张可欣", "pos": "" }
+        ]
+      },
+      "新生杯": {
+        "men": [
+          { "num": "4", "name": "王多骅", "pos": "" },
+          { "num": "5", "name": "易智星", "pos": "" },
+          { "num": "7", "name": "何奕康", "pos": "" },
+          { "num": "8", "name": "阿卜杜克热木", "pos": "" },
+          { "num": "9", "name": "申伯阳", "pos": "" },
+          { "num": "10", "name": "杜鹏飞", "pos": "" },
+          { "num": "11", "name": "次仁玉杰", "pos": "", "captain": true },
+          { "num": "19", "name": "田竞宇", "pos": "" },
+          { "num": "12", "name": "周健", "pos": "" },
+          { "num": "14", "name": "邱明锐", "pos": "" },
+          { "num": "15", "name": "阿古达木", "pos": "" },
+          { "num": "16", "name": "戴晨曦", "pos": "" },
+          { "num": "17", "name": "李霄鹤", "pos": "" },
+          { "num": "18", "name": "林能奇", "pos": "" },
+          { "num": "20", "name": "兰舒", "pos": "" },
+          { "num": "22", "name": "邱喆", "pos": "" },
+          { "num": "24", "name": "席秉瑞", "pos": "" },
+          { "num": "66", "name": "章晨晖", "pos": "" }
+        ]
+      }
+    },
     "2021-2022": {
       "毕业杯": {
         "men": [
@@ -620,11 +690,9 @@
           { "num": "29", "name": "徐浩轩", "pos": "" },
           { "num": "30", "name": "顿珠平措", "pos": "" },
           { "num": "36", "name": "戴晨曦", "pos": "" }
-        ]
-      },
-      "华科杯": {
+        ],
         "women": [
-          { "num": "8", "name": "何悦宁", "pos": "" },
+          { "num": "8", "name": "何悦宁", "pos": "", "captain": true },
           { "num": "9", "name": "徐梓萌", "pos": "" },
           { "num": "49", "name": "李可", "pos": "" },
           { "num": "14", "name": "曹与点", "pos": "" },
@@ -1207,36 +1275,12 @@
           }
         ],
         "women": [
-          {
-            "num": "6",
-            "name": "关欣妮",
-            "pos": ""
-          },
-          {
-            "num": "7",
-            "name": "苏婕欣",
-            "pos": ""
-          },
-          {
-            "num": "8",
-            "name": "柳竞涵",
-            "pos": ""
-          },
-          {
-            "num": "18",
-            "name": "刘水远",
-            "pos": ""
-          },
-          {
-            "num": "21",
-            "name": "周孟雪",
-            "pos": ""
-          },
-          {
-            "num": "29",
-            "name": "朱鹭云",
-            "pos": ""
-          }
+          { "num": "6", "name": "关欣妮", "pos": "" },
+          { "num": "7", "name": "苏婕欣", "pos": "" },
+          { "num": "8", "name": "柳竞涵", "pos": "" },
+          { "num": "18", "name": "刘水远", "pos": "" },
+          { "num": "21", "name": "周孟雪", "pos": "" },
+          { "num": "29", "name": "朱鹭云", "pos": "" }
         ]
       },
       "新生杯": {
@@ -1464,96 +1508,21 @@
           }
         ],
         "women": [
-          {
-            "num": "1",
-            "name": "高梦圆",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "6",
-            "name": "金梦露",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "7",
-            "name": "苏婕欣",
-            "pos": "CF · 中锋",
-            "captain": true
-          },
-          {
-            "num": "9",
-            "name": "苏雨婷",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "10",
-            "name": "蒋欣玥",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "11",
-            "name": "刘水远",
-            "pos": "CAM · 进攻中场",
-            "captain": false
-          },
-          {
-            "num": "12",
-            "name": "丁冉",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "15",
-            "name": "柳竞涵",
-            "pos": "CF · 中锋",
-            "captain": false
-          },
-          {
-            "num": "17",
-            "name": "周加翌",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "18",
-            "name": "黄粲",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "20",
-            "name": "和谐",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "24",
-            "name": "周孟雪",
-            "pos": "CM · 中场",
-            "captain": false
-          },
-          {
-            "num": "27",
-            "name": "郭文佳",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "73",
-            "name": "陈心格",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "93",
-            "name": "杨傲茹",
-            "pos": "GK · 门将",
-            "captain": false
-          }
+          { "num": "1", "name": "高梦圆", "pos": "CB · 中后卫" },
+          { "num": "6", "name": "金梦露", "pos": "CB · 中后卫" },
+          { "num": "7", "name": "苏婕欣", "pos": "CF · 中锋", "captain": true },
+          { "num": "9", "name": "苏雨婷", "pos": "CB · 中后卫" },
+          { "num": "10", "name": "蒋欣玥", "pos": "CB · 中后卫" },
+          { "num": "11", "name": "刘水远", "pos": "CAM · 进攻中场" },
+          { "num": "12", "name": "丁冉", "pos": "CB · 中后卫" },
+          { "num": "15", "name": "柳竞涵", "pos": "CF · 中锋" },
+          { "num": "17", "name": "周加翌", "pos": "CB · 中后卫" },
+          { "num": "18", "name": "黄粲", "pos": "CB · 中后卫" },
+          { "num": "20", "name": "和谐", "pos": "CB · 中后卫" },
+          { "num": "24", "name": "周孟雪", "pos": "CM · 中场" },
+          { "num": "27", "name": "郭文佳", "pos": "CB · 中后卫" },
+          { "num": "73", "name": "陈心格", "pos": "CB · 中后卫" },
+          { "num": "93", "name": "杨傲茹", "pos": "GK · 门将" }
         ]
       },
       "新生杯": {
@@ -1642,100 +1611,7 @@
             "pos": "CF",
             "captain": true
           }
-        ],
-        "women": [
-          {
-            "num": "1",
-            "name": "高梦圆",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "6",
-            "name": "金梦露",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "7",
-            "name": "苏婕欣",
-            "pos": "CF · 中锋",
-            "captain": false
-          },
-          {
-            "num": "9",
-            "name": "苏雨婷",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "10",
-            "name": "蒋欣玥",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "11",
-            "name": "刘水远",
-            "pos": "CAM · 进攻中场",
-            "captain": false
-          },
-          {
-            "num": "12",
-            "name": "丁冉",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "15",
-            "name": "柳竞涵",
-            "pos": "CF · 中锋",
-            "captain": false
-          },
-          {
-            "num": "17",
-            "name": "周加翌",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "18",
-            "name": "黄粲",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "20",
-            "name": "和谐",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "24",
-            "name": "周孟雪",
-            "pos": "CM · 中场",
-            "captain": false
-          },
-          {
-            "num": "27",
-            "name": "郭文佳",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "73",
-            "name": "陈心格",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "93",
-            "name": "杨傲茹",
-            "pos": "GK · 门将",
-            "captain": false
-          }
-        ]
-      },
+        ]},
       "毕业杯": {
         "men": [
           {
@@ -1793,100 +1669,7 @@
             "name": "和谐",
             "pos": "FW"
           }
-        ],
-        "women": [
-          {
-            "num": "1",
-            "name": "高梦圆",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "6",
-            "name": "金梦露",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "7",
-            "name": "苏婕欣",
-            "pos": "CF · 中锋",
-            "captain": false
-          },
-          {
-            "num": "9",
-            "name": "苏雨婷",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "10",
-            "name": "蒋欣玥",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "11",
-            "name": "刘水远",
-            "pos": "CAM · 进攻中场",
-            "captain": false
-          },
-          {
-            "num": "12",
-            "name": "丁冉",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "15",
-            "name": "柳竞涵",
-            "pos": "CF · 中锋",
-            "captain": false
-          },
-          {
-            "num": "17",
-            "name": "周加翌",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "18",
-            "name": "黄粲",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "20",
-            "name": "和谐",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "24",
-            "name": "周孟雪",
-            "pos": "CM · 中场",
-            "captain": false
-          },
-          {
-            "num": "27",
-            "name": "郭文佳",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "73",
-            "name": "陈心格",
-            "pos": "CB · 中后卫",
-            "captain": false
-          },
-          {
-            "num": "93",
-            "name": "杨傲茹",
-            "pos": "GK · 门将",
-            "captain": false
-          }
-        ]
-      }
+        ]}
     },
     "2024-2025": {
       "华科杯": {
@@ -2041,6 +1824,16 @@
             "pos": "ST · 前锋",
             "captain": false
           }
+        ],
+        "women": [
+          { "num": "1", "name": "高梦圆", "pos": "" },
+          { "num": "3", "name": "王紫杉", "pos": "" },
+          { "num": "6", "name": "柳竞涵", "pos": "" },
+          { "num": "7", "name": "苏婕欣", "pos": "" },
+          { "num": "11", "name": "杨傲茹", "pos": "" },
+          { "num": "18", "name": "刘水远", "pos": "", "captain": true },
+          { "num": "23", "name": "周孟雪", "pos": "" },
+          { "num": "29", "name": "苏雨婷", "pos": "" }
         ]
       },
       "新生杯": {
@@ -4732,6 +4525,229 @@
             "time": "18'"
           }
         ]
+      },
+      {
+        "date": "03.21",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "化学与化工学院",
+        "score": "3–0",
+        "result": "W",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "韵苑操场",
+        "year": "2021",
+        "team": "男足",
+        "goals": [
+          { "player": "阿卜杜克热木", "time": "43'" },
+          { "player": "次仁玉杰", "time": "50'" },
+          { "player": "夏合沙提", "time": "70'" }
+        ],
+        "cards": [
+          { "player": "刘奕麟", "type": "R", "time": "16'" }
+        ]
+      },
+      {
+        "date": "03.28",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "航空航天学院",
+        "score": "2–1",
+        "result": "W",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "中心操场",
+        "year": "2021",
+        "team": "男足",
+        "goals": [
+          { "player": "何奕康", "time": "35'" },
+          { "player": "何奕康", "time": "60'" }
+        ],
+        "cards": []
+      },
+      {
+        "date": "04.11",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "法学院",
+        "score": "3–0",
+        "result": "W",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "韵苑操场",
+        "year": "2021",
+        "team": "男足",
+        "goals": [],
+        "cards": [],
+        "note": "对手被取消参赛资格"
+      },
+      {
+        "date": "04.15",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "新闻与信息传播学院",
+        "score": "1–0",
+        "result": "W",
+        "round": "淘汰赛 · 1/4决赛",
+        "venue": "韵苑操场",
+        "year": "2021",
+        "team": "男足",
+        "goals": [
+          { "player": "骆意", "time": "75'" }
+        ],
+        "cards": [
+          { "player": "骆意", "type": "Y", "time": "53'" }
+        ],
+        "video": "https://www.bilibili.com/video/BV1Bi4y1A7BS/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
+        "date": "04.18",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "外国语学院",
+        "away": "生命科学与技术学院",
+        "score": "0–3",
+        "result": "W",
+        "round": "淘汰赛 · 半决赛",
+        "venue": "韵苑操场",
+        "year": "2021",
+        "team": "男足",
+        "goals": [
+          { "player": "聂嘉琪", "time": "42' (P)" },
+          { "player": "何奕康", "time": "69'" },
+          { "player": "李伟星", "time": "78'" }
+        ],
+        "cards": [
+          { "player": "骆意", "type": "Y", "time": "44'" },
+          { "player": "何奕康", "type": "Y", "time": "46'" },
+          { "player": "戴晨曦", "type": "Y", "time": "65'" }
+        ]
+      },
+      {
+        "date": "04.24",
+        "comp": "华科杯",
+        "format": "十一人制",
+        "home": "生命科学与技术学院",
+        "away": "经济学院",
+        "score": "0–9",
+        "result": "L",
+        "round": "淘汰赛 · 决赛",
+        "venue": "中心操场",
+        "year": "2021",
+        "team": "男足",
+        "goals": [],
+        "cards": [
+          { "player": "谷兆瑞", "type": "Y", "time": "22'" }
+        ]
+      },
+      {
+        "date": "03.21",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "船舶与海洋工程学院",
+        "away": "生命科学与技术学院",
+        "score": "0–1",
+        "result": "W",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "紫菘小场2",
+        "year": "2021",
+        "team": "女足",
+        "goals": [
+          { "player": "丁周莹", "time": "30'" }
+        ],
+        "cards": [
+          { "player": "何淼", "type": "Y", "time": "38'" }
+        ]
+      },
+      {
+        "date": "03.28",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "电子信息与通信学院",
+        "away": "生命科学与技术学院",
+        "score": "8–0",
+        "result": "L",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "紫菘小场1",
+        "year": "2021",
+        "team": "女足",
+        "goals": [],
+        "cards": []
+      },
+      {
+        "date": "04.11",
+        "comp": "华科杯",
+        "format": "五人制",
+        "home": "生命科学与技术学院",
+        "away": "人工智能与自动化学院",
+        "score": "0–1",
+        "result": "L",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "紫菘小场2",
+        "year": "2021",
+        "team": "女足",
+        "goals": [],
+        "cards": [
+          { "player": "丁周莹", "type": "Y", "time": "17'" },
+          { "player": "何淼", "type": "Y", "time": "22'" }
+        ]
+      },
+      {
+        "date": "10.05",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "土木与水利工程学院",
+        "score": "2–3",
+        "result": "L",
+        "round": "小组赛 · 第 1 轮",
+        "venue": "紫菘操场2",
+        "year": "2020",
+        "goals": [
+          { "player": "次仁玉杰", "time": "34'" },
+          { "player": "何奕康", "time": "52'" }
+        ],
+        "cards": [
+          { "player": "阿古达木", "type": "R", "time": "36'" }
+        ]
+      },
+      {
+        "date": "10.08",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "材料科学与工程学院",
+        "away": "生命科学与技术学院",
+        "score": "0–3",
+        "result": "W",
+        "round": "小组赛 · 第 2 轮",
+        "venue": "韵苑操场1",
+        "year": "2020",
+        "goals": [
+          { "player": "阿卜杜克热木", "time": "14'" },
+          { "player": "阿卜杜克热木", "time": "36'" },
+          { "player": "何奕康", "time": "52'" }
+        ],
+        "cards": []
+      },
+      {
+        "date": "10.13",
+        "comp": "新生杯",
+        "format": "九人制",
+        "home": "生命科学与技术学院",
+        "away": "电子信息与通信学院",
+        "score": "2–0",
+        "result": "W",
+        "round": "小组赛 · 第 3 轮",
+        "venue": "韵苑操场2",
+        "year": "2020",
+        "goals": [
+          { "player": "何奕康", "time": "31'" },
+          { "player": "阿卜杜克热木", "time": "43'" }
+        ],
+        "cards": [
+          { "player": "戴晨曦", "type": "Y", "time": "18'" }
+        ]
       }
     ],
     "upcoming": []
@@ -4742,6 +4758,11 @@
       "华科杯|男足": "未出线（小组第六，降级）",
       "华科杯|女足": "第四名",
       "新生杯": "季军"
+    },
+    "2020-2021": {
+      "华科杯|男足": "亚军（升级）",
+      "华科杯|女足": "未出线（小组第四）",
+      "新生杯": "未出线（小组第二）"
     },
     "2022-2023": {
       "华科杯|女足": "第四名",
@@ -4771,6 +4792,11 @@
     "2021-2022": {
       "华科杯": {
         "男足": "甲组"
+      }
+    },
+    "2020-2021": {
+      "华科杯": {
+        "男足": "乙组"
       }
     }
   },
@@ -4833,6 +4859,24 @@
     "2026-2027"
   ],
   "staffHistory": {
+    "2020-2021": {
+      "华科杯": {
+        "men": [
+          { "role": "主教练", "name": "刘哲熹" },
+          { "role": "领队", "name": "夏曼曼" }
+        ],
+        "women": [
+          { "role": "主教练", "name": "李明坤" },
+          { "role": "领队", "name": "夏曼曼" }
+        ]
+      },
+      "新生杯": {
+        "men": [
+          { "role": "主教练", "name": "刘奕麟" },
+          { "role": "领队", "name": "王鹏" }
+        ]
+      }
+    },
     "2021-2022": {
       "毕业杯": {
         "men": [
@@ -4930,14 +4974,8 @@
           }
         ],
         "women": [
-          {
-            "role": "领队",
-            "name": "邱喆"
-          },
-          {
-            "role": "主教练",
-            "name": "李明坤"
-          }
+          { "role": "领队", "name": "邱喆" },
+          { "role": "主教练", "name": "李明坤" }
         ]
       },
       "新生杯": {
@@ -4968,6 +5006,11 @@
             "role": "新闻官",
             "name": "徐楚淇"
           }
+        ],
+        "women": [
+          { "role": "领队", "name": "任鑫琦" },
+          { "role": "主教练", "name": "丁小东" },
+          { "role": "助理教练", "name": "罗佐" }
         ]
       },
       "新生杯": {
@@ -5022,18 +5065,16 @@
             "role": "主教练",
             "name": "刘永汉"
           }
+        ],
+        "women": [
+          { "role": "领队", "name": "罗佐" },
+          { "role": "主教练", "name": "丁小东" }
         ]
       },
       "新生杯": {
         "men": [
-          {
-            "role": "领队",
-            "name": "刘永汉"
-          },
-          {
-            "role": "主教练",
-            "name": "张喆"
-          }
+          { "role": "领队", "name": "刘永汉" },
+          { "role": "主教练", "name": "张喆" }
         ]
       }
     }
