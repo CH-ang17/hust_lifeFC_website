@@ -256,6 +256,10 @@
         }).join("")
       : '<p>' + esc(n.summary) + '</p>';
 
+    var videoHtml = n.video
+      ? '<div class="news-detail__video"><video controls preload="metadata" src="' + esc(n.video) + '"></video></div>'
+      : '';
+
     var imgs = (n.images && n.images.length)
       ? '<div class="news-detail__gallery">' + n.images.map(function (src) {
           return '<figure class="news-detail__figure"><img src="' + esc(src) + '" alt="' + esc(n.title) + '" loading="lazy"></figure>';
@@ -271,6 +275,7 @@
         '</div>' +
         '<h2 class="news-detail__title">' + esc(n.title) + '</h2>' +
         meta +
+        videoHtml +
         '<div class="news-detail__body">' + bodyHtml + '</div>' +
         imgs +
       '</div>';
