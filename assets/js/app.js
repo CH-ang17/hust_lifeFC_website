@@ -44,7 +44,7 @@
       // 盾形奖章（中间圆环）
       body = '<path ' + fill + ' d="M24 5 L39 11 V30 C39 43 32 51 24 57 C16 51 9 43 9 30 V11 Z"/>' +
              '<circle cx="24" cy="29" r="7.5" fill="none" ' + stroke + ' stroke-width="2.6"/>';
-    } else if (comp === "华科杯" && group === "女足") {
+    } else if (comp === "华科杯" && group === "女子组") {
       // 华科杯女足：足总杯式奖杯（高身宽口 + 双耳 + 顶盖 + 红绶带）
       // 顶部盖钮
       body = '<path ' + fill + ' d="M22 2 H26 L25.5 5 H22.5 Z"/>' +
@@ -80,7 +80,7 @@
 
   /* ---------- 渲染 ---------- */
   function render(data) {
-    console.log("[HUST FC] app.js version: 20260714a");
+    console.log("[HUST FC] app.js version: 20260717i");
     if (!data) return;
     GROUP_HISTORY = data.groupHistory || {};
 
