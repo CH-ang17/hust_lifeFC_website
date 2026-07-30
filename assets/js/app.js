@@ -103,6 +103,8 @@
     if (data.competitions) renderCompetitions(data.competitions);
     if (data.fixtures) renderFixtures(data.fixtures);
     if (data.footer) renderFooter(data.footer);
+    /* 数据就绪后，按地址栏锚点自动打开分享的新闻详情 */
+    syncNewsFromHash();
   }
 
   function setText(id, val) {
@@ -268,7 +270,10 @@
 
     detail.innerHTML =
       '<div class="news-detail__panel" role="dialog" aria-modal="true" aria-label="' + esc(n.title) + '">' +
-        '<button class="news-detail__close" type="button">← 返回新闻列表</button>' +
+        '<div class="news-detail__bar">' +
+          '<button class="news-detail__close" type="button">← 返回新闻列表</button>' +
+          '<button class="news-detail__copy" type="button">复制链接</button>' +
+        '</div>' +
         '<div class="news-detail__header">' +
           '<span class="tag ' + tc + '">' + esc(tag) + '</span>' +
           '<time class="news-detail__date mono">' + esc(n.date) + '</time>' +
@@ -284,6 +289,17 @@
     detail.setAttribute("aria-hidden", "false");
     document.body.classList.add("no-scroll");
     detail.querySelector(".news-detail__close").addEventListener("click", closeNews);
+    var copyBtn = detail.querySelector(".news-detail__copy");
+    if (copyBtn) copyBtn.addEventListener("click", function () {
+      var url = location.href;
+      var done = function () {
+        copyBtn.textContent = "已复制";
+        setTimeout(function () { copyBtn.textContent = "复制链接"; }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function () { fallbackCopy(url, done); });
+      } else { fallbackCopy(url, done); }
+    });
     detail.scrollTop = 0;
     var panel = detail.querySelector(".news-detail__panel");
     if (panel) panel.scrollTop = 0;
@@ -296,6 +312,48 @@
     detail.setAttribute("aria-hidden", "true");
     detail.innerHTML = "";
     document.body.classList.remove("no-scroll");
+    /* 关闭时清掉 #/news/ 锚点（replaceState 不触发 hashchange，避免回环） */
+    if (location.hash && location.hash.indexOf("#/news/") === 0) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+  }
+
+  /* ===== 新闻深链：#/news/<id> 直接打开详情 ===== */
+  function newsIndexById(id) {
+    for (var i = 0; i < NEWS_DATA.length; i++) {
+      if (NEWS_DATA[i] && NEWS_DATA[i].id === id) return i;
+    }
+    return -1;
+  }
+
+  function syncNewsFromHash() {
+    var h = location.hash || "";
+    var m = h.match(/^#\/news\/(.+)$/);
+    if (m) {
+      var idx = newsIndexById(decodeURIComponent(m[1]));
+      if (idx >= 0) { openNews(idx); return; }
+    }
+    /* 无匹配的新闻锚点 → 确保详情关闭 */
+    var nd = document.getElementById("newsDetail");
+    if (nd && nd.classList.contains("is-open")) closeNews();
+  }
+
+  function fallbackCopy(text, cb) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      if (cb) cb();
+    } catch (e) { /* 复制失败静默 */ }
+  }
+
+  function openNewsByCard(card) {
+    var idx = parseInt(card.getAttribute("data-idx"), 10);
+    var n = NEWS_DATA[idx];
+    if (n && n.id) { location.hash = "#/news/" + encodeURIComponent(n.id); }
+    else { openNews(idx); }
   }
 
   /* ===== 俱乐部（#club） ===== */
@@ -908,20 +966,22 @@
       });
     }
 
-    // 新闻卡片：点击 / 回车进入详情
+    // 新闻卡片：点击 / 回车进入详情（通过设置 #/news/<id> 锚点，统一走深链）
     var newsList = document.getElementById("newsList");
     if (newsList) {
       newsList.addEventListener("click", function (e) {
         var card = e.target.closest(".news-card");
-        if (card) openNews(parseInt(card.getAttribute("data-idx"), 10));
+        if (card) openNewsByCard(card);
       });
       newsList.addEventListener("keydown", function (e) {
         if (e.key === "Enter" || e.key === " ") {
           var card = e.target.closest(".news-card");
-          if (card) { e.preventDefault(); openNews(parseInt(card.getAttribute("data-idx"), 10)); }
+          if (card) { e.preventDefault(); openNewsByCard(card); }
         }
       });
     }
+    // 监听锚点变化，支持浏览器前进/后退与分享链接直达
+    window.addEventListener("hashchange", syncNewsFromHash);
     // 点击遮罩 / 按 Esc 关闭详情
     var newsDetail = document.getElementById("newsDetail");
     if (newsDetail) {
