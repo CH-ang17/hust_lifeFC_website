@@ -204,6 +204,107 @@
     /* 翻页由 #dataPlayerStatsGrid 上的事件委托统一处理（见初始化处） */
   }
 
+  /* ---------- 球员检索（全局，不受上方筛选影响） ---------- */
+  var GLOBAL_STATS = {};
+  var ROSTER_INDEX = {};
+
+  function buildRosterIndex(squadHistory, staffHistory) {
+    ROSTER_INDEX = {};
+    function add(name, season, comp, gender, identity) {
+      if (!name) return;
+      var key = season + "|" + comp + "|" + gender;
+      var arr = ROSTER_INDEX[name] || (ROSTER_INDEX[name] = []);
+      var e = null;
+      for (var i = 0; i < arr.length; i++) { if (arr[i].key === key) { e = arr[i]; break; } }
+      if (!e) { e = { key: key, season: season, comp: comp, gender: gender, ids: [] }; arr.push(e); }
+      if (e.ids.indexOf(identity) < 0) e.ids.push(identity);
+    }
+    var genders = ["men", "women"];
+    Object.keys(squadHistory || {}).forEach(function (season) {
+      var sd = squadHistory[season] || {};
+      Object.keys(sd).forEach(function (comp) {
+        var cd = sd[comp] || {};
+        genders.forEach(function (g) {
+          (cd[g] || []).forEach(function (p) { add(p.name, season, comp, g, "球员"); });
+        });
+      });
+    });
+    Object.keys(staffHistory || {}).forEach(function (season) {
+      var sd = staffHistory[season] || {};
+      Object.keys(sd).forEach(function (comp) {
+        var cd = sd[comp] || {};
+        genders.forEach(function (g) {
+          (cd[g] || []).forEach(function (s) { add(s.name, season, comp, g, s.role || "球队官员"); });
+        });
+      });
+    });
+  }
+
+  function seasonLabelOf(entry) {
+    var comp = entry.comp;
+    var g = (comp === "华科杯")
+      ? (entry.gender === "women" ? "女足" : "男足")
+      : "";
+    return comp + g;
+  }
+
+  function renderPlayerSearch(query) {
+    var el = document.getElementById("dataPlayerSearchResult");
+    if (!el) return;
+    var q = (query || "").trim().toLowerCase();
+    if (!q) { el.innerHTML = ""; return; }
+
+    /* 候选姓名：进球/红黄牌记录 ∪ 报名名单，排除对手乌龙 */
+    var nameSet = {};
+    Object.keys(GLOBAL_STATS).forEach(function (n) { if (n !== "乌龙") nameSet[n] = 1; });
+    Object.keys(ROSTER_INDEX).forEach(function (n) { if (n !== "乌龙") nameSet[n] = 1; });
+    var matches = Object.keys(nameSet).filter(function (n) {
+      return n.toLowerCase().indexOf(q) !== -1;
+    });
+    if (!matches.length) {
+      el.innerHTML = '<p class="match__empty">未找到与「' + esc(query) + '」匹配的球员或工作人员。</p>';
+      return;
+    }
+    matches.sort(function (a, b) { return a.localeCompare(b); });
+    if (matches.length > 20) matches = matches.slice(0, 20);
+
+    var html = matches.map(function (name) {
+      var st = GLOBAL_STATS[name];
+      var totalG = st ? st.g : 0, totalPen = st ? st.pen : 0;
+      var compParts = STAT_COMPS.map(function (c) {
+        var o = st ? (st.comps[c] || { g: 0, pen: 0 }) : { g: 0, pen: 0 };
+        return o.g > 0 ? esc(c) + " " + fmtGoals(o.g, o.pen) : null;
+      }).filter(Boolean);
+      var cardsTxt = (st && (st.r > 0 || st.y > 0))
+        ? "红 " + st.r + " · 黄 " + st.y
+        : "无";
+      var roster = (ROSTER_INDEX[name] || []).slice().sort(function (a, b) {
+        return a.season < b.season ? 1 : a.season > b.season ? -1 : 0;
+      });
+      var compHtml = roster.length
+        ? '<ul class="ps-card__comps">' + roster.map(function (e) {
+            return '<li>' + esc(e.season) + " " + esc(seasonLabelOf(e)) + " · " + esc(e.ids.join("/")) + '</li>';
+          }).join("") + '</ul>'
+        : '<span class="ps-card__none">无报名记录</span>';
+
+      var goalLine = totalG > 0
+        ? '总进球 <b>' + fmtGoals(totalG, totalPen) + '</b>'
+        : '无进球记录';
+      var compLine = compParts.length ? compParts.join(" · ") : "—";
+
+      return '<div class="ps-card">' +
+        '<div class="ps-card__head"><span class="ps-card__name">' + esc(name) + '</span>' +
+          '<span class="ps-card__goal">' + goalLine + '</span></div>' +
+        '<div class="ps-card__row"><span class="ps-card__lbl">各赛事进球</span>' + esc(compLine) + '</div>' +
+        '<div class="ps-card__row"><span class="ps-card__lbl">红黄牌</span>' + esc(cardsTxt) + '</div>' +
+        '<div class="ps-card__row"><span class="ps-card__lbl">参加赛事</span>' + compHtml + '</div>' +
+      '</div>';
+    }).join("");
+
+    var hint = matches.length >= 20 ? '<p class="data__note">仅显示前 20 条匹配结果，请缩小关键词。</p>' : '';
+    el.innerHTML = html + hint;
+  }
+
   /* ---------- 筛选状态（IIFE 顶层，供 render 与 applyFilters 共享） ---------- */
   var state = { season: "", comp: "all", team: "all" };
 
@@ -250,6 +351,13 @@
     buildFilters(seasonList, defaultSeason);
     if (defaultSeason) applyFilters(data, bySeason, squad);
 
+    /* 构建球员检索的全量索引（全局，忽略上方筛选） */
+    var allOfficial = fixtures.filter(function (m) {
+      return ["华科杯", "新生杯", "毕业杯"].indexOf(m.comp) !== -1;
+    });
+    GLOBAL_STATS = aggregatePlayerStats(allOfficial);
+    buildRosterIndex(data.squadHistory, data.staffHistory);
+
     /* 一次性事件委托：处理赛事战绩表格 + 球员数据表格的分页点击 */
     (function () {
       var ccEl = document.getElementById("dataCompCards");
@@ -271,6 +379,18 @@
         var p = parseInt(btn.getAttribute("data-pg"), 10);
         if (p) { window.__playerPage = p; applyFilters(data, bySeason, squad); }
       });
+    })();
+
+    /* 球员检索：输入框 + 按钮（全局检索，忽略上方筛选） */
+    (function () {
+      var input = document.getElementById("playerSearchInput");
+      var btn = document.getElementById("playerSearchBtn");
+      var result = document.getElementById("dataPlayerSearchResult");
+      if (!input || !btn) return;
+      function go() { renderPlayerSearch(input.value); }
+      btn.addEventListener("click", function (e) { e.preventDefault(); go(); });
+      input.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); go(); } });
+      input.addEventListener("input", function () { if (!input.value.trim()) result.innerHTML = ""; });
     })();
 
     /* ---------- 构建筛选栏（赛季 / 赛事 / 男女足） ---------- */
@@ -353,7 +473,7 @@
     /* 3. 参赛人员（仅单赛季+单赛事时显示，选"全部赛季"或"全部赛事"时隐藏） */
     var squadEl = document.getElementById("dataSquad");
     if (squadEl) { squadEl.style.display = (state.season === "all" || state.comp === "all") ? "none" : ""; }
-    if (state.season !== "all" && state.comp !== "all") renderSquad(data.squadHistory, state.season, state.comp, state.team, data.teams, data.staffHistory);
+    if (state.season !== "all" && state.comp !== "all") renderSquad(data.squadHistory, state.season, state.comp, state.team, data.teams, data.staffHistory, state.ach);
 
     /* 触发 reveal */
     document.querySelectorAll("#dataStats .reveal,#dataCompetitions .reveal,#dataSquad .reveal,#dataScorers .reveal,#dataPlayerStats .reveal")
@@ -457,25 +577,52 @@
   function renderCompCards(matches, compFilter, seasonAch, filterState) {
     var el = document.getElementById("dataCompCards");
     if (!el) return;
-    if (!matches.length) { el.innerHTML = '<p class="match__empty">该筛选条件下暂无比赛记录。</p>'; return; }
 
-    /* 全部/未选赛季 + 全部赛事 + 全部男女足 → 合并为一张表，按时间降序 */
+    var COMP_CLS = { "华科杯": "comp--hust", "新生杯": "comp--freshman", "毕业杯": "comp--graduation", "友谊赛": "comp--friendly" };
+    var ORDER = ["新生杯", "华科杯", "毕业杯", "友谊赛"];
+    var RES = { "W": "胜", "D": "平", "L": "负" };
+
+    /* 全部/未选赛季 + 全部赛事 + 全部男女足 → 合并为一张表，按时间降序；缺席赛事不在此视图出现 */
     var isAll = (!filterState || !filterState.season || filterState.season === "all")
       && filterState && filterState.comp === "all" && filterState.team === "all";
     if (isAll) {
       return renderAllMatchesTable(matches, seasonAch);
     }
 
-    var COMP_CLS = { "华科杯": "comp--hust", "新生杯": "comp--freshman", "毕业杯": "comp--graduation", "友谊赛": "comp--friendly" };
-    var ORDER = ["新生杯", "华科杯", "毕业杯", "友谊赛"];
-    var RES = { "W": "胜", "D": "平", "L": "负" };
+    /* 缺席赛事说明块：有备注但无比赛，如「未报名」「因疫情未举办」 */
+    function absentHtml(c, note) {
+      var compCls = COMP_CLS[c] ? " " + COMP_CLS[c] : "";
+      return '<div class="comp-group comp-group--absent">' +
+        '<div class="comp-group-head">' +
+          '<span class="tag tag--comp' + compCls + '">' + esc(c) + '</span>' +
+          (note ? '<span class="gh-ach gh-ach--absent">' + esc(note) + '</span>' : '') +
+          '<span class="gh-stats">无参赛记录</span>' +
+        '</div></div>';
+    }
 
-    /* 按赛事分组 */
+    /* 按赛事分组（仅含有比赛的赛事） */
     var byComp = {};
     matches.forEach(function (m) { if (m.comp) (byComp[m.comp] = byComp[m.comp] || []).push(m); });
 
-    var html = ORDER.filter(function (c) { return byComp[c]; }).map(function (c) {
-      var ms = byComp[c];
+    /* 空状态：若该赛季有「缺席备注」（整季无比赛、或所选赛事未举办），列出说明而非空白 */
+    if (!matches.length) {
+      var onlyComp = (filterState && filterState.comp && filterState.comp !== "all") ? filterState.comp : null;
+      if (seasonAch) {
+        var ABS_ORDER = ["新生杯", "华科杯", "毕业杯", "友谊赛"];
+        var abs = onlyComp
+          ? (seasonAch[onlyComp] ? [onlyComp] : [])
+          : ABS_ORDER.filter(function (c) { return seasonAch[c]; });
+        if (abs.length) {
+          el.innerHTML = abs.map(function (c) { return absentHtml(c, seasonAch[c]); }).join("");
+          return;
+        }
+      }
+      el.innerHTML = '<p class="match__empty">该筛选条件下暂无比赛记录。</p>';
+      return;
+    }
+
+    /* 有比赛的赛事 → 正常分组渲染 */
+    function compBlock(c, ms) {
       var compCls = COMP_CLS[c] ? " " + COMP_CLS[c] : "";
 
       /* 华科杯按 男足/女足 再分组；其余不分 */
@@ -496,7 +643,7 @@
         }) }];
       }
 
-      return subgroups.map(function (sg, sgIdx) {
+      return subgroups.map(function (sg) {
         /* 子组内按 year.date 降序（近期在上） */
         sg.ms.sort(function (a, b) {
           var da = (a.year || "") + "." + (a.date || "");
@@ -570,9 +717,17 @@
           "</tr></thead><tbody>" + buildRows(pageSlice) + "</tbody></table></div>" +
           pagHtml + '</div>';
       }).join("");
+    }
+
+    /* 缺席赛事（有备注、无比赛）：从 ORDER 中挑出「不在 byComp、但在 seasonAch 有备注」的赛事 */
+    var absentComps = ORDER.filter(function (c) { return !byComp[c] && seasonAch && seasonAch[c]; });
+
+    el.innerHTML = ORDER.filter(function (c) { return byComp[c]; }).map(function (c) {
+      return compBlock(c, byComp[c]);
+    }).join("") + absentComps.map(function (c) {
+      return absentHtml(c, seasonAch[c]);
     }).join("");
 
-    el.innerHTML = html;
     /* 翻页由 #dataCompCards 上的事件委托统一处理（见初始化处） */
   }
 
@@ -607,7 +762,7 @@
   }
 
   /* ===== 参赛人员 ===== */
-  function renderSquad(squadHistory, season, compFilter, teamFilter, teamsData, staffHistory) {
+  function renderSquad(squadHistory, season, compFilter, teamFilter, teamsData, staffHistory, seasonAch) {
     var tabsEl = document.getElementById("dataSquadTabs");
     var gridEl = document.getElementById("dataSquadGrid");
     if (!tabsEl || !gridEl) return;
@@ -638,7 +793,13 @@
       return rosterFor(tid).length > 0;
     }).map(function (tid) { return { id: tid, name: tid === "men" ? "男足" : "女足" }; });
 
-    if (!teamsArr.length) { gridEl.innerHTML = '<p class="match__empty">该筛选条件下暂无参赛人员。</p>'; tabsEl.innerHTML = ""; return; }
+    if (!teamsArr.length) {
+      var absenceNote = (seasonAch && seasonAch[compFilter]) || "";
+      gridEl.innerHTML = absenceNote
+        ? '<p class="match__empty">该赛季' + esc(absenceNote) + '，暂无参赛阵容。</p>'
+        : '<p class="match__empty">该筛选条件下暂无参赛人员。</p>';
+      tabsEl.innerHTML = ""; return;
+    }
 
     if (showTabs && teamsArr.length > 1) {
       /* 多队 → 渲染标签栏 + 面板 */

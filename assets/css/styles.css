@@ -1533,6 +1533,10 @@ main #dataSquad {
 }
 .comp-group-head .gh-ach { color: var(--ink); font-weight: 800; font-size: 1rem; }
 .comp-group-head .gh-stats { font-family: var(--font-mono); font-size: .82rem; color: var(--ink-soft); }
+/* 缺席赛事说明（未报名 / 因疫情未举办 等）：灰显斜体 + 虚线分隔，与真实战绩区分 */
+.comp-group--absent { opacity: .8; }
+.comp-group--absent .comp-group-head { border-bottom-style: dashed; }
+.comp-group-head .gh-ach--absent { color: var(--ink-soft); font-weight: 600; font-style: italic; }
 
 .comp-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
 table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 900px; }
@@ -1605,3 +1609,35 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
 .pstats-table .pstats__total { font-weight: 800; color: var(--club); }
 .pstats-table .pstats__rank { font-weight: 700; color: var(--ink-faint); width: 3rem; }
 .pstats__note { font-size: .7rem; color: var(--ink-faint); font-weight: 400; }
+
+/* ===== 数据页：球员检索 ===== */
+.player-search { display: flex; gap: .6rem; max-width: 520px; }
+.player-search__input {
+  flex: 1; padding: .7rem .9rem; font-size: .95rem; font-family: var(--font-body);
+  border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.player-search__input:focus {
+  outline: none; border-color: var(--club); box-shadow: 0 0 0 3px color-mix(in oklab, var(--club) 16%, transparent);
+}
+.player-search__btn {
+  padding: .7rem 1.4rem; font-size: .95rem; font-weight: 700; border: none; border-radius: 10px;
+  background: var(--club); color: var(--paper); cursor: pointer; transition: opacity .15s ease;
+}
+.player-search__btn:hover { opacity: .85; }
+.player-search__result { margin-top: 1rem; display: grid; gap: .8rem; }
+#dataPlayerSearch { margin-top: calc(-1 * clamp(3.5rem, 9vw, var(--space-3xl)) + 1rem); padding-top: 0; padding-bottom: clamp(0.5rem, 1.2vw, 0.9rem); }
+.ps-card {
+  border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1.1rem;
+  background: var(--paper); box-shadow: 0 1px 2px color-mix(in oklab, var(--ink) 6%, transparent);
+}
+.ps-card__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: .5rem; }
+.ps-card__name { font-size: 1.15rem; font-weight: 800; color: var(--ink); }
+.ps-card__goal { font-family: var(--font-mono); font-size: .95rem; color: var(--club); }
+.ps-card__goal b { font-weight: 800; }
+.ps-card__row { display: flex; gap: .6rem; padding: .25rem 0; font-size: .9rem; color: var(--ink-soft); align-items: baseline; }
+.ps-card__lbl { flex: 0 0 5.2rem; color: var(--ink-faint); font-size: .82rem; letter-spacing: .04em; }
+.ps-card__comps { list-style: none; margin: 0; padding: 0; }
+.ps-card__comps li { padding: .15rem 0; color: var(--ink); }
+.ps-card__comps li::before { content: "·"; color: var(--ink-faint); margin-right: .5rem; }
+.ps-card__none { color: var(--ink-faint); font-style: italic; }

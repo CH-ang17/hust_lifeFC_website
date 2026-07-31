@@ -80,7 +80,7 @@
 
   /* ---------- 渲染 ---------- */
   function render(data) {
-    console.log("[HUST FC] app.js version: 20260717i");
+    console.log("[HUST FC] app.js version: 20260717j");
     if (!data) return;
     GROUP_HISTORY = data.groupHistory || {};
 
@@ -101,7 +101,7 @@
     if (data.club) renderClub(data.club, data.story);
     if (data.teams && data.squad) renderSquad(data.squad, data.teams, data.squadSeasons);
     if (data.competitions) renderCompetitions(data.competitions);
-    if (data.fixtures) renderFixtures(data.fixtures);
+    if (data.fixtures) { ACHIEVEMENTS = data.achievements || null; renderFixtures(data.fixtures); }
     if (data.footer) renderFooter(data.footer);
     /* 数据就绪后，按地址栏锚点自动打开分享的新闻详情 */
     syncNewsFromHash();
@@ -685,15 +685,16 @@
     goals.forEach(function (g) {
       var name = g.player || "未知";
       var min = minOf(g.time);
-      if (!gBest[name]) gBest[name] = { min: min, times: [], type: "goal", og: false };
+      if (!gBest[name]) gBest[name] = { min: min, times: [], type: "goal", og: false, penalty: false };
       gBest[name].times.push(g.time || "");
       if (g.og) gBest[name].og = true;
+      if (g.penalty) gBest[name].penalty = true;
       if (min < gBest[name].min) gBest[name].min = min;
     });
     /* 合并成统一事件列表 */
     var allEvents = [];
     Object.keys(gBest).forEach(function (name) {
-      allEvents.push({ name: name, min: gBest[name].min, times: gBest[name].times, type: "goal", og: gBest[name].og });
+      allEvents.push({ name: name, min: gBest[name].min, times: gBest[name].times, type: "goal", og: gBest[name].og, penalty: gBest[name].penalty });
     });
     /* 每张牌单独显示（同一球员可能有多张，如两黄变一红） */
     cards.forEach(function (c) {
@@ -712,7 +713,9 @@
           html += '<div class="match__line match__goals">' +
             '<span class="ev__tag ev__tag--goal">⚽</span>' +
             '<span class="ev__item">' + esc(ev.name) +
-            (times ? ' <span class="ev__time mono">' + esc(times) + (ev.og ? ' (OG)' : '') + '</span>' : '') + '</span></div>';
+            (times ? ' <span class="ev__time mono">' + esc(times) + '</span>' : '') +
+            (ev.og ? ' <span class="ev__time mono">(OG)</span>' : '') +
+            (ev.penalty ? ' <span class="ev__time mono">(P)</span>' : '') + '</span></div>';
         } else {
           var isRed = ev.card.type === "R";
           var badge = '<span class="ev__card ' + (isRed ? 'ev__card--r' : 'ev__card--y') + '"></span>';
@@ -771,6 +774,7 @@
 
   /* ===== 比赛（#matches）—— 支持赛事 + 年份筛选 + 分页 ===== */
   var MATCH_DATA = { recent: [], upcoming: [] };
+  var ACHIEVEMENTS = null;
   var GROUP_HISTORY = {};
   var MATCH_FILTER = { comp: "", season: "", team: "" };
   var MATCH_PAGE = 1;
@@ -814,6 +818,15 @@
     applyMatchFilter();
   }
 
+  /* 缺席赛事说明块：有备注但无比赛（如「未报名」「因疫情未举办」），与数据页风格一致 */
+  function absentMatchHtml(c, note) {
+    var compCls = (COMP_CLS && COMP_CLS[c]) ? " " + COMP_CLS[c] : "";
+    return '<div class="comp-group comp-group--absent"><div class="comp-group-head">' +
+      '<span class="tag tag--comp' + compCls + '">' + esc(c) + '</span>' +
+      (note ? '<span class="gh-ach gh-ach--absent">' + esc(note) + '</span>' : '') +
+      '<span class="gh-stats">无参赛记录</span></div></div>';
+  }
+
   function applyMatchFilter() {
     var comp = MATCH_FILTER.comp, season = MATCH_FILTER.season, team = MATCH_FILTER.team;
     function pass(m) {
@@ -831,9 +844,20 @@
     var start = (MATCH_PAGE - 1) * MATCH_PAGE_SIZE;
     var recent = recentAll.slice(start, start + MATCH_PAGE_SIZE);
 
-    document.getElementById("fixRecent").innerHTML = recent.length
-      ? recent.map(function (m) { return matchRow(m, true); }).join("")
-      : '<p class="match__empty">该筛选条件下暂无战报。</p>';
+    var fixRecentEl = document.getElementById("fixRecent");
+    if (recent.length) {
+      fixRecentEl.innerHTML = recent.map(function (m) { return matchRow(m, true); }).join("");
+    } else {
+      var noteHtml = "";
+      if (comp && comp !== "all" && ACHIEVEMENTS && ACHIEVEMENTS[season] && ACHIEVEMENTS[season][comp]) {
+        noteHtml = absentMatchHtml(comp, ACHIEVEMENTS[season][comp]);
+      } else if (season && ACHIEVEMENTS && ACHIEVEMENTS[season]) {
+        var ABS_ORDER = ["新生杯", "华科杯", "毕业杯", "友谊赛"];
+        noteHtml = ABS_ORDER.filter(function (c) { return ACHIEVEMENTS[season][c]; })
+          .map(function (c) { return absentMatchHtml(c, ACHIEVEMENTS[season][c]); }).join("");
+      }
+      fixRecentEl.innerHTML = noteHtml || '<p class="match__empty">该筛选条件下暂无战报。</p>';
+    }
 
     /* 分页控件 */
     var pager = document.getElementById("fixRecentPager");
