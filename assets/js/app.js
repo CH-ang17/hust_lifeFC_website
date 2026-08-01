@@ -709,11 +709,13 @@
       html += '<div class="match__col">';
       chunk.forEach(function (ev) {
         if (ev.type === "goal") {
-          var times = ev.times.join(" ");
+          var tm = ev.times.filter(function (t) { return t && String(t).trim(); });
+          var showCount = (ev.times.length > 1 && tm.length === 0);
+          var timeHtml = tm.length ? ' <span class="ev__time mono">' + esc(tm.join(" ")) + '</span>' : '';
+          var countHtml = showCount ? ' <span class="ev__time mono">×' + ev.times.length + '</span>' : '';
           html += '<div class="match__line match__goals">' +
             '<span class="ev__tag ev__tag--goal">⚽</span>' +
-            '<span class="ev__item">' + esc(ev.name) +
-            (times ? ' <span class="ev__time mono">' + esc(times) + '</span>' : '') +
+            '<span class="ev__item">' + esc(ev.name) + timeHtml + countHtml +
             (ev.og ? ' <span class="ev__time mono">(OG)</span>' : '') +
             (ev.penalty ? ' <span class="ev__time mono">(P)</span>' : '') + '</span></div>';
         } else {

@@ -72,7 +72,7 @@
       (m.goals || []).forEach(function (g) {
         if (g.og) return; /* 乌龙球不计入本方球员进球 */
         var p = ensure(g.player); p.g++;
-        var isPen = /\(P\)/.test(g.time);
+        var isPen = !!g.penalty || /\(P\)/.test(g.time);
         if (isPen) { p.pen++; }
         if (p.comps[m.comp]) {
           p.comps[m.comp].g++;
@@ -97,14 +97,14 @@
     var players = Object.keys(map).map(function (n) { return map[n]; })
       .filter(function (p) { return p.name !== "乌龙" && p.g > 0; });
     players.sort(function (a, b) {
-      return b.g - a.g || (b.y + b.r) - (a.y + a.r) || a.pen - b.pen || a.name.localeCompare(b.name);
+      return b.g - a.g || a.pen - b.pen || a.name.localeCompare(b.name);
     });
     if (!players.length) { el.innerHTML = '<p class="match__empty">该筛选条件下暂无进球记录。</p>'; return; }
 
-    /* 并列排名：进球数相同的球员共享同一名次，下一不同进球数顺延 */
-    var prevG = null, rank = 0;
+    /* 并列排名：进球数相同且点球数也相同的球员共享同一名次 */
+    var prevG = null, prevPen = null, rank = 0;
     players.forEach(function (p, i) {
-      if (p.g !== prevG) { rank = i + 1; prevG = p.g; }
+      if (p.g !== prevG || p.pen !== prevPen) { rank = i + 1; prevG = p.g; prevPen = p.pen; }
       p.rank = rank;
     });
 
@@ -159,14 +159,14 @@
     var rows = Object.keys(map).map(function (n) { return map[n]; })
       .filter(function (p) { return p.g > 0; });
     rows.sort(function (a, b) {
-      return b.g - a.g || (b.y + b.r) - (a.y + a.r) || a.pen - b.pen || a.name.localeCompare(b.name);
+      return b.g - a.g || a.pen - b.pen || a.name.localeCompare(b.name);
     });
     if (!rows.length) { el.innerHTML = '<p class="match__empty">该筛选条件下暂无球员进球数据。</p>'; return; }
 
-    /* 并列排名：进球数相同共享同一名次 */
-    var prevG = null, rank = 0;
+    /* 并列排名：进球数相同且点球数相同共享同一名次 */
+    var prevG = null, prevPen = null, rank = 0;
     rows.forEach(function (p, i) {
-      if (p.g !== prevG) { rank = i + 1; prevG = p.g; }
+      if (p.g !== prevG || p.pen !== prevPen) { rank = i + 1; prevG = p.g; prevPen = p.pen; }
       p._rank = rank;
     });
 

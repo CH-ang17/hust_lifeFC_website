@@ -3381,7 +3381,8 @@
           },
           {
             "player": "扎西次登",
-            "time": "42' (P)"
+            "time": "42'",
+            "penalty": true
           },
           {
             "player": "买苏尔·买斯地克",
@@ -3858,7 +3859,8 @@
           },
           {
             "player": "骆意",
-            "time": "34' (P)"
+            "time": "34'",
+            "penalty": true
           }
         ],
         "cards": [
@@ -3953,7 +3955,8 @@
         "goals": [
           {
             "player": "刘水远",
-            "time": "7' (P)'"
+            "time": "7'",
+            "penalty": true
           },
           {
             "player": "刘水远",
@@ -4368,7 +4371,8 @@
           },
           {
             "player": "周孟雪",
-            "time": "33' (P)"
+            "time": "33'",
+            "penalty": true
           }
         ]
       },
@@ -4668,7 +4672,8 @@
           },
           {
             "player": "张德睿",
-            "time": "81' (P)"
+            "time": "81'",
+            "penalty": true
           }
         ],
         "cards": [
@@ -5092,7 +5097,8 @@
           },
           {
             "player": "曹洲荣",
-            "time": "51' (P)"
+            "time": "51'",
+            "penalty": true
           },
           {
             "player": "曹洲荣",
@@ -5334,7 +5340,8 @@
         "goals": [
           {
             "player": "张德睿",
-            "time": "40' (P)"
+            "time": "40'",
+            "penalty": true
           }
         ],
         "cards": [
@@ -5856,7 +5863,8 @@
         "goals": [
           {
             "player": "聂嘉琪",
-            "time": "42' (P)"
+            "time": "42'",
+            "penalty": true
           },
           {
             "player": "何奕康",
