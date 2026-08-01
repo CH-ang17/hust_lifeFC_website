@@ -719,8 +719,10 @@
       }).join("");
     }
 
-    /* 缺席赛事（有备注、无比赛）：从 ORDER 中挑出「不在 byComp、但在 seasonAch 有备注」的赛事 */
-    var absentComps = ORDER.filter(function (c) { return !byComp[c] && seasonAch && seasonAch[c]; });
+    /* 缺席赛事（有备注、无比赛）：从 ORDER 中挑出「不在 byComp、但在 seasonAch 有备注」的赛事
+     * 注意：若用户已选具体赛事（compFilter !== "all"），则不显示其他赛事的缺席块 */
+    var onlyComp = (filterState && filterState.comp && filterState.comp !== "all") ? filterState.comp : null;
+    var absentComps = onlyComp ? [] : ORDER.filter(function (c) { return !byComp[c] && seasonAch && seasonAch[c]; });
 
     el.innerHTML = ORDER.filter(function (c) { return byComp[c]; }).map(function (c) {
       return compBlock(c, byComp[c]);
