@@ -1211,6 +1211,41 @@ body.admin { background: var(--paper-2); }
 .news-card__summary { grid-column: 1 / -1; color: var(--ink-soft); font-size: var(--fs-sm); line-height: 1.65; max-width: 72ch; }
 .news-card__more { grid-column: 1 / -1; justify-self: start; color: var(--club); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-sm); letter-spacing: 0.02em; }
 
+/* ===== 新闻：更多入口 + 全部新闻覆盖层 ===== */
+.news__more {
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-base);
+  color: var(--club); text-decoration: none; letter-spacing: .02em; white-space: nowrap;
+  align-self: flex-end;
+}
+.news__more:hover { text-decoration: underline; }
+
+.news-all {
+  position: fixed; inset: 0; z-index: 190;
+  display: none;
+  background: var(--paper);
+  overflow-y: auto;
+  padding: clamp(1.5rem, 5vw, 4rem) clamp(1rem, 4vw, 3rem);
+}
+.news-all.is-open { display: block; animation: ndFade var(--dur) var(--ease); }
+.news-all__panel { max-width: 820px; margin: 0 auto; }
+.news-all__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); margin-bottom: var(--space-lg); }
+.news-all__bar-left { display: flex; align-items: center; gap: var(--space-md); }
+.news-all__bar-right { margin-left: auto; }
+.news-all__close {
+  appearance: none; -webkit-appearance: none; background: none; border: none; cursor: pointer;
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-sm); color: var(--ink-soft); padding: 0;
+}
+.news-all__close:hover { color: var(--club); }
+.news-all__title { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; color: var(--ink); }
+.news-all__search {
+  width: 200px; max-width: 50vw;
+  font-family: var(--font-body); font-size: var(--fs-sm); color: var(--ink);
+  padding: 8px 12px; border: 1px solid var(--line); border-radius: var(--r-sm);
+  background: var(--bg); outline: none; transition: border-color var(--dur) var(--ease);
+}
+.news-all__search:focus { border-color: var(--club); }
+.news-all__empty { text-align: center; color: var(--ink-soft); font-size: var(--fs-sm); padding: var(--space-lg) 0; }
+
 /* ===== 新闻详情覆盖层 ===== */
 body.no-scroll { overflow: hidden; }
 .news-detail {
@@ -1648,7 +1683,13 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
   overflow-y: auto; padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1rem, 4vw, 3rem);
 }
 .career-modal.is-open { display: block; animation: ndFade var(--dur) var(--ease); }
-.career-modal__panel { max-width: 530px; margin: 0 auto; animation: ndRise var(--dur) var(--ease); }
+.career-modal__panel { max-width: 760px; margin: 0 auto; animation: ndRise var(--dur) var(--ease); }
+.career-modal__body { display: flex; gap: 1.5rem; align-items: flex-start; }
+.career-modal__form { flex: 0 0 220px; width: 220px; }
+@media (max-width: 600px) {
+  .career-modal__body { flex-direction: column; }
+  .career-modal__form { flex: 1 1 auto; width: 100%; }
+}
 .career-modal__bar {
   display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); margin-bottom: 1rem;
 }
@@ -1659,6 +1700,16 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
 }
 .career-modal__close:hover { opacity: 1; }
 .career-modal__dl { margin: 0; }
+.career-modal__field { margin-bottom: 1rem; }
+.career-modal__field-label { display: block; font-size: .8rem; font-weight: 600; color: var(--paper); opacity: .8; margin-bottom: .4rem; letter-spacing: .02em; }
+.career-modal__field-input {
+  width: 100%; box-sizing: border-box; padding: .6rem .8rem; font-size: .92rem;
+  font-family: var(--font-body); color: var(--paper); background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .2); border-radius: 10px; outline: none;
+  transition: border-color .15s ease, background .15s ease;
+}
+.career-modal__field-input::placeholder { color: var(--paper); opacity: .45; }
+.career-modal__field-input:focus { border-color: var(--club); background: rgba(255, 255, 255, .12); }
 #dataPlayerSearch { margin-top: calc(-1 * clamp(3.5rem, 9vw, var(--space-3xl)) + 1rem); padding-top: 0; padding-bottom: clamp(0.5rem, 1.2vw, 0.9rem); }
 .ps-card {
   border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1.1rem;

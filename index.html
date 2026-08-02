@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62.5..125,400..900&family=Manrope:wght@300..800&family=Poppins:wght@800&family=Space+Mono:wght@400;700&display=swap" />
   </noscript>
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20260717n" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260717x" />
 </head>
 <body>
 
@@ -93,6 +93,7 @@
             <p class="eyebrow reveal">最新动态</p>
             <h2 class="reveal">新闻</h2>
           </div>
+          <a class="news__more" id="newsMoreLink" href="#news-all" role="button">更多新闻 →</a>
       </div>
         <div class="news__list" id="newsList"><!-- 由 app.js 渲染 --></div>
       </div>
@@ -233,6 +234,23 @@
   <!-- 新闻详情覆盖层 -->
   <div class="news-detail" id="newsDetail" aria-hidden="true"></div>
 
-  <script src="assets/js/app.js?v=20260717o"></script>
+  <!-- 全部新闻列表（点击首页「更多新闻」进入） -->
+  <div class="news-all" id="newsAll" aria-hidden="true">
+    <div class="news-all__panel">
+      <div class="news-all__bar">
+        <div class="news-all__bar-left">
+          <button class="news-all__close" type="button">← 返回</button>
+          <span class="news-all__title">全部新闻</span>
+        </div>
+        <div class="news-all__bar-right">
+          <input id="newsAllSearch" class="news-all__search" type="search" placeholder="搜索新闻…" aria-label="搜索新闻" />
+        </div>
+      </div>
+      <div class="news__list" id="newsAllList"><!-- 由 app.js 渲染 --></div>
+      <p class="news-all__empty" id="newsAllEmpty" hidden>未找到匹配的新闻</p>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js?v=20260717r"></script>
 </body>
 </html>

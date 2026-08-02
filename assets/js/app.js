@@ -97,7 +97,7 @@
       var finalStats = data.stats.slice(0, 2).concat(matchStats);
       renderStats(finalStats);
     }
-    if (data.news) renderNews(data.news);
+    if (data.news) renderNews(data.news, 3);
     if (data.club) renderClub(data.club, data.story);
     if (data.teams && data.squad) renderSquad(data.squad, data.teams, data.squadSeasons);
     if (data.competitions) renderCompetitions(data.competitions);
@@ -208,30 +208,83 @@
   var NEWS_DATA = [];
   var NEWS_TAG_CLS = { "战报": "tag--comp", "公告": "tag--team", "荣誉": "tag--win", "动态": "" };
 
-  function renderNews(news) {
+  /* 单条新闻卡片 HTML（首页与「全部新闻」覆盖层共用） */
+  function newsCardHtml(n, i) {
+    var tag = n.tag || "动态";
+    var tc = NEWS_TAG_CLS[tag] || "tag--team";
+    var metaParts = [];
+    if (n.team) metaParts.push(esc(n.team));
+    if (n.comp) metaParts.push(esc(n.comp));
+    var meta = metaParts.length ? ' <small class="match__tags">' + metaParts.join(" / ") + '</small>' : '';
+    var hasDetail = !!(n.body || (n.images && n.images.length));
+    var more = hasDetail ? '<span class="news-card__more">阅读全文 →</span>' : '';
+    return '<article class="news-card reveal" data-idx="' + i + '" tabindex="0" role="button" aria-label="' + esc(n.title) + '">' +
+      '<div class="news-card__header">' +
+        '<span class="tag ' + tc + '">' + esc(tag) + '</span>' +
+        '<time class="news-card__date mono">' + esc(n.date) + '</time>' +
+      '</div>' +
+      '<h3 class="news-card__title">' + esc(n.title) + meta + '</h3>' +
+      '<p class="news-card__summary">' + esc(n.summary) + '</p>' +
+      more +
+    '</article>';
+  }
+
+  function renderNews(news, limit) {
     NEWS_DATA = news || [];
-    var html = news.map(function (n, i) {
-      var tag = n.tag || "动态";
-      var tc = NEWS_TAG_CLS[tag] || "tag--team";
-      var metaParts = [];
-      if (n.team) metaParts.push(esc(n.team));
-      if (n.comp) metaParts.push(esc(n.comp));
-      var meta = metaParts.length ? ' <small class="match__tags">' + metaParts.join(" / ") + '</small>' : '';
-      var hasDetail = !!(n.body || (n.images && n.images.length));
-      var more = hasDetail ? '<span class="news-card__more">阅读全文 →</span>' : '';
-      return '<article class="news-card reveal" data-idx="' + i + '" tabindex="0" role="button" aria-label="' + esc(n.title) + '">' +
-        '<div class="news-card__header">' +
-          '<span class="tag ' + tc + '">' + esc(tag) + '</span>' +
-          '<time class="news-card__date mono">' + esc(n.date) + '</time>' +
-        '</div>' +
-        '<h3 class="news-card__title">' + esc(n.title) + meta + '</h3>' +
-        '<p class="news-card__summary">' + esc(n.summary) + '</p>' +
-        more +
-      '</article>';
-    }).join("");
-    document.getElementById("newsList").innerHTML = html;
+    var list = (limit && news) ? news.slice(0, limit) : news;
+    var el = document.getElementById("newsList");
+    if (!el) return;
+    el.innerHTML = list.map(function (n, i) { return newsCardHtml(n, i); }).join("");
     /* 立即让新闻卡片可见（不依赖 IO 时序） */
-    document.querySelectorAll("#newsList .reveal").forEach(function (el) { el.classList.add("is-in"); });
+    el.querySelectorAll(".reveal").forEach(function (e) { e.classList.add("is-in"); });
+  }
+
+  /* 全部新闻覆盖层 */
+  function newsMatches(n, kw) {
+    if (!kw) return true;
+    var hay = [n.title, n.summary, n.tag, n.team, n.comp, n.date, n.body]
+      .filter(function (x) { return typeof x === "string"; })
+      .join(" ").toLowerCase();
+    return hay.indexOf(kw) !== -1;
+  }
+
+  function renderNewsAll(kw) {
+    var el = document.getElementById("newsAllList");
+    if (!el) return;
+    var term = (kw || "").trim().toLowerCase();
+    var filtered = NEWS_DATA.filter(function (n) { return newsMatches(n, term); });
+    el.innerHTML = filtered.map(function (n, i) { return newsCardHtml(n, i); }).join("");
+    el.querySelectorAll(".reveal").forEach(function (e) { e.classList.add("is-in"); });
+    var empty = document.getElementById("newsAllEmpty");
+    if (empty) empty.hidden = filtered.length > 0;
+  }
+
+  function openNewsAll() {
+    var search = document.getElementById("newsAllSearch");
+    if (search) search.value = "";
+    renderNewsAll("");
+    var all = document.getElementById("newsAll");
+    if (!all) return;
+    all.classList.add("is-open");
+    all.setAttribute("aria-hidden", "false");
+    document.body.classList.add("no-scroll");
+    all.scrollTop = 0;
+    var panel = all.querySelector(".news-all__panel");
+    if (panel) panel.scrollTop = 0;
+  }
+
+  function closeNewsAll() {
+    var all = document.getElementById("newsAll");
+    if (!all) return;
+    all.classList.remove("is-open");
+    all.setAttribute("aria-hidden", "true");
+    var list = document.getElementById("newsAllList");
+    if (list) list.innerHTML = "";
+    /* 仅当详情未打开时释放滚动锁 */
+    var detail = document.getElementById("newsDetail");
+    if (!(detail && detail.classList.contains("is-open"))) {
+      document.body.classList.remove("no-scroll");
+    }
   }
 
   /* ===== 新闻详情（点击卡片进入） ===== */
@@ -320,7 +373,11 @@
     detail.classList.remove("is-open");
     detail.setAttribute("aria-hidden", "true");
     detail.innerHTML = "";
-    document.body.classList.remove("no-scroll");
+    /* 若「全部新闻」覆盖层仍打开，则保留滚动锁 */
+    var all = document.getElementById("newsAll");
+    if (!(all && all.classList.contains("is-open"))) {
+      document.body.classList.remove("no-scroll");
+    }
     /* 关闭时清掉 #/news/ 锚点（replaceState 不触发 hashchange，避免回环） */
     if (location.hash && location.hash.indexOf("#/news/") === 0) {
       history.replaceState(null, "", location.pathname + location.search);
@@ -1015,6 +1072,44 @@
         }
       });
     }
+    // 「更多新闻」入口 → 打开全部新闻覆盖层
+    var newsMoreLink = document.getElementById("newsMoreLink");
+    if (newsMoreLink) {
+      newsMoreLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        openNewsAll();
+      });
+    }
+    // 全部新闻覆盖层：列表卡片点击 / 回车进入详情（复用同一逻辑）
+    var newsAllList = document.getElementById("newsAllList");
+    if (newsAllList) {
+      newsAllList.addEventListener("click", function (e) {
+        var card = e.target.closest(".news-card");
+        if (card) openNewsByCard(card);
+      });
+      newsAllList.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          var card = e.target.closest(".news-card");
+          if (card) { e.preventDefault(); openNewsByCard(card); }
+        }
+      });
+    }
+    // 全部新闻覆盖层：关闭按钮 / 点击遮罩关闭
+    var newsAll = document.getElementById("newsAll");
+    if (newsAll) {
+      var newsAllClose = newsAll.querySelector(".news-all__close");
+      if (newsAllClose) newsAllClose.addEventListener("click", closeNewsAll);
+      newsAll.addEventListener("click", function (e) {
+        if (e.target === newsAll) closeNewsAll();
+      });
+      // 关键词搜索（输入即筛选标题/摘要/标签/队伍/赛事/日期/正文）
+      var newsAllSearch = document.getElementById("newsAllSearch");
+      if (newsAllSearch) {
+        newsAllSearch.addEventListener("input", function () {
+          renderNewsAll(newsAllSearch.value);
+        });
+      }
+    }
     // 监听锚点变化，支持浏览器前进/后退与分享链接直达
     window.addEventListener("hashchange", syncNewsFromHash);
     // 点击遮罩 / 按 Esc 关闭详情
@@ -1026,8 +1121,11 @@
     }
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") {
+        // 优先关闭详情；详情未开时关闭全部新闻覆盖层
         var nd = document.getElementById("newsDetail");
-        if (nd && nd.classList.contains("is-open")) closeNews();
+        if (nd && nd.classList.contains("is-open")) { closeNews(); return; }
+        var na = document.getElementById("newsAll");
+        if (na && na.classList.contains("is-open")) closeNewsAll();
       }
     });
   }

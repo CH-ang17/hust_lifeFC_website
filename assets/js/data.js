@@ -477,10 +477,15 @@
     return '' +
       /* ===== 背景层（SVG 绝对定位） ===== */
       '<svg width="' + W + '" height="' + H + '" style="position:absolute;top:0;left:0" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">' +
-        '<defs><linearGradient id="arcC" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a4a70"/><stop offset="100%" stop-color="#002a45"/></linearGradient></defs>' +
+        '<defs>' +
+          '<pattern id="careerTri" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="translate(' + Math.round(W % 24 / 2) + ',' + Math.round(H % 24 / 2) + ')">' +
+            '<path d="M0,24 L12,0 L24,24 Z" fill="#ffffff" fill-opacity="0.10"/>' +
+            '<path d="M0,0 L12,24 L24,0 Z" fill="#ffffff" fill-opacity="0.05"/>' +
+          '</pattern>' +
+        '</defs>' +
         '<rect width="' + W + '" height="' + H + '" fill="#003B5C"/>' +
-        '<path d="M0,' + Math.round(H*0.77) + ' Q' + Math.round(W/2) + ',' + Math.round(H*0.845) + ' ' + W + ',' + Math.round(H*0.77) + ' L' + W + ',' + Math.round(H*0.795) + ' Q' + Math.round(W/2) + ',' + Math.round(H*0.87) + ' 0,' + Math.round(H*0.795) + ' Z" fill="url(#arcC)" opacity=".5"/>' +
-        '<path d="M0,' + Math.round(H*0.795) + ' Q' + Math.round(W/2) + ',' + Math.round(H*0.87) + ' ' + W + ',' + Math.round(H*0.795) + ' L' + W + ',' + Math.round(H*0.808) + ' Q' + Math.round(W/2) + ',' + Math.round(H*0.883) + ' 0,' + Math.round(H*0.808) + ' Z" fill="#3a7caa" opacity=".25"/>' +
+        '<rect width="' + W + '" height="' + H + '" fill="url(#careerTri)"/>' +
+        '<rect x="24" y="24" width="' + (W-48) + '" height="' + (H-48) + '" fill="#003B5C"/>' +
       '</svg>' +
       /* ===== 右上角号码 ===== */
       (c.isStaff ? '' :
@@ -494,7 +499,8 @@
         /* cr 改动：姓名 line-height 从 1.15→1.3（更保守，引擎差异小），margin-bottom 从 28→32 */
         '<div style="text-align:center;margin-bottom:32px;margin-top:110px">' +
           '<div style="font-family:\'Archivo\',\'Noto Sans SC\',sans-serif;font-weight:800;font-size:56px;letter-spacing:.08em;color:#FFFEF8;line-height:1.3;padding-bottom:4px">' + esc(c.name) + '</div>' +
-          (c.pos ? '<div style="margin-top:8px;font-family:\'Noto Sans SC\',\'PingFang SC\',sans-serif;font-weight:500;font-size:14px;color:#FFFEF8;letter-spacing:.06em">' + esc(c.pos) + '</div>' : '') +
+          '<div id="careerCardAlias" style="margin-top:4px;font-family:\'Noto Sans SC\',\'PingFang SC\',sans-serif;font-weight:600;font-size:15px;color:#c9a227;letter-spacing:.04em">' + (c.alias ? esc(c.alias) : '') + '</div>' +
+          '<div id="careerCardPos" style="margin-top:6px;font-family:\'Noto Sans SC\',\'PingFang SC\',sans-serif;font-weight:500;font-size:14px;color:#FFFEF8;letter-spacing:.06em">' + (c.pos ? esc(c.pos) : '') + '</div>' +
           (c.tenure ? '<div style="margin-top:6px;font-family:\'Space Mono\',\'Noto Sans SC\',sans-serif;font-weight:500;font-size:13px;color:#FFFEF8;letter-spacing:.04em;opacity:.9">' + esc(c.tenure) + '</div>' : '') +
         '</div>' +
 
@@ -567,7 +573,19 @@
           '<button class="career-modal__close" type="button" aria-label="关闭">×</button>' +
           '<button class="career-card__download career-modal__dl" id="careerCardDownload" type="button">下载图片</button>' +
         '</div>' +
-        '<div class="career-card__stage"><div class="career-card" id="careerCardEl">' + buildCareerCardHTML(c) + '</div></div>' +
+        '<div class="career-modal__body">' +
+          '<div class="career-card__stage"><div class="career-card" id="careerCardEl">' + buildCareerCardHTML(c) + '</div></div>' +
+          '<div class="career-modal__form">' +
+            '<div class="career-modal__field">' +
+              '<label class="career-modal__field-label" for="careerCardAliasInput">别称（可自定义）</label>' +
+              '<input id="careerCardAliasInput" class="career-modal__field-input" type="text" value="' + esc(c.alias || "") + '" placeholder="如：生科佩德里" maxlength="20" />' +
+            '</div>' +
+            '<div class="career-modal__field">' +
+              '<label class="career-modal__field-label" for="careerCardPosInput">球员位置（可自定义）</label>' +
+              '<input id="careerCardPosInput" class="career-modal__field-input" type="text" value="' + esc(c.pos || "") + '" placeholder="如：前锋 / 门将" maxlength="20" />' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
       '</div>';
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
@@ -578,7 +596,7 @@
 
     /* 测量内容自然高度，让 SVG/卡片/stage 三层高度一致（避免底部多余空白） */
     /* 关键：transform:scale(0.72) 不改变布局尺寸，stage 会按未缩放的 DOM 尺寸撑开 */
-    setTimeout(function () {
+    function measureCareerCard() {
       var el = document.getElementById("careerCardEl");
       if (!el) return;
       /* 用 children 找到非 SVG 的内容容器 */
@@ -602,7 +620,24 @@
         stage.style.height = Math.floor(visualH) + "px";
         stage.style.overflow = "hidden";
       }
-    }, 150);
+    }
+    setTimeout(measureCareerCard, 150);
+
+    /* 球员位置 / 别称 自定义：输入框实时更新卡片内文本，并重新测量高度 */
+    function bindCardField(inputId, elId) {
+      var inp = document.getElementById(inputId);
+      var el = document.getElementById(elId);
+      if (!inp || !el) return;
+      if (!inp.value.trim()) el.style.display = "none";
+      inp.addEventListener("input", function () {
+        var v = inp.value.trim();
+        el.textContent = v;
+        el.style.display = v ? "block" : "none";
+        measureCareerCard();
+      });
+    }
+    bindCardField("careerCardAliasInput", "careerCardAlias");
+    bindCardField("careerCardPosInput", "careerCardPos");
   }
 
   function closeCareerCard() {
@@ -720,6 +755,28 @@
                 } catch (e) { /* 跨域 */ }
               }
             } catch (e2) { /* 忽略 */ }
+
+            /* 修复 html2canvas 四宫格内容偏下：将 cell 的上下 padding 重新分配
+             * 总 padding 保持 36px(18+18) 不变，上减下增 → 内容视觉上移
+             * 匹配特征：背景 rgba(255,255,255,.06) + 圆角 10px = careerStatCell
+             */
+            var cells = clonedDoc.querySelectorAll("*");
+            for (var c = 0; c < cells.length; c++) {
+              var cs = cells[c].style;
+              if (!cs) continue;
+              var bg = (cs.backgroundColor || "").replace(/\s/g, "");
+              var br = cs.borderRadius || "";
+              if ((bg === "rgba(255,255,255,0.06)" || bg === "rgba(255,255,255,.06)") && br === "10px") {
+                cs.padding = "4px 12px 32px 12px";
+              }
+            }
+
+            /* 修复 html2canvas 姓名区行间距偏差：别称 margin-top 在下载图中比浏览器更紧凑
+             * 匹配特征：id="careerCardAlias" + 金色 #c9a227 = 别称元素
+             * 网页预览保持源 HTML 的 4px 不变
+             */
+            var aliasEl = clonedDoc.querySelector("#careerCardAlias");
+            if (aliasEl) aliasEl.style.marginTop = "8px";
           }
         }).then(function (canvas) {
           if (wrapper.parentNode) document.body.removeChild(wrapper);
