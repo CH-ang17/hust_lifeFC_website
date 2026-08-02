@@ -1263,6 +1263,7 @@ body.no-scroll { overflow: hidden; }
 .news-detail__figure img { display: block; width: 100%; height: auto; object-fit: contain; cursor: zoom-in; }
 .news-detail__video { margin: var(--space-lg) 0; }
 .news-detail__video video { display: block; width: 100%; height: auto; border-radius: var(--r-md); background: #000; box-shadow: var(--shadow-sm); }
+.news-detail__video--embed iframe { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0; border-radius: var(--r-md); background: #000; box-shadow: var(--shadow-sm); }
 
 /* =============================================================
    CLUB（俱乐部）
@@ -1626,6 +1627,38 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
 }
 .player-search__btn:hover { opacity: .85; }
 .player-search__result { margin-top: 1rem; display: grid; gap: .8rem; }
+
+/* 俱乐部生涯纪念卡 */
+.career-card__result { margin-top: 1.4rem; display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+.career-card__stage { width: 490px; max-width: 100%; overflow: hidden; border-radius: 14px; box-shadow: 0 12px 44px rgba(0,0,0,.28); }
+.career-card { width: 680px; height: auto; transform: scale(0.72); transform-origin: top left; box-sizing: border-box; position: relative; overflow: hidden; background: #003B5C; }
+.career-card__download {
+  display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.4rem; font-size: .95rem; font-weight: 700;
+  border: none; border-radius: 10px; background: var(--club); color: var(--paper); cursor: pointer; transition: opacity .15s ease;
+}
+.career-card__download:hover { opacity: .85; }
+.career-card__download:disabled { opacity: .5; cursor: default; }
+.career-card__hint { font-size: .82rem; color: var(--ink-muted); }
+.career-card__empty { color: var(--ink-soft); font-size: .95rem; }
+
+/* 生涯纪念卡：独立模态弹窗（交互同新闻详情） */
+.career-modal {
+  position: fixed; inset: 0; z-index: 200; display: none;
+  background: rgba(6, 20, 33, .82); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  overflow-y: auto; padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1rem, 4vw, 3rem);
+}
+.career-modal.is-open { display: block; animation: ndFade var(--dur) var(--ease); }
+.career-modal__panel { max-width: 530px; margin: 0 auto; animation: ndRise var(--dur) var(--ease); }
+.career-modal__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); margin-bottom: 1rem;
+}
+.career-modal__close {
+  appearance: none; -webkit-appearance: none; background: none; border: none; cursor: pointer;
+  font-family: var(--font-display); font-weight: 800; font-size: 2rem; line-height: 1;
+  color: var(--paper); opacity: .8; padding: 0; transition: opacity .15s var(--ease);
+}
+.career-modal__close:hover { opacity: 1; }
+.career-modal__dl { margin: 0; }
 #dataPlayerSearch { margin-top: calc(-1 * clamp(3.5rem, 9vw, var(--space-3xl)) + 1rem); padding-top: 0; padding-bottom: clamp(0.5rem, 1.2vw, 0.9rem); }
 .ps-card {
   border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1.1rem;
@@ -1641,3 +1674,6 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
 .ps-card__comps li { padding: .15rem 0; color: var(--ink); }
 .ps-card__comps li::before { content: "·"; color: var(--ink-faint); margin-right: .5rem; }
 .ps-card__none { color: var(--ink-faint); font-style: italic; }
+.ps-card__career { margin-top: .75rem; padding: .4rem .95rem; font-size: .82rem; font-weight: 700; letter-spacing: .03em; color: var(--club); background: color-mix(in oklab, var(--club) 12%, transparent); border: 1px solid color-mix(in oklab, var(--club) 35%, transparent); border-radius: 8px; cursor: pointer; transition: background .15s, border-color .15s; }
+.ps-card__career:hover { background: color-mix(in oklab, var(--club) 22%, transparent); border-color: color-mix(in oklab, var(--club) 55%, transparent); }
+.ps-card__career:active { background: color-mix(in oklab, var(--club) 30%, transparent); }

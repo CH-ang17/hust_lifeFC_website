@@ -242,10 +242,15 @@
 
   function seasonLabelOf(entry) {
     var comp = entry.comp;
-    var g = (comp === "华科杯")
-      ? (entry.gender === "women" ? "女足" : "男足")
-      : "";
-    return comp + g;
+    if (comp === "华科杯" && GROUP_HISTORY) {
+      var gh = GROUP_HISTORY[entry.season];
+      if (gh && gh["华科杯"]) {
+        var gk = entry.gender === "women" ? "女足" : "男足";
+        return "华科杯" + (gh["华科杯"][gk] || (entry.gender === "women" ? "女子组" : "乙组"));
+      }
+      return comp + (entry.gender === "women" ? "女子组" : "乙组");
+    }
+    return comp;
   }
 
   function renderPlayerSearch(query) {
@@ -283,7 +288,9 @@
       });
       var compHtml = roster.length
         ? '<ul class="ps-card__comps">' + roster.map(function (e) {
-            return '<li>' + esc(e.season) + " " + esc(seasonLabelOf(e)) + " · " + esc(e.ids.join("/")) + '</li>';
+            var ach = ACHIEVEMENTS_DATA ? achOf(ACHIEVEMENTS_DATA, e.season, e.comp, e.gender) : null;
+            var achText = ach ? ' <span style="color:var(--club);font-weight:600">' + esc(ach) + '</span>' : '';
+            return '<li>' + esc(e.season) + " " + esc(seasonLabelOf(e)) + " · " + esc(e.ids.join("/")) + achText + '</li>';
           }).join("") + '</ul>'
         : '<span class="ps-card__none">无报名记录</span>';
 
@@ -298,11 +305,800 @@
         '<div class="ps-card__row"><span class="ps-card__lbl">各赛事进球</span>' + esc(compLine) + '</div>' +
         '<div class="ps-card__row"><span class="ps-card__lbl">红黄牌</span>' + esc(cardsTxt) + '</div>' +
         '<div class="ps-card__row"><span class="ps-card__lbl">参加赛事</span>' + compHtml + '</div>' +
+        '<button class="ps-card__career" type="button" data-career="' + esc(name) + '">生成纪念卡</button>' +
       '</div>';
     }).join("");
 
     var hint = matches.length >= 20 ? '<p class="data__note">仅显示前 20 条匹配结果，请缩小关键词。</p>' : '';
     el.innerHTML = html + hint;
+  }
+
+  /* ---------- 俱乐部生涯纪念卡 ---------- */
+  var CAREER_DATA = null;
+  var GROUP_HISTORY = null;
+  var ACHIEVEMENTS_DATA = null;
+
+  function achOf(ach, season, comp, gender) {
+    var a = ach[season]; if (!a) return null;
+    if (a[comp]) return a[comp];
+    if (comp === "华科杯") {
+      var k = comp + (gender === "women" ? "|女足" : "|男足");
+      if (a[k]) return a[k];
+    }
+    return null;
+  }
+
+  function shortSeason(s) {
+    var p = (s || "").split("-");
+    if (p.length < 2) return s;
+    return p[0] + "/" + p[1].slice(2);
+  }
+  function seasonRangeLabel(list) {
+    if (!list.length) return "";
+    return shortSeason(list[0]) + "赛季 — " + shortSeason(list[list.length - 1]) + "赛季";
+  }
+  function compOrder(a, b) {
+    var O = { "新生杯": 0, "华科杯": 1, "毕业杯": 2 };
+    return (O[a] == null ? 9 : O[a]) - (O[b] == null ? 9 : O[b]);
+  }
+  function groupOf(gh, season, gender) {
+    var gk = gender === "women" ? "女足" : "男足";
+    var v = gh[season] && gh[season]["华科杯"] && gh[season]["华科杯"][gk];
+    return v || (gender === "women" ? "女子组" : "乙组");
+  }
+
+  function computeCareer(name, data) {
+    var sh = data.squadHistory || {};
+    var stf = data.staffHistory || {};
+    var entries = [];
+    /* 球员名单 */
+    Object.keys(sh).forEach(function (season) {
+      var sd = sh[season] || {};
+      Object.keys(sd).forEach(function (comp) {
+        var cd = sd[comp] || {};
+        ["men", "women"].forEach(function (g) {
+          (cd[g] || []).forEach(function (p) {
+            if (p && p.name === name) entries.push({ season: season, comp: comp, gender: g, num: p.num || "", pos: p.pos || "", isStaff: false });
+          });
+        });
+      });
+    });
+    /* 球队官员 */
+    Object.keys(stf).forEach(function (season) {
+      var sd = stf[season] || {};
+      Object.keys(sd).forEach(function (comp) {
+        var cd = sd[comp] || {};
+        ["men", "women"].forEach(function (g) {
+          (cd[g] || []).forEach(function (s) {
+            if (s && s.name === name) entries.push({ season: season, comp: comp, gender: g, num: "", pos: s.role || "球队官员", isStaff: true });
+          });
+        });
+      });
+    });
+    if (!entries.length) return null;
+
+    var onlyStaff = entries.every(function (e) { return e.isStaff; });
+
+    var seasons = []; entries.forEach(function (e) { if (seasons.indexOf(e.season) < 0) seasons.push(e.season); });
+    seasons.sort();
+    var comps = []; entries.forEach(function (e) { if (comps.indexOf(e.comp) < 0) comps.push(e.comp); });
+
+    /* 最后参加赛季的号码 / 位置（同赛季优先 新生杯→华科杯→毕业杯） */
+    var lastSeason = seasons[seasons.length - 1];
+    var lastEntries = entries.filter(function (e) { return e.season === lastSeason; })
+      .sort(function (a, b) { return compOrder(a.comp, b.comp); });
+    var lastEntry = lastEntries[0] || entries[entries.length - 1];
+
+    /* 华科杯组别（多组别按 / 并列） */
+    var gh = data.groupHistory || {};
+    var hustGroups = {};
+    entries.forEach(function (e) {
+      if (e.comp !== "华科杯") return;
+      hustGroups[groupOf(gh, e.season, e.gender)] = 1;
+    });
+    var groupList = Object.keys(hustGroups);
+    var compDisplay = comps.slice().sort(compOrder).map(function (c) {
+      return (c === "华科杯" && groupList.length) ? ("华科杯（" + groupList.join("/") + "）") : c;
+    }).join(" · ");
+
+    /* 场次：仅统计球员「实际报名」的 (赛季, 赛事, 组别) 组合对应的正式比赛
+       —— 不能用 seasons × comps 笛卡尔积（否则未报名该赛季该赛事的比赛会被误计） */
+    var enrolled = {}; /* key = season|comp|teamKey，华科杯 teamKey=男足/女足，新生杯/毕业杯 teamKey=na */
+    entries.forEach(function (e) {
+      var teamKey = e.comp === "华科杯"
+        ? (e.gender === "women" ? "女足" : "男足")
+        : "na";
+      enrolled[e.season + "|" + e.comp + "|" + teamKey] = 1;
+    });
+    var fixtures = data.fixtures && data.fixtures.recent ? data.fixtures.recent : [];
+    var matchCount = 0;
+    fixtures.forEach(function (m) {
+      if (["华科杯", "新生杯", "毕业杯"].indexOf(m.comp) < 0) return;
+      var ms = seasonOf(m);
+      var teamKey = m.comp === "华科杯" ? (m.team || "") : "na";
+      if (!enrolled[ms + "|" + m.comp + "|" + teamKey]) return; /* 仅统计实际报名组合 */
+      matchCount++;
+    });
+
+    var goals = (GLOBAL_STATS[name] && GLOBAL_STATS[name].g) || 0;
+
+    /* 荣誉：排除「未报名 / 因疫情未举办」两类无参赛记录说明（未出线属真实参赛结果，正常列出） */
+    var ach = data.achievements || {};
+    var ABSENT = ["未报名", "因疫情未举办"];
+    var honors = [], seen = {};
+    entries.forEach(function (e) {
+      var val = achOf(ach, e.season, e.comp, e.gender);
+      if (!val) return;
+      if (ABSENT.some(function (t) { return val.indexOf(t) >= 0; })) return;
+      var grp = e.comp === "华科杯" ? groupOf(gh, e.season, e.gender) : "";
+      var isExit = val.indexOf("未出线") >= 0; /* 未出线仅显示 赛事+组别+赛季，不显示成绩文字 */
+      var label = (e.comp === "华科杯" ? ("华科杯" + grp) : e.comp) + (isExit ? "" : val) + "（" + shortSeason(e.season) + "）";
+      if (!seen[label]) { seen[label] = 1; honors.push({ season: e.season, label: label }); }
+    });
+    honors.sort(function (a, b) { return b.season.localeCompare(a.season); });
+    var honorLabels = honors.map(function (h) { return h.label; });
+
+    return {
+      name: name,
+      tenure: seasonRangeLabel(seasons),
+      seasons: seasons.length,
+      comps: comps.length,
+      matches: matchCount,
+      goals: goals,
+      num: lastEntry.num || "",
+      pos: lastEntry.pos || "",
+      isStaff: lastEntry.isStaff || false,
+      onlyStaff: onlyStaff,
+      compDisplay: compDisplay,
+      honors: honorLabels
+    };
+  }
+
+  function buildCareerCardHTML(c, optH) {
+    var W = 680, H = (optH || 956);
+    var honorsHtml = c.honors.length
+      ? '<div style="font-family:\'Noto Sans SC\',\'PingFang SC\',\'Microsoft YaHei\',sans-serif;font-weight:400;font-size:12px;color:#a8c4d8;margin-top:6px;line-height:1.65">' +
+          c.honors.map(function (h) { return '<div style="margin-bottom:2px">' + esc(h) + '</div>'; }).join("") +
+        '</div>'
+      : '';
+    /*
+      cr 版核心改变：
+      所有垂直定位改用 flexbox / 固定 padding，不再依赖 line-height hack。
+      
+      原因：html2canvas 的 JS 渲染引擎对 line-height 的计算值与浏览器原生 CSS 引擎
+      存在系统性差异（通常更紧凑 15-25%）。之前 bo~cq 共 32 版尝试的各种补偿方案
+      （增大 line-height、padding、margin）都无法精确匹配，因为偏差比例随上下文变化。
+      
+      解决方案：在 HTML 源头就用 html2canvas 友好的 CSS 写法：
+      - 四宫格 cell：display:flex;flex-direction:column;justify-content:center（替代 line-height:1.1+padding-top）
+      - 姓名：line-height:1.3（保守值，两种引擎差异小）+ 适度 padding-bottom
+      - 位置/赛季行：用固定 margin-top（不用极端值）
+    */
+    return '' +
+      /* ===== 背景层（SVG 绝对定位） ===== */
+      '<svg width="' + W + '" height="' + H + '" style="position:absolute;top:0;left:0" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none">' +
+        '<defs><linearGradient id="arcC" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a4a70"/><stop offset="100%" stop-color="#002a45"/></linearGradient></defs>' +
+        '<rect width="' + W + '" height="' + H + '" fill="#003B5C"/>' +
+        '<path d="M0,' + Math.round(H*0.77) + ' Q' + Math.round(W/2) + ',' + Math.round(H*0.845) + ' ' + W + ',' + Math.round(H*0.77) + ' L' + W + ',' + Math.round(H*0.795) + ' Q' + Math.round(W/2) + ',' + Math.round(H*0.87) + ' 0,' + Math.round(H*0.795) + ' Z" fill="url(#arcC)" opacity=".5"/>' +
+        '<path d="M0,' + Math.round(H*0.795) + ' Q' + Math.round(W/2) + ',' + Math.round(H*0.87) + ' ' + W + ',' + Math.round(H*0.795) + ' L' + W + ',' + Math.round(H*0.808) + ' Q' + Math.round(W/2) + ',' + Math.round(H*0.883) + ' 0,' + Math.round(H*0.808) + ' Z" fill="#3a7caa" opacity=".25"/>' +
+      '</svg>' +
+      /* ===== 右上角号码 ===== */
+      (c.isStaff ? '' :
+      '<div style="position:absolute;top:26px;right:32px;z-index:3">' +
+        '<div style="font-family:\'Space Mono\',monospace;font-weight:700;font-size:86px;line-height:1;color:#FFFEF8;text-shadow:0 2px 12px rgba(0,0,0,.35),0 0 30px rgba(120,200,255,.15)">' + esc(c.num) + '</div>' +
+      '</div>') +
+      /* ===== 内容容器 ===== */
+      '<div style="position:relative;z-index:2;padding:42px 42px 36px;box-sizing:border-box">' +
+
+        /* --- 姓名 + 位置 + 赛季 --- */
+        /* cr 改动：姓名 line-height 从 1.15→1.3（更保守，引擎差异小），margin-bottom 从 28→32 */
+        '<div style="text-align:center;margin-bottom:32px;margin-top:110px">' +
+          '<div style="font-family:\'Archivo\',\'Noto Sans SC\',sans-serif;font-weight:800;font-size:56px;letter-spacing:.08em;color:#FFFEF8;line-height:1.3;padding-bottom:4px">' + esc(c.name) + '</div>' +
+          (c.pos ? '<div style="margin-top:8px;font-family:\'Noto Sans SC\',\'PingFang SC\',sans-serif;font-weight:500;font-size:14px;color:#FFFEF8;letter-spacing:.06em">' + esc(c.pos) + '</div>' : '') +
+          (c.tenure ? '<div style="margin-top:6px;font-family:\'Space Mono\',\'Noto Sans SC\',sans-serif;font-weight:500;font-size:13px;color:#FFFEF8;letter-spacing:.04em;opacity:.9">' + esc(c.tenure) + '</div>' : '') +
+        '</div>' +
+
+        /* --- 参赛赛事与荣誉 --- */
+        '<div style="margin-bottom:16px">' +
+          '<div style="font-family:\'Archivo\',\'Noto Sans SC\',sans-serif;font-weight:700;font-size:13px;color:#c9a227;letter-spacing:.12em;margin-bottom:6px">参赛赛事与荣誉 COMPETITIONS AND HONORS</div>' +
+          '<div style="height:1px;background:rgba(201,162,39,.35);margin-bottom:8px"></div>' +
+          '<div style="font-family:\'Noto Sans SC\',\'PingFang SC\',sans-serif;font-weight:600;font-size:13px;color:#FFFEF8;line-height:1.55">' + esc(c.compDisplay) + '</div>' +
+          honorsHtml +
+        '</div>' +
+
+        /* --- 数据概览四宫格 --- */
+        '<div style="margin-top:20px">' +
+          '<div style="font-family:\'Archivo\',\'Noto Sans SC\',sans-serif;font-weight:700;font-size:14px;color:#c9a227;letter-spacing:.12em;margin-bottom:8px">数据概览 CAREER STATS</div>' +
+          '<div style="height:1px;background:rgba(201,162,39,.35);margin-bottom:10px"></div>' +
+          '<div style="display:grid;grid-template-columns:' + (c.onlyStaff ? "1fr 1fr 1fr" : "1fr 1fr") + ';gap:10px">' +
+            careerStatCell("赛季", c.seasons) + careerStatCell("赛事", c.comps) +
+            careerStatCell("场次", c.matches) +
+            (c.onlyStaff ? "" : careerStatCell("进球", c.goals)) +
+          '</div>' +
+        '</div>' +
+
+        /* --- 底部署名 --- */
+        '<div style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(201,162,39,.45);text-align:center">' +
+          '<div style="font-family:\'Space Mono\',monospace;font-weight:700;font-size:17px;color:#FFFEF8;letter-spacing:.14em">HUST LIFE FC</div>' +
+          '<div style="font-family:\'Noto Sans SC\',\'PingFang SC\',sans-serif;font-weight:400;font-size:12px;color:#FFFEF8;margin-top:4px;letter-spacing:.03em">生命科学与技术学院足球俱乐部</div>' +
+        '</div>' +
+
+      '</div>';
+  }
+  /*
+   * cr 版 careerStatCell：flex 纵向居中替代 line-height hack
+   *
+   * 旧版（bo~cq）：数字用 line-height:1.1 + padding-top:4px 实现视觉居中
+   *   → html2canvas 对 line-height 计算不准 → 数字偏移
+   *
+   * 新版（cr）：cell 本身是 flex 容器，justify-content:center 自动垂直居中
+   *   → 不依赖 line-height → html2canvas 和浏览器结果一致
+   */
+  function careerStatCell(label, val) {
+    return '<div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:18px 12px;text-align:center">' +
+      '<div style="font-family:\'Noto Sans SC\',\'PingFang SC\',sans-serif;font-weight:500;font-size:12px;color:#8baabb;margin-bottom:4px">' + esc(label) + '</div>' +
+      '<div style="font-family:\'Space Mono\',monospace;font-weight:700;font-size:28px;color:#FFFEF8;line-height:1">' + esc(String(val)) + '</div>' +
+    '</div>';
+  }
+
+  function openCareerCard(name) {
+    if (!name) return;
+    var c = computeCareer(name, CAREER_DATA);
+    var holder = document.getElementById("careerCardResult");
+    if (!c) {
+      if (holder) holder.innerHTML = '<p class="career-card__empty">未找到「' + esc(name) + '」的报名记录。</p>';
+      return;
+    }
+    var modal = document.getElementById("careerModal");
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "careerModal";
+      modal.className = "career-modal";
+      modal.setAttribute("role", "dialog");
+      modal.setAttribute("aria-modal", "true");
+      document.body.appendChild(modal);
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeCareerCard();
+      });
+    }
+    modal.innerHTML =
+      '<div class="career-modal__panel">' +
+        '<div class="career-modal__bar">' +
+          '<button class="career-modal__close" type="button" aria-label="关闭">×</button>' +
+          '<button class="career-card__download career-modal__dl" id="careerCardDownload" type="button">下载图片</button>' +
+        '</div>' +
+        '<div class="career-card__stage"><div class="career-card" id="careerCardEl">' + buildCareerCardHTML(c) + '</div></div>' +
+      '</div>';
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("no-scroll");
+    modal.querySelector(".career-modal__close").addEventListener("click", closeCareerCard);
+    var dl = document.getElementById("careerCardDownload");
+    if (dl) dl.addEventListener("click", function () { downloadCareerCard(name); });
+
+    /* 测量内容自然高度，让 SVG/卡片/stage 三层高度一致（避免底部多余空白） */
+    /* 关键：transform:scale(0.72) 不改变布局尺寸，stage 会按未缩放的 DOM 尺寸撑开 */
+    setTimeout(function () {
+      var el = document.getElementById("careerCardEl");
+      if (!el) return;
+      /* 用 children 找到非 SVG 的内容容器 */
+      var inner = null;
+      var kids = el.children;
+      for (var i = 0; i < kids.length; i++) {
+        if (kids[i].tagName !== "SVG") { inner = kids[i]; break; }
+      }
+      var svg = el.querySelector("svg");
+      if (inner && svg) {
+        var h = inner.offsetHeight;
+        /* 1. SVG 高度 = 内容高度（弧形渐变在内容范围内） */
+        svg.setAttribute("height", String(h));
+        /* 2. 卡片 DOM 高度 = 内容高度 */
+        el.style.height = h + "px";
+      }
+      /* 3. stage 容器高度 = 卡片视觉高度（DOM高 × scale 0.72），精确匹配不留余量 */
+      var stage = el.parentElement;
+      if (stage) {
+        var visualH = el.offsetHeight * 0.72;
+        stage.style.height = Math.floor(visualH) + "px";
+        stage.style.overflow = "hidden";
+      }
+    }, 150);
+  }
+
+  function closeCareerCard() {
+    var modal = document.getElementById("careerModal");
+    if (!modal) return;
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    modal.innerHTML = "";
+    document.body.classList.remove("no-scroll");
+  }
+
+  function downloadCareerCard(name) {
+    var btn = document.getElementById("careerCardDownload");
+    if (btn) { btn.disabled = true; btn.textContent = "生成中…"; }
+
+    /*
+      cr 版方案：源头修复 + 简单克隆截图
+
+      bo~cq 共 32 版失败的根因统一为：
+      原始 HTML 用 line-height hack 控制垂直间距（姓名 line-height:1.15、
+      数字 line-height:1.1+padding-top:4px），html2canvas 对 line-height 的计算
+      与浏览器存在系统性差异，任何 onclone 补偿都无法精确匹配。
+
+      cr 版从根本上修改了 buildCareerCardHTML 和 careerStatCell：
+      1. 四宫格 cell：display:flex;flex-direction:column;justify-content:center
+         （替代 line-height:1.1+padding-top:4px）
+      2. 姓名：line-height:1.3（保守值，引擎差异小）
+      3. 位置/赛季行：适度 margin-top（8px/6px）
+      
+      下载函数恢复最简模式：克隆+去类+截图，零 onclone 补偿。
+    */
+
+    var cardEl = document.getElementById("careerCardEl");
+    if (!cardEl) {
+      openCareerCard(name);
+      cardEl = document.getElementById("careerCardEl");
+      if (!cardEl) {
+        if (btn) { btn.disabled = false; btn.textContent = "下载图片"; }
+        alert("请先在页面上打开生涯纪念卡弹窗，再点击下载。");
+        return;
+      }
+    }
+
+    /* 确保卡片高度已测量 */
+    var inner = null, kids = cardEl.children;
+    for (var i = 0; i < kids.length; i++) {
+      if (kids[i].tagName !== "SVG") { inner = kids[i]; break; }
+    }
+    var svg = cardEl.querySelector("svg");
+    if (inner && svg) {
+      var h = inner.offsetHeight;
+      svg.setAttribute("height", String(h));
+      cardEl.style.height = h + "px";
+    }
+
+    if (typeof html2canvas === "undefined") {
+      if (btn) { btn.disabled = false; btn.textContent = "下载图片"; }
+      alert("截图库未加载，请刷新页面后重试。");
+      return;
+    }
+
+    /* 克隆并移除 transform 相关类 */
+    var clone = cardEl.cloneNode(true);
+    clone.removeAttribute("id");
+    clone.className = "";
+    clone.style.cssText =
+      "width:680px;height:auto;" +
+      "box-sizing:border-box;" +
+      "position:relative;" +
+      "overflow:hidden;" +
+      "background:#003B5C;" +
+      "transform:none;" +
+      "transform-origin:top left;";
+
+    var wrapper = document.createElement("div");
+    wrapper.style.cssText =
+      "position:fixed;left:-9999px;top:-9999px;width:680px;z-index:-9999;";
+    wrapper.appendChild(clone);
+    document.body.appendChild(wrapper);
+
+    requestAnimationFrame(function () {
+      setTimeout(function () {
+        html2canvas(clone, {
+          scale: 2,
+          backgroundColor: "#003B5C",
+          logging: false,
+          useCORS: true,
+          letterRendering: true,
+          onclone: function (clonedDoc) {
+            /* 仅清洗 oklch() 颜色值 */
+            var allEls = clonedDoc.querySelectorAll("*");
+            for (var i = 0; i < allEls.length; i++) {
+              var el = allEls[i];
+              var style = el.style;
+              if (!style) continue;
+              for (var j = 0; j < style.length; j++) {
+                var prop = style[j];
+                var val = style.getPropertyValue(prop);
+                if (val && val.indexOf("oklch") !== -1) {
+                  style.setProperty(prop, "#003B5C");
+                }
+              }
+            }
+            try {
+              var sheets = clonedDoc.styleSheets;
+              for (var s = 0; s < sheets.length; s++) {
+                try {
+                  var rules = sheets[s].cssRules || sheets[s].rules;
+                  if (!rules) continue;
+                  for (var r = rules.length - 1; r >= 0; r--) {
+                    if (rules[r].cssText && rules[r].cssText.indexOf("oklch") !== -1) {
+                      sheets[s].deleteRule(r);
+                    }
+                  }
+                } catch (e) { /* 跨域 */ }
+              }
+            } catch (e2) { /* 忽略 */ }
+          }
+        }).then(function (canvas) {
+          if (wrapper.parentNode) document.body.removeChild(wrapper);
+
+          var link = document.createElement("a");
+          link.download = (name || "club-career") + "-生涯纪念卡.png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+          if (btn) { btn.disabled = false; btn.textContent = "下载图片"; }
+        }).catch(function (e) {
+          if (wrapper.parentNode) document.body.removeChild(wrapper);
+          console.error("[CareerCard] 截图失败:", e);
+          if (btn) { btn.disabled = false; btn.textContent = "下载图片"; }
+          alert("图片生成失败：" + (e && e.message ? e.message : "未知错误"));
+        });
+      }, 300);
+    });
+  }
+
+  /**
+   * 纯 Canvas 2D API 手绘生涯纪念卡 —— 与网页 openCareerCard 预览像素级一致
+   * @param {Object} c - computeCareer() 返回的卡片数据
+   * @returns {HTMLCanvasElement} 2x pixel ratio 的离屏 canvas
+   */
+  function drawCareerCardCanvas(c) {
+    var W = 680, PR = 2;
+    var s = function(v) { return v * PR; }; /* 缩放到 device pixel */
+    var PAD = 42, PAD_B = 36;
+
+    /* ---- 测量内容高度 ---- */
+    var compLines = c.compDisplay.split("\n").length;
+    var honorCount = c.honors.length;
+    /* 参赛赛事块 ≈ 标题13 + mb6 + 金线1 + mb8 + 内容行 + mb6 + 荣誉行 */
+    var compBlockH = 13 + 6 + 1 + 8 + (compLines * 21) + 6 + (honorCount > 0 ? 6 + honorCount * 21 : 0);
+    /* 四宫格: 标题14 + mb8 + 金线1 + mb10 + [pad10 + label12 + mb2 + padT4 + num28 + padB12] + gap10 */
+    var cellInnerH = 10 + 12 + 2 + 4 + 28 + 12;
+    var gridH = 14 + 8 + 1 + 10 + cellInnerH + 10;
+    /* 底部: mt24 + pt16 + 金线1 + num17 + mt4 + sub12 + mb10 */
+    var footerH = 24 + 16 + 1 + 17 + 4 + 12 + 10;
+
+    var contentH =
+      110 +           /* 姓名区 top margin */
+      62 +            /* name ~height (56px + lh buffer) */
+      5 + 14 +         /* position */
+      4 + 13 +         /* tenure */
+      28 +             /* gap → 参赛赛事 */
+      compBlockH +
+      20 +             /* gap → 数据概览 */
+      gridH +
+      footerH +
+      PAD_B;          /* bottom padding */
+
+    var H = Math.max(contentH, 956);
+
+    /* ---- 创建 canvas ---- */
+    var canvas = document.createElement("canvas");
+    canvas.width = s(W);
+    canvas.height = s(H);
+    var ctx = canvas.getContext("2d");
+    ctx.scale(PR, PR);
+
+    /* ============ 颜色常量 ============ */
+    var C_BG = "#003B5C";
+    var C_TEXT = "#FFFEF8";
+    var C_GOLD = "#c9a227";
+    var C_GOLD_FADE = "rgba(201,162,39,.35)";
+    var C_GOLD_BORDER = "rgba(201,162,39,.45)";
+    var C_CELL_BG = "rgba(255,255,255,.06)";
+    var C_CELL_BR = "rgba(255,255,255,.1)";
+    var C_SUB = "#a8c4d8";
+    var C_LABEL = "#8baabb";
+
+    /* ============ 1. 背景 ============ */
+    ctx.fillStyle = C_BG;
+    ctx.fillRect(0, 0, W, H);
+
+    /* ============ 2. 底部弧形装饰（两条） ============ */
+    var arcY1 = H * 0.77, arcY2 = H * 0.795, arcY3 = H * 0.808;
+    var cpY1a = H * 0.845, cpY1b = H * 0.87, cpY2b = H * 0.883;
+
+    /* 弧形 1 — 半透明渐变蓝 */
+    ctx.beginPath();
+    ctx.moveTo(0, arcY1);
+    ctx.quadraticCurveTo(W / 2, cpY1a, W, arcY1);
+    ctx.lineTo(W, arcY2);
+    ctx.quadraticCurveTo(W / 2, cpY1b, 0, arcY2);
+    ctx.closePath();
+    ctx.fillStyle = "rgba(26,74,112,.5)";
+    ctx.fill();
+
+    /* 弧形 2 — 更浅蓝 */
+    ctx.beginPath();
+    ctx.moveTo(0, arcY2);
+    ctx.quadraticCurveTo(W / 2, cpY1b, W, arcY2);
+    ctx.lineTo(W, arcY3);
+    ctx.quadraticCurveTo(W / 2, cpY2b, 0, arcY3);
+    ctx.closePath();
+    ctx.fillStyle = "rgba(58,124,170,.25)";
+    ctx.fill();
+
+    /* ============ 3. 右上角号码 ============ */
+    if (!c.isStaff) {
+      ctx.save();
+      ctx.font = "700 86px 'Space Mono', monospace";
+      ctx.fillStyle = C_TEXT;
+      ctx.textAlign = "right";
+      ctx.textBaseline = "top";
+      /* text shadow */
+      ctx.shadowColor = "rgba(0,0,0,.35)";
+      ctx.shadowBlur = 12;
+      ctx.shadowOffsetX = 2;
+      ctx.shadowOffsetY = 2;
+      ctx.fillText(c.num, W - 32, 26);
+      ctx.restore();
+    }
+
+    /* ============ 4. 辅助函数 ============ */
+    function drawCenteredText(text, x, yCenter, font, color, letterSpacing) {
+      ctx.save();
+      ctx.font = font;
+      ctx.fillStyle = color || C_TEXT;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      if (letterSpacing && letterSpacing > 0) {
+        /* 手动实现 letter-spacing */
+        var chars = text.split("");
+        var totalWidth = 0;
+        for (var i = 0; i < chars.length; i++) {
+          totalWidth += ctx.measureText(chars[i]).width + (i < chars.length - 1 ? letterSpacing : 0);
+        }
+        var startX = x - totalWidth / 2;
+        var cx = startX;
+        for (var j = 0; j < chars.length; j++) {
+          ctx.fillText(chars[j], cx, yCenter);
+          cx += ctx.measureText(chars[j]).width + letterSpacing;
+        }
+      } else {
+        ctx.fillText(text, x, yCenter);
+      }
+      ctx.restore();
+    }
+
+    function drawLeftText(text, x, y, font, color, lineHeight, maxWidth) {
+      ctx.save();
+      ctx.font = font;
+      ctx.fillStyle = color || C_TEXT;
+      ctx.textAlign = "left";
+      ctx.textBaseline = "top";
+      if (maxWidth && ctx.measureText(text).width > maxWidth) {
+        /* 简单折行 */
+        var words = text.split(""), line = "", lines = [];
+        for (var i = 0; i < words.length; i++) {
+          var test = line + words[i];
+          if (ctx.measureText(test).width > maxWidth && line) {
+            lines.push(line);
+            line = words[i];
+          } else {
+            line = test;
+          }
+        }
+        if (line) lines.push(line);
+        for (var l = 0; l < lines.length; l++) {
+          ctx.fillText(lines[l], x, y + l * lineHeight);
+        }
+      } else {
+        ctx.fillText(text, x, y);
+      }
+      ctx.restore();
+    }
+
+    function drawRoundedRect(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.arcTo(x + w, y, x + w, y + r, r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+      ctx.lineTo(x + r, y + h);
+      ctx.arcTo(x, y + h, x, y + h - r, r);
+      ctx.lineTo(x, y + r);
+      ctx.arcTo(x, y, x + r, y, r);
+      ctx.closePath();
+    }
+
+    /* ============ 5. 姓名 + 位置 + 赛季 ============ */
+    var cx_center = W / 2;
+    var nameY = PAD + 110 + 28; /* name center ~y */
+    drawCenteredText(c.name, cx_center, nameY,
+      "800 56px 'Archivo', 'Noto Sans SC', sans-serif", C_TEXT, 56 * 0.08);
+
+    var curY = nameY + 32; /* 56px/2 + 5px gap approx */
+    if (c.pos) {
+      drawCenteredText(c.pos, cx_center, curY + 7,
+        "500 14px 'Noto Sans SC', 'PingFang SC', sans-serif", C_TEXT, 14 * 0.06);
+      curY += 14 + 5;
+    }
+    if (c.tenure) {
+      drawCenteredText(c.tenure, cx_center, curY + 7 + (c.pos ? 0 : 0),
+        "500 13px 'Space Mono', 'Noto Sans SC', sans-serif",
+        "rgba(255,254,248,.9)", 13 * 0.04);
+      curY += 13 + 4;
+    }
+
+    /* ============ 6. 参赛赛事与荣誉 ============ */
+    var secY = curY + 28;
+    /* 标题 */
+    drawCenteredText("参赛赛事与荣誉 COMPETITIONS AND HONORS", cx_center, secY + 6,
+      "700 13px 'Archivo', 'Noto Sans SC', sans-serif", C_GOLD, 13 * 0.12);
+    /* 金线 */
+    var lineW = W - PAD * 2;
+    ctx.fillStyle = C_GOLD_FADE;
+    ctx.fillRect(cx_center - lineW / 2, secY + 15, lineW, 1);
+    /* 赛事内容 */
+    var textX = PAD;
+    var textW = lineW;
+    var compY = secY + 25;
+    ctx.font = "600 13px 'Noto Sans SC', 'PingFang SC', sans-serif";
+    ctx.fillStyle = C_TEXT;
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    var compLines_arr = c.compDisplay.split("\n");
+    for (var cli = 0; cli < compLines_arr.length; cli++) {
+      ctx.fillText(compLines_arr[cli], textX, compY + cli * 21);
+    }
+    compY += compLines_arr.length * 21 + 6;
+    /* 荣誉 */
+    if (honorCount > 0) {
+      ctx.font = "400 12px 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif";
+      ctx.fillStyle = C_SUB;
+      for (var hi = 0; hi < c.honors.length; hi++) {
+        ctx.fillText(c.honors[hi], textX, compY + hi * 21);
+      }
+      compY += honorCount * 21;
+    }
+
+    /* ============ 7. 数据概览四宫格 ============ */
+    var gridY = compY + 20;
+    /* 标题 */
+    drawCenteredText("数据概览 CAREER STATS", cx_center, gridY + 7,
+      "700 14px 'Archivo', 'Noto Sans SC', sans-serif", C_GOLD, 14 * 0.12);
+    /* 金线 */
+    ctx.fillStyle = C_GOLD_FADE;
+    ctx.fillRect(cx_center - lineW / 2, gridY + 17, lineW, 1);
+
+    /* 四宫格 */
+    var gridInnerY = gridY + 29;
+    var cellW = (lineW - 10) / 2; /* 2 cols, 1 gap */
+    var cellH = cellInnerH;
+    var labels = ["赛季", "赛事", "场次"];
+    var vals = [c.seasons, c.comps, c.matches];
+    if (!c.onlyStaff) { labels.push("进球"); vals.push(c.goals); }
+
+    for (var gi = 0; gi < labels.length; gi++) {
+      var col = gi % 2, row = Math.floor(gi / 2);
+      var cellX = PAD + col * (cellW + 10);
+      var cellY = gridInnerY + row * (cellH + 10);
+
+      /* 单元格背景 */
+      drawRoundedRect(cellX, cellY, cellW, cellH, 10);
+      ctx.fillStyle = C_CELL_BG;
+      ctx.fill();
+      ctx.strokeStyle = C_CELL_BR;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      /* 标签 */
+      drawCenteredText(labels[gi], cellX + cellW / 2, cellY + 10 + 6,
+        "500 12px 'Noto Sans SC', 'PingFang SC', sans-serif", C_LABEL);
+
+      /* 数字 */
+      drawCenteredText(String(vals[gi]), cellX + cellW / 2, cellY + 10 + 12 + 2 + 4 + 14,
+        "700 28px 'Space Mono', monospace", C_TEXT);
+    }
+
+    /* ============ 8. 底部署名 ============ */
+    var footerY = gridInnerY + (labels.length <= 2 ? 1 : 2) * (cellH + 10) + 24;
+    /* 金线 */
+    ctx.fillStyle = C_GOLD_BORDER;
+    ctx.fillRect(cx_center - lineW / 2, footerY, lineW, 1);
+    /* HUST LIFE FC */
+    drawCenteredText("HUST LIFE FC", cx_center, footerY + 17 + 8,
+      "700 17px 'Space Mono', monospace", C_TEXT, 17 * 0.14);
+    /* 副标题 */
+    drawCenteredText("生命科学与技术学院足球俱乐部", cx_center, footerY + 17 + 4 + 12 + 4,
+      "400 12px 'Noto Sans SC', 'PingFang SC', sans-serif", C_TEXT, 12 * 0.03);
+
+    return canvas;
+  }
+
+  /* html2canvas fallback — 保留但不再作为主路径 */
+  function downloadCareerCardHtml2Canvas(name, c, btn) {
+    var cardHtml = buildCareerCardHTML(c);
+    var iframe = document.createElement("iframe");
+    iframe.style.cssText = "position:fixed;left:-9999px;top:-9999px;width:720px;border:0;";
+    document.body.appendChild(iframe);
+    var doc = iframe.contentDocument;
+    doc.open();
+    doc.write(
+      '<!doctype html><html><head><meta charset="utf-8">' +
+      '<link rel="preconnect" href="https://fonts.googleapis.com" />' +
+      '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />' +
+      '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?' +
+      'family=Archivo:wdth,wght@62.5..125,400..900&' +
+      'family=Manrope:wght@300..800&' +
+      'family=Space+Mono:wght@400;700&display=swap" />' +
+      '<style>*{box-sizing:border-box;margin:0;padding:0;}' +
+      'body{background:#003B5C;' +
+      'font-family:"Archivo","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;}' +
+      '.stage{width:680px;overflow:hidden;border-radius:14px;' +
+      'box-shadow:0 12px 44px rgba(0,0,0,.28);}' +
+      '.cc{width:680px;height:auto;' +
+      'box-sizing:border-box;position:relative;overflow:hidden;background:#003B5C;}' +
+      '</style></head><body>' +
+      '<div class="stage" id="stageEl"><div class="cc" id="cardEl">' + cardHtml + '</div></div>' +
+      '</body></html>'
+    );
+    doc.close();
+
+    var ready = doc.fonts ? doc.fonts.ready : Promise.resolve();
+    var timeout = new Promise(function (resolve) { setTimeout(resolve, 5000); });
+    Promise.race([ready, timeout]).then(function () {
+      setTimeout(function () {
+        var el = doc.getElementById("cardEl");
+        if (!el) { cleanup(); return; }
+        var inner = null;
+        var kids = el.children;
+        for (var i = 0; i < kids.length; i++) {
+          if (kids[i].tagName !== "SVG") { inner = kids[i]; break; }
+        }
+        var svg = el.querySelector("svg");
+        if (inner && svg) {
+          var h = inner.offsetHeight;
+          svg.setAttribute("height", String(h));
+          el.style.height = h + "px";
+        }
+        var stage = doc.getElementById("stageEl");
+        if (stage) { stage.style.height = el.offsetHeight + "px"; }
+
+        setTimeout(function () {
+          html2canvas(stage, {
+            scale: 2, backgroundColor: "#003B5C", logging: false, useCORS: true
+          }).then(function (canvas) {
+            cleanup();
+            var link = document.createElement("a");
+            link.download = (name || "club-career") + "-生涯纪念卡.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            if (btn) { btn.disabled = false; btn.textContent = "下载图片"; }
+          }).catch(function (e) {
+            cleanup();
+            if (btn) { btn.disabled = false; btn.textContent = "下载图片"; }
+            alert("图片生成失败：" + (e && e.message ? e.message : "未知错误"));
+          });
+        }, 300);
+      }, 600);
+    });
+
+    function cleanup() {
+      if (iframe.parentNode) document.body.removeChild(iframe);
+    }
+  }
+
+  function initCareerCard(data) {
+    CAREER_DATA = data;
+    var result = document.getElementById("dataPlayerSearchResult");
+    if (!result) return;
+    result.addEventListener("click", function (e) {
+      var t = e.target.closest(".ps-card__career");
+      if (!t) return;
+      e.preventDefault();
+      var name = t.getAttribute("data-career");
+      openCareerCard(name);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        var m = document.getElementById("careerModal");
+        if (m && m.classList.contains("is-open")) closeCareerCard();
+      }
+    });
   }
 
   /* ---------- 筛选状态（IIFE 顶层，供 render 与 applyFilters 共享） ---------- */
@@ -356,7 +1152,10 @@
       return ["华科杯", "新生杯", "毕业杯"].indexOf(m.comp) !== -1;
     });
     GLOBAL_STATS = aggregatePlayerStats(allOfficial);
+    GROUP_HISTORY = data.groupHistory || null;
+    ACHIEVEMENTS_DATA = data.achievements || null;
     buildRosterIndex(data.squadHistory, data.staffHistory);
+    initCareerCard(data);
 
     /* 一次性事件委托：处理赛事战绩表格 + 球员数据表格的分页点击 */
     (function () {

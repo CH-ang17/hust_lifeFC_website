@@ -337,7 +337,8 @@
       { key: "summary", label: "摘要", type: "textarea" },
       { key: "body", label: "正文(详细内容，空行分段，支持换行)", type: "textarea" },
       { key: "images", label: "配图(可多张，点保存生效)", type: "images" },
-      { key: "video", label: "视频(mp4直链，可空)", type: "textarea" },
+      { key: "video", label: "视频链接(mp4直链 或 B站播放器嵌入URL，可空)", type: "textarea" },
+      { key: "videoEmbed", label: "视频为嵌入链接(如B站iframe，勾选则网页内嵌入播放)", type: "checkbox" },
       { key: "team", label: "关联球队(可空)", type: "select", options: (C.teams || []).map(function(t){return{value:t.short,label:t.short};}).concat([{value:"",label:"无"}]) },
       { key: "comp", label: "关联赛事(可空)" }
     ], { label: "添加新闻" }));

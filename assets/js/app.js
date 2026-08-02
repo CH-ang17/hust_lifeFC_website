@@ -258,9 +258,18 @@
         }).join("")
       : '<p>' + esc(n.summary) + '</p>';
 
-    var videoHtml = n.video
-      ? '<div class="news-detail__video"><video controls preload="metadata" src="' + esc(n.video) + '"></video></div>'
-      : '';
+    var videoHtml = '';
+    if (n.video) {
+      if (n.videoEmbed) {
+        /* 嵌入第三方播放器（如 B站 iframe），可在网页直接观看 */
+        videoHtml = '<div class="news-detail__video news-detail__video--embed">' +
+          '<iframe src="' + esc(n.video) + '" scrolling="no" border="0" frameborder="no" ' +
+          'framespacing="0" allowfullscreen="true" loading="lazy"></iframe>' +
+          '</div>';
+      } else {
+        videoHtml = '<div class="news-detail__video"><video controls preload="metadata" src="' + esc(n.video) + '"></video></div>';
+      }
+    }
 
     var imgs = (n.images && n.images.length)
       ? '<div class="news-detail__gallery">' + n.images.map(function (src) {
