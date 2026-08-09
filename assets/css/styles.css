@@ -886,6 +886,8 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 .match__col { display: flex; flex-direction: column; gap: 1px; align-items: flex-start; }
 .match__score { font-family: var(--font-mono); font-weight: 700; font-size: 1.15rem; font-variant-numeric: tabular-nums; line-height: 1.25; }
 .match__score .res { font-size: 0.7rem; letter-spacing: 0.1em; margin-left: 6px; }
+.match__score-num { display: inline; }
+.match__score-pen { display: inline-block; font-size: 0.85em; font-weight: 500; opacity: 0.7; margin: 0 5px; vertical-align: 0.05em; }
 .res--W { color: var(--win); } .res--D { color: var(--draw); } .res--L { color: var(--loss); }
 .match__video { color: var(--signal); font-weight: 600; font-size: inherit; text-decoration: none; white-space: nowrap; margin-left: .15rem; }
 .match__video:hover { text-decoration: underline; }

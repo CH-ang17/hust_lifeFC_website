@@ -818,6 +818,15 @@
     if (isRecent) {
       var resMap = { "W": "胜", "D": "平", "L": "负" };
       var resCls = { "W": "res--W", "D": "res--D", "L": "res--L" };
+      /* 把 "0(1–0)0" 拆成三段渲染，中间点球比分小一号、半透明 */
+      function formatScore(raw) {
+        var s = raw || "";
+        var m = s.match(/^(\d+)\s*\(([^)]+)\)\s*(\d+)\s*$/);
+        if (m) return '<span class="match__score-num">' + esc(m[1]) + '</span>' +
+                      '<span class="match__score-pen">(' + esc(m[2]) + ')</span>' +
+                      '<span class="match__score-num">' + esc(m[3]) + '</span>';
+        return esc(s);
+      }
       return '<div class="match">' + tags +
         '<span class="match__date mono">' + esc((m.year ? m.year + '.' : '') + m.date) + '</span>' +
         '<span class="match__teams">' +
@@ -825,7 +834,7 @@
           '<span class="match__info">' + esc(m.round) + (m.venue ? ' · ' + esc(m.venue) : '') + (m.format ? ' · ' + esc(m.format) : '') + (m.video ? ' · <a class="match__video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">视频</a>' : '') + '</span>' +
           (hasEvents(m) ? matchEvents(m) : '') +
         '</span>' +
-        '<span class="match__score mono ' + (resCls[m.result] || "") + '">' + esc(m.score) +
+        '<span class="match__score mono ' + (resCls[m.result] || "") + '">' + formatScore(m.score) +
           '<span class="res ' + (resCls[m.result] || "") + '">' + (resMap[m.result] || esc(m.result)) + '</span></span>' +
       '</div>';
     }
