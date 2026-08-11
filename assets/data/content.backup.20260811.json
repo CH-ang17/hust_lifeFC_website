@@ -2319,85 +2319,73 @@
             "num": "1",
             "name": "吴鸣鹤",
             "pos": "GK · 门将",
-            "captain": false,
-            "id": "U202513334"
+            "captain": false
           },
           {
             "num": "2",
             "name": "丁一航",
             "pos": "RB · 右后卫",
-            "captain": false,
-            "id": "U202413294"
+            "captain": false
           },
           {
             "num": "3",
             "name": "李霄鹤",
             "pos": "LB · 左后卫",
-            "captain": false,
-            "id": "U202013306"
+            "captain": false
           },
           {
             "num": "4",
             "name": "巨鹏远",
             "pos": "CB · 中后卫",
-            "captain": false,
-            "id": "U202213730"
+            "captain": false
           },
           {
             "num": "5",
             "name": "俞善文",
             "pos": "CB · 中后卫",
-            "captain": false,
-            "id": "U202313533"
+            "captain": false
           },
           {
             "num": "6",
             "name": "邓旺杰",
             "pos": "LB · 左后卫",
-            "captain": false,
-            "id": "M202572968"
+            "captain": false
           },
           {
             "num": "7",
             "name": "张德睿",
             "pos": "RW · 右边锋",
-            "captain": false,
-            "id": "U202314162"
+            "captain": false
           },
           {
             "num": "8",
             "name": "周琦凯",
             "pos": "CDM · 防守中场",
-            "captain": false,
-            "id": "M202472839"
+            "captain": false
           },
           {
             "num": "10",
             "name": "Bhahat Lawlley Zimba",
             "pos": "CF · 中锋",
-            "captain": false,
-            "id": "I202122073"
+            "captain": false
           },
           {
             "num": "11",
             "name": "曹洲荣",
             "pos": "LW · 左边锋",
-            "captain": false,
-            "id": "U202313429"
+            "captain": false
           },
           {
             "num": "14",
             "name": "戴晨曦",
             "pos": "CM · 中场",
-            "captain": false,
-            "id": "D202581257"
+            "captain": false
           },
           {
             "num": "16",
             "name": "刘骏贤",
             "pos": "CM · 中场",
-            "captain": false,
-            "id": "M202472887"
+            "captain": false
           },
           {
             "num": "17",
@@ -2410,178 +2398,151 @@
             "num": "18",
             "name": "陈天",
             "pos": "CAM · 进攻中场",
-            "captain": true,
-            "id": "U202313594"
+            "captain": true
           },
           {
             "num": "20",
             "name": "苏暹懿",
             "pos": "CM · 中场",
-            "captain": false,
-            "id": "U202513379"
+            "captain": false
           },
           {
             "num": "21",
             "name": "邹元晔",
             "pos": "CM · 中场",
-            "captain": false,
-            "id": "U202313536"
+            "captain": false
           },
           {
             "num": "25",
             "name": "罗阮烨",
             "pos": "RW · 右边锋",
-            "captain": false,
-            "id": "U202311977"
+            "captain": false
           },
           {
             "num": "28",
             "name": "张明睿",
             "pos": "GK · 门将",
-            "captain": false,
-            "id": "U202513421"
+            "captain": false
           },
           {
             "num": "30",
             "name": "徐浩轩",
             "pos": "LW · 左边锋",
-            "captain": false,
-            "id": "M202472984"
+            "captain": false
           },
           {
             "num": "32",
             "name": "王鹏程",
             "pos": "RB · 右后卫",
-            "captain": false,
-            "id": "U202513205"
+            "captain": false
           },
           {
             "num": "42",
             "name": "谢高翔",
             "pos": "CB · 中后卫",
-            "captain": false,
-            "id": "M202472813"
+            "captain": false
           },
           {
             "num": "47",
             "name": "祁潇赫",
             "pos": "RW · 右边锋",
-            "captain": false,
-            "id": "U202513378"
+            "captain": false
           },
           {
             "num": "55",
             "name": "苏毅",
             "pos": "GK · 门将",
-            "captain": false,
-            "id": "M202372828"
+            "captain": false
           },
           {
             "num": "66",
             "name": "吴晟楷",
             "pos": "CB · 中后卫",
-            "captain": false,
-            "id": "U202513413"
+            "captain": false
           },
           {
             "num": "99",
             "name": "李羽城",
             "pos": "ST · 前锋",
-            "captain": false,
-            "id": "U202513403"
+            "captain": false
           }
         ],
         "women": [
           {
             "num": "1",
             "name": "高梦圆",
-            "pos": "CB · 中后卫",
-            "id": "U202213023"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "6",
             "name": "金梦露",
-            "pos": "CB · 中后卫",
-            "id": "D202381018"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "7",
             "name": "苏婕欣",
             "pos": "CF · 中锋",
-            "captain": true,
-            "id": "U202314198"
+            "captain": true
           },
           {
             "num": "9",
             "name": "苏雨婷",
-            "pos": "CB · 中后卫",
-            "id": "M202372790"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "10",
             "name": "蒋欣玥",
-            "pos": "CB · 中后卫",
-            "id": "U202513131"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "11",
             "name": "刘水远",
-            "pos": "CAM · 进攻中场",
-            "id": "U202213756"
+            "pos": "CAM · 进攻中场"
           },
           {
             "num": "12",
             "name": "丁冉",
-            "pos": "CB · 中后卫",
-            "id": "M202572972"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "15",
             "name": "柳竞涵",
-            "pos": "CF · 中锋",
-            "id": "M202372799"
+            "pos": "CF · 中锋"
           },
           {
             "num": "17",
             "name": "周加翌",
-            "pos": "CB · 中后卫",
-            "id": "M202472847"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "18",
             "name": "黄粲",
-            "pos": "CB · 中后卫",
-            "id": "U202413333"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "20",
             "name": "和谐",
-            "pos": "CB · 中后卫",
-            "id": "U202213147"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "24",
             "name": "周孟雪",
-            "pos": "CM · 中场",
-            "id": "D202581246"
+            "pos": "CM · 中场"
           },
           {
             "num": "27",
             "name": "郭文佳",
-            "pos": "CB · 中后卫",
-            "id": "D202581255"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "73",
             "name": "陈心格",
-            "pos": "CB · 中后卫",
-            "id": "U202513152"
+            "pos": "CB · 中后卫"
           },
           {
             "num": "93",
             "name": "杨傲茹",
-            "pos": "GK · 门将",
-            "id": "U202212796"
+            "pos": "GK · 门将"
           }
         ]
       },
@@ -2591,99 +2552,85 @@
             "num": "1",
             "name": "吴鸣鹤",
             "pos": "GK",
-            "captain": false,
-            "id": "U202513334"
+            "captain": false
           },
           {
             "num": "13",
-            "name": "朱宸斯",
+            "name": "朱宸昕",
             "pos": "DF",
-            "captain": false,
-            "id": "U202513343"
+            "captain": false
           },
           {
             "num": "18",
             "name": "王鹏程",
             "pos": "RB",
-            "captain": false,
-            "id": "U202513205"
+            "captain": false
           },
           {
             "num": "20",
             "name": "苏暹懿",
             "pos": "CM",
-            "captain": false,
-            "id": "U202513379"
+            "captain": false
           },
           {
             "num": "24",
             "name": "宁志行",
             "pos": "CB",
-            "captain": false,
-            "id": "U202513325"
+            "captain": false
           },
           {
             "num": "27",
             "name": "叶嘉诺",
             "pos": "CB",
-            "captain": false,
-            "id": "U202513460"
+            "captain": false
           },
           {
             "num": "28",
             "name": "张明睿",
             "pos": "LB",
-            "captain": false,
-            "id": "U202513421"
+            "captain": false
           },
           {
             "num": "32",
             "name": "李汶羲",
             "pos": "FW",
-            "captain": false,
-            "id": "U202513350"
+            "captain": false
           },
           {
             "num": "39",
             "name": "田金杰",
             "pos": "LB",
-            "captain": false,
-            "id": "U202513231"
+            "captain": false
           },
           {
             "num": "47",
             "name": "祁潇赫",
             "pos": "RW",
-            "captain": false,
-            "id": "U202513378"
+            "captain": false
           },
           {
             "num": "66",
             "name": "吴晟楷",
             "pos": "CB",
-            "captain": false,
-            "id": "U202513413"
+            "captain": false
           },
           {
             "num": "77",
             "name": "郑钦文",
             "pos": "CM",
-            "captain": false,
-            "id": "U202513265"
+            "captain": false
           },
           {
             "num": "88",
             "name": "张润泽",
             "pos": "LB",
-            "captain": false,
-            "id": "U202513314"
+            "captain": false
           },
           {
             "num": "99",
             "name": "李羽城",
             "pos": "CF",
-            "captain": true,
-            "id": "U202513403"
+            "captain": true
           }
         ]
       },

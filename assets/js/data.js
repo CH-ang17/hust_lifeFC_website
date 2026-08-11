@@ -1619,6 +1619,13 @@
     '</div>';
   }
 
+  /* 从学号/工号推导年级显示，如 D202481121 → D2024（取 字母+入学年份4位） */
+  function gradeFromId(id) {
+    if (!id) return "";
+    var m = String(id).match(/^([A-Za-z])(\d{4})/);
+    return m ? (m[1].toUpperCase() + m[2]) : "";
+  }
+
   /* ===== 参赛人员 ===== */
   function renderSquad(squadHistory, season, compFilter, teamFilter, teamsData, staffHistory, seasonAch) {
     var tabsEl = document.getElementById("dataSquadTabs");
@@ -1701,7 +1708,7 @@
           '<div class="player__visual">' +
             '<span class="player__num">' + esc(p.num) + '</span>' +
             cap +
-            '<div class="player__center"><span class="player__name">' + esc(p.name) + '</span></div>' +
+            '<div class="player__center"><span class="player__name">' + esc(p.name) + (gradeFromId(p.id) ? '<span class="player__grade">' + esc(gradeFromId(p.id)) + '</span>' : '') + '</span></div>' +
           '</div>' +
           '<div class="player__info"><span class="player__pos">' + esc(p.pos) + '</span></div>' +
         '</div>';
@@ -1735,7 +1742,7 @@
               var front = '<div class="player__face player__face--front">' +
                 '<div class="player__visual">' +
                   (role || '') +
-                  '<div class="player__center"><span class="player__name">' + esc(s.name) + '</span></div>' +
+                  '<div class="player__center"><span class="player__name">' + esc(s.name) + (gradeFromId(s.id) ? '<span class="player__grade">' + esc(gradeFromId(s.id)) + '</span>' : '') + '</span></div>' +
                 '</div>' +
               '</div>';
               return '<article class="player reveal" tabindex="0">' +

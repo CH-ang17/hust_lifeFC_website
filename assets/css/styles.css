@@ -534,6 +534,7 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
   text-transform: uppercase;
 }
 .player__name {
+  display: inline-block;
   font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(1.4rem, 3.2vw, 1.9rem);
@@ -541,6 +542,22 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
   color: #fff;
   line-height: 1.15;
   text-shadow: 0 2px 12px rgba(0,0,0,.3);
+  position: relative;
+}
+/* 年级（由学号/工号推导，置于姓名正下方，姓名位置不动） */
+.player__grade {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: clamp(0.78rem, 1.6vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
 }
 .player__note-line {
   font-size: var(--fs-xs);

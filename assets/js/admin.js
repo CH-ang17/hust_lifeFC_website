@@ -372,7 +372,7 @@
     C.teams.forEach(function (t) {
       t.staff = t.staff || [];
       panels.staff.append(repeatable(t.name + " · 教练与领队", t.staff, [
-        { key: "name", label: "姓名" }, { key: "role", label: "职务" },
+        { key: "name", label: "姓名" }, { key: "id", label: "学号/工号" }, { key: "role", label: "职务" },
         { key: "note", label: "简介", type: "textarea" },
         { key: "img", label: "头像图片", type: "image" }
       ], { label: "添加成员" }));
@@ -381,6 +381,7 @@
     /* ===== 男足阵容 ===== */
     panels.men.appendChild(repeatable("男子足球队阵容", C.squad.men, [
       { key: "num", label: "号码" }, { key: "name", label: "姓名" }, { key: "pos", label: "位置" },
+      { key: "id", label: "学号/工号" },
       { key: "note", label: "简介", type: "textarea" }, { key: "captain", label: "队长", type: "checkbox" },
       { key: "img", label: "头像图片", type: "image" }
     ], { label: "添加男足球员" }));
@@ -388,6 +389,7 @@
     /* ===== 女足阵容 ===== */
     panels.women.appendChild(repeatable("女子足球队阵容", C.squad.women, [
       { key: "num", label: "号码" }, { key: "name", label: "姓名" }, { key: "pos", label: "位置" },
+      { key: "id", label: "学号/工号" },
       { key: "note", label: "简介", type: "textarea" }, { key: "captain", label: "队长", type: "checkbox" },
       { key: "img", label: "头像图片", type: "image" }
     ], { label: "添加女足球员" }));
@@ -448,13 +450,15 @@
       { key: "num", label: "号码" },
       { key: "name", label: "姓名" },
       { key: "pos", label: "位置" },
+      { key: "id", label: "学号/工号" },
       { key: "captain", label: "队长", type: "checkbox" }
     ], "球员");
 
     /* ===== 历史官员（同上三级结构） ===== */
     editNestedHistory(panels.staffHist, C.staffHistory, [
       { key: "role", label: "职务" },
-      { key: "name", label: "姓名" }
+      { key: "name", label: "姓名" },
+      { key: "id", label: "学号/工号" }
     ], "官员");
 
     /* ===== 历史成绩（按赛季 + 键/值） ===== */

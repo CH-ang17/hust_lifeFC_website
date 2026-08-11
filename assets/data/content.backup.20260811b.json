@@ -2591,99 +2591,85 @@
             "num": "1",
             "name": "吴鸣鹤",
             "pos": "GK",
-            "captain": false,
-            "id": "U202513334"
+            "captain": false
           },
           {
             "num": "13",
-            "name": "朱宸斯",
+            "name": "朱宸昕",
             "pos": "DF",
-            "captain": false,
-            "id": "U202513343"
+            "captain": false
           },
           {
             "num": "18",
             "name": "王鹏程",
             "pos": "RB",
-            "captain": false,
-            "id": "U202513205"
+            "captain": false
           },
           {
             "num": "20",
             "name": "苏暹懿",
             "pos": "CM",
-            "captain": false,
-            "id": "U202513379"
+            "captain": false
           },
           {
             "num": "24",
             "name": "宁志行",
             "pos": "CB",
-            "captain": false,
-            "id": "U202513325"
+            "captain": false
           },
           {
             "num": "27",
             "name": "叶嘉诺",
             "pos": "CB",
-            "captain": false,
-            "id": "U202513460"
+            "captain": false
           },
           {
             "num": "28",
             "name": "张明睿",
             "pos": "LB",
-            "captain": false,
-            "id": "U202513421"
+            "captain": false
           },
           {
             "num": "32",
             "name": "李汶羲",
             "pos": "FW",
-            "captain": false,
-            "id": "U202513350"
+            "captain": false
           },
           {
             "num": "39",
             "name": "田金杰",
             "pos": "LB",
-            "captain": false,
-            "id": "U202513231"
+            "captain": false
           },
           {
             "num": "47",
             "name": "祁潇赫",
             "pos": "RW",
-            "captain": false,
-            "id": "U202513378"
+            "captain": false
           },
           {
             "num": "66",
             "name": "吴晟楷",
             "pos": "CB",
-            "captain": false,
-            "id": "U202513413"
+            "captain": false
           },
           {
             "num": "77",
             "name": "郑钦文",
             "pos": "CM",
-            "captain": false,
-            "id": "U202513265"
+            "captain": false
           },
           {
             "num": "88",
             "name": "张润泽",
             "pos": "LB",
-            "captain": false,
-            "id": "U202513314"
+            "captain": false
           },
           {
             "num": "99",
             "name": "李羽城",
             "pos": "CF",
-            "captain": true,
-            "id": "U202513403"
+            "captain": true
           }
         ]
       },
