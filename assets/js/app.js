@@ -807,8 +807,10 @@
     if (m.comp === "华科杯" && m.team) {
       var grp = GROUP_HISTORY[seasonOf(m)] && GROUP_HISTORY[seasonOf(m)][m.comp] && GROUP_HISTORY[seasonOf(m)][m.comp][m.team];
       var groupLabel = grp || (m.team === "男足" ? "乙组" : "女子组");
-      var groupCls = m.team === "男足" ? "team--men" : "team--women";
-      groupTag = '<span class="tag tag--team ' + groupCls + '">' + esc(groupLabel) + '</span>';
+      var groupCls = groupLabel === "甲组" ? "team--group-jia"
+                   : groupLabel === "女子组" ? "team--group-women"
+                   : "team--group-yi";
+      groupTag = '<span class="tag tag--team tag--group ' + groupCls + '">' + esc(groupLabel) + '</span>';
     }
     var tags = '<span class="match__tags">' +
       (m.comp ? '<span class="tag tag--comp' + compCls + '">' + esc(m.comp) + '</span>' : '') +

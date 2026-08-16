@@ -868,7 +868,12 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 }
 .tag--team { color: var(--paper); background: var(--club); }
 .tag--team.team--men { color: var(--paper); background: var(--club); }          /* 男足 · 蓝 */
-.tag--team.team--women { color: #ffffff; background: #0e7c86; }                 /* 女足 · 青 */
+.tag--team.team--women { color: #ffffff; background: #FD85AC; }                 /* 女足 / 女子组 · 粉红 */
+/* 组别标签（乙组/女子组）：独立于队伍标签，单独上色，避免连带改变男足/女足队伍色 */
+.tag--group { color: #ffffff; }
+.team--group-jia { background: #2789D7; }                  /* 甲组 · 蓝 */
+.team--group-yi  { background: #149F89; }                  /* 乙组 · 绿 */
+.team--group-women { background: #FD85AC; }                /* 女子组 · 粉（与女足一致） */
 .tag--comp { color: var(--club); background: var(--club-tint); } /* 默认 / 华科杯 */
 .tag--comp.comp--hust { color: var(--club); background: #C8E7FC; }        /* 华科杯 · 天蓝 */
 .tag--comp.comp--freshman { color: #8a6200; background: #fde8a0; }                 /* 新生杯 · 金黄 */
@@ -904,7 +909,7 @@ h3 { font-size: var(--fs-h3); font-weight: 700; }
 .match__score { font-family: var(--font-mono); font-weight: 700; font-size: 1.15rem; font-variant-numeric: tabular-nums; line-height: 1.25; }
 .match__score .res { font-size: 0.7rem; letter-spacing: 0.1em; margin-left: 6px; }
 .match__score-num { display: inline; }
-.match__score-pen { display: inline-block; font-size: 0.85em; font-weight: 500; opacity: 0.7; margin: 0 5px; vertical-align: 0.05em; }
+.match__score-pen { display: inline; font-weight: 700; }                 /* 点球大战括号比分：与外侧同字号同字重，不弱化 */
 .res--W { color: var(--win); } .res--D { color: var(--draw); } .res--L { color: var(--loss); }
 .match__video { color: var(--signal); font-weight: 600; font-size: inherit; text-decoration: none; white-space: nowrap; margin-left: .15rem; }
 .match__video:hover { text-decoration: underline; }

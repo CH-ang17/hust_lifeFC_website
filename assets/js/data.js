@@ -1195,8 +1195,10 @@
 
     /* 各赛季各赛事最终成绩 */
     var achievements = data.achievements || {};
-    /* 各赛季华科杯组别（甲组/乙组），未记录则按默认回退 */
+    /* 各赛季华科杯组别（甲组/乙组），未记录则按默认回退（同步早于 render，便于赛事组头渲染） */
     var groupHistory = data.groupHistory || {};
+    GROUP_HISTORY = groupHistory;
+    ACHIEVEMENTS_DATA = data.achievements || null;
 
     /* 筛选状态：赛季 / 赛事 / 男女足（state 已在 IIFE 顶层声明） */
     state = { season: defaultSeason || "", comp: "all", team: "all", ach: achievements, groupHistory: groupHistory };
@@ -1209,8 +1211,6 @@
       return ["华科杯", "新生杯", "毕业杯"].indexOf(m.comp) !== -1;
     });
     GLOBAL_STATS = aggregatePlayerStats(allOfficial);
-    GROUP_HISTORY = data.groupHistory || null;
-    ACHIEVEMENTS_DATA = data.achievements || null;
     buildRosterIndex(data.squadHistory, data.staffHistory);
     initCareerCard(data);
 
@@ -1380,10 +1380,12 @@
         var resLabel = RES[m.result] || "";
         var cc = m.comp && COMP_CLS[m.comp] ? " " + COMP_CLS[m.comp] : "";
 
-        /* 组别显示：华科杯用映射，其余直接取 team */
+        /* 组别显示：华科杯用映射，其余直接取 team（GROUP_HISTORY 防御性，防 null/undefined） */
         var groupLabel = "";
         if (m.comp === "华科杯" && m.team) {
-          groupLabel = m.team === "男足" ? "乙组" : "女子组";
+          var _gh = (GROUP_HISTORY && GROUP_HISTORY[seasonOf(m)]) || {};
+          var _gc = _gh[m.comp] || {};
+          groupLabel = _gc[m.team] || (m.team === "男足" ? "乙组" : "女子组");
         } else {
           groupLabel = m.team || "—";
         }
@@ -1520,10 +1522,15 @@
         var teamTagCls = (c === "华科杯" && sg.team)
           ? (sg.team === "男足" ? " team--men" : " team--women")
           : "";
+        var groupTagCls = (c === "华科杯" && sg.team)
+          ? (groupLabel === "甲组" ? " team--group-jia"
+             : groupLabel === "女子组" ? " team--group-women"
+             : " team--group-yi")
+          : "";
         var head =
           '<div class="comp-group-head">' +
             '<span class="tag tag--comp' + compCls + '">' + esc(c) + '</span>' +
-            (groupLabel ? '<span class="tag tag--team' + esc(teamTagCls) + '">' + esc(groupLabel) + '</span>' : '') +
+            (groupLabel ? '<span class="tag tag--team' + (groupTagCls ? " tag--group" + groupTagCls : teamTagCls) + '">' + esc(groupLabel) + '</span>' : '') +
             (achTxt ? '<span class="gh-ach">' + esc(achTxt) + '</span>' : '') +
             '<span class="gh-stats">' + st.total + '场 · ' + st.wins + '胜 ' + st.draws + '平 ' + st.losses + '负 · 进球 ' + st.gf + ':' + st.ga + ' 失球</span>' +
           '</div>';
@@ -1594,12 +1601,15 @@
     var teamClsMap = { "男足": "team--men", "女足": "team--women" };
     var cc = m.comp && compClsMap[m.comp] ? " " + compClsMap[m.comp] : "";
     var tc = m.team && teamClsMap[m.team] ? " " + teamClsMap[m.team] : "";
-    /* 华科杯加组别标签 */
+    /* 华科杯加组别标签（按 groupHistory 取甲组/乙组/女子组，按值上色） */
     var groupTag = "";
     if (m.comp === "华科杯" && m.team) {
-      var groupLabel = m.team === "男足" ? "乙组" : "女子组";
-      var gc = m.team === "男足" ? "team--men" : "team--women";
-      groupTag = '<span class="tag tag--team ' + gc + '">' + esc(groupLabel) + '</span>';
+      var grp = GROUP_HISTORY[seasonOf(m)] && GROUP_HISTORY[seasonOf(m)][m.comp] && GROUP_HISTORY[seasonOf(m)][m.comp][m.team];
+      var groupLabel = grp || (m.team === "男足" ? "乙组" : "女子组");
+      var gc = groupLabel === "甲组" ? "team--group-jia"
+             : groupLabel === "女子组" ? "team--group-women"
+             : "team--group-yi";
+      groupTag = '<span class="tag tag--team tag--group ' + gc + '">' + esc(groupLabel) + '</span>';
     }
 
     var resMap = { "W": "胜", "D": "平", "L": "负" };
