@@ -875,9 +875,31 @@
     return mo >= 9 ? (y + "-" + (y + 1)) : ((y - 1) + "-" + y);
   }
 
+  /* 比赛完整日期对象（用于倒计时 / 星期） */
+  function matchDateObj(m) {
+    var y = parseInt(m.year, 10);
+    var d = (m.date || "").split(".");
+    if (!y || d.length < 2) return null;
+    var mo = parseInt(d[0], 10), day = parseInt(d[1], 10);
+    if (!mo || !day) return null;
+    return new Date(y, mo - 1, day);
+  }
+  function daysUntil(m) {
+    var t = matchDateObj(m); if (!t) return null;
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return Math.ceil((t - today) / 86400000);
+  }
+  function isPast(m) { var d = daysUntil(m); return d != null && d < 0; }
+  function weekdayOf(m) {
+    var t = matchDateObj(m); if (!t) return "";
+    return ["周日", "周一", "周二", "周三", "周四", "周五", "周六"][t.getDay()];
+  }
+
   function renderFixtures(f) {
     MATCH_DATA.recent = (f.recent || []).slice().sort(sortMatches);
     MATCH_DATA.upcoming = f.upcoming || [];
+    renderNextMatchCard(MATCH_DATA.upcoming);
     MATCH_PAGE = 1;
 
     /* 赛季下拉：由每场比赛完整日期推断学年赛季，降序 */
@@ -895,6 +917,49 @@
       };
     }
     applyMatchFilter();
+  }
+
+  /* 首页 hero 下方「下一场比赛」高亮带（取最近一场未过期的 upcoming） */
+  function renderNextMatchCard(upcoming) {
+    var el = document.getElementById("nextMatchCard");
+    if (!el) return;
+    var sec = document.getElementById("nextMatch");
+    var list = (upcoming || []).filter(function (m) { return !isPast(m); });
+    if (!list.length) {
+      el.innerHTML = "";
+      if (sec) sec.style.display = "none";
+      return;
+    }
+    if (sec) sec.style.display = "";
+    list.sort(sortMatches);
+    var m = list[0];
+    var d = daysUntil(m);
+    var countLabel = (d != null && d <= 0) ? "今天" : (d + " 天");
+    var dateStr = (m.year ? m.year + "." : "") + m.date;
+    var wd = weekdayOf(m);
+    var timeStr = m.time ? (wd ? wd + " · " + m.time : m.time) : (wd || "");
+    var compCls = (m.comp && COMP_CLS[m.comp]) ? " " + COMP_CLS[m.comp] : "";
+    el.innerHTML =
+      '<div class="nm">' +
+        '<div class="nm__head">' +
+          '<div class="nm__title-wrap">' +
+            '<p class="nm__eyebrow">Next match</p>' +
+            '<h2 class="nm__title">即将开赛</h2>' +
+          '</div>' +
+        '</div>' +
+        '<div class="nm__line">' +
+          '<span class="tag tag--comp' + compCls + '">' + esc(m.comp) + '</span>' +
+          '<span class="nm__date mono">' + esc(dateStr) + '</span>' +
+          (timeStr ? '<span class="nm__time mono">' + esc(timeStr) + '</span>' : "") +
+          '<span class="nm__vs">' +
+            '<span class="nm__team">' + esc(m.home) + '</span>' +
+            '<span class="nm__mid">vs</span>' +
+            '<span class="nm__team">' + esc(m.away) + '</span>' +
+          '</span>' +
+          (m.venue ? '<span class="nm__venue">' + esc(m.venue) + '</span>' : "") +
+          '<span class="nm__cd">距开赛 <b>' + esc(countLabel) + '</b></span>' +
+        '</div>' +
+      '</div>';
   }
 
   /* 缺席赛事说明块：有备注但无比赛（如「未报名」「因疫情未举办」），与数据页风格一致 */
@@ -958,10 +1023,6 @@
         pager.innerHTML = "";
       }
     }
-
-    document.getElementById("fixUpcoming").innerHTML = upcoming.length
-      ? upcoming.map(function (m) { return matchRow(m, false); }).join("")
-      : '<p class="match__empty">该筛选条件下暂无赛程。</p>';
   }
 
   /* ===== 队长引语（保留在比赛之后） ===== */
