@@ -1754,30 +1754,170 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
 .ps-card__career:active { background: color-mix(in oklab, var(--club) 30%, transparent); }
 
 /* ===== NEXT MATCH（下一场比赛 · hero 下方高亮带） ===== */
-.next-match { padding-block: 0 var(--space-lg); margin-top: -1.5rem; }
+.next-match { padding-block: 3rem var(--space-lg); margin-top: 0; }
+
+/* ===== 外层倒计时 + NEXT MATCH 标签（卡片外面） ===== */
+.nm-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  margin: 0 0 0.75rem 0;
+  padding-left: 0.25rem;
+}
+.nm-meta__label {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+  padding-top: 0.55rem;
+  line-height: 1;
+}
+.nm-meta__cd {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.nm-meta__big {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.4vw, 2rem);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  line-height: 1;
+}
+.nm-meta__big-text {
+  font-variant-numeric: tabular-nums;
+}
+.nm-meta__units {
+  display: flex;
+  gap: clamp(0.8rem, 1.8vw, 1.5rem);
+}
+.nm-meta__u {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.nm-meta__u b {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.nm-meta__u i {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ===== 比赛方块卡片（贴左，与外层倒计时共用一行布局） ===== */
 .nm {
   background: transparent;
   color: var(--ink);
-  border-radius: var(--r-lg, 16px);
-  padding: clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2.5vw, 2rem);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--club);
+  border-radius: var(--r-lg, 12px);
+  padding: 0.9rem 0.9rem 1rem;
+  max-width: 320px;
+  margin: 0;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-.nm__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
-.nm__eyebrow { font-family: var(--font-mono); font-size: var(--fs-xs); letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin: 0 0 0.35rem; }
-.nm__title { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin: 0; }
-.nm__cd { font-family: var(--font-mono); font-size: 0.82em; opacity: 0.9; white-space: nowrap; padding-left: 1.1rem; border-left: 1px solid color-mix(in oklab, var(--ink) 22%, transparent); flex: 0 0 auto; margin-left: auto; }
+.nm__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 0.6rem;
+}
+.nm__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.nm__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 0;
+}
+.nm__crest {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--club);
+  background: transparent;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nm__crest-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.nm__team {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1.25;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.nm__vs {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.nm__date {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+.nm__sub {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0;
+}
+.nm__cd {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--club);
+}
 .nm__cd b { font-weight: 700; }
-.nm__date { font-family: var(--font-mono); font-weight: 700; font-size: 1em; letter-spacing: 0.02em; white-space: nowrap; }
-.nm__time { font-family: var(--font-mono); font-weight: 700; font-size: 1em; letter-spacing: 0.02em; white-space: nowrap; }
-.nm__line { display: flex; align-items: center; gap: 1.25rem; flex-wrap: nowrap; font-size: 1.15rem; }
-.nm__vs { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; gap: 1.1rem; min-width: 0; }
-.nm__team { flex: 0 1 auto; font-size: 1em; font-weight: 600; line-height: 1.4; white-space: nowrap; }
-.nm__vs .nm__team:first-child { text-align: right; }
-.nm__vs .nm__team:last-child { text-align: left; }
-.nm__mid { font-family: var(--font-mono); font-size: 1em; opacity: 0.45; letter-spacing: 0.1em; flex-shrink: 0; }
-.nm__venue { font-size: 0.82em; opacity: 0.8; white-space: nowrap; }
-.nm .tag { white-space: nowrap; flex-shrink: 0; }
+.nm-meta__units,
+.nm-meta__u,
+.nm-meta__u b,
+.nm-meta__u i { display: none !important; }
 @media (max-width: 600px) {
-  .nm__line { gap: 0.5rem; flex-wrap: wrap; }
-  .nm__vs { flex: 1 1 100%; }
-  .nm__vs .nm__team:first-child, .nm__vs .nm__team:last-child { text-align: center; }
+  .nm__row { gap: 1rem; }
+  .nm-meta { gap: 1rem; flex-wrap: wrap; }
 }

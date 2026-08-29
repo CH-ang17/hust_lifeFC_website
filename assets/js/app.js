@@ -920,6 +920,47 @@
   }
 
   /* 首页 hero 下方「下一场比赛」高亮带（取最近一场未过期的 upcoming） */
+  var _nmCountdownTimer = null;
+  function pad2(n) { return n < 10 ? "0" + n : "" + n; }
+  function kickoffOf(m) {
+    var t = m.time || "";
+    var pm = /(\d{1,2}):(\d{2})/.exec(t.split(/[-–~]/)[0]);
+    var h = pm ? +pm[1] : 20;
+    var mi = pm ? +pm[2] : 0;
+    var d = matchDateObj(m);
+    if (!d) return null;
+    d.setHours(h, mi, 0, 0);
+    return d;
+  }
+  function countdownParts(target) {
+    if (!target) return { d: 0, h: 0, m: 0, s: 0, label: "00:00:00:00" };
+    var diff = target.getTime() - Date.now();
+    if (diff < 0) return { d: 0, h: 0, m: 0, s: 0, label: "00:00:00:00" };
+    var total = Math.floor(diff / 1000);
+    var dd = Math.floor(total / 86400);
+    var hh = Math.floor((total % 86400) / 3600);
+    var mm = Math.floor((total % 3600) / 60);
+    var ss = total % 60;
+    return { d: dd, h: hh, m: mm, s: ss, label: pad2(dd) + ":" + pad2(hh) + ":" + pad2(mm) + ":" + pad2(ss) };
+  }
+  function startNmCountdown(m) {
+    var target = kickoffOf(m);
+    var bigEl = document.querySelector("#nextMatchCard .nm-meta__big-text");
+    if (!bigEl) return;
+    function tick() {
+      var cd = countdownParts(target);
+      bigEl.textContent = cd.label;
+    }
+    if (_nmCountdownTimer) { clearInterval(_nmCountdownTimer); _nmCountdownTimer = null; }
+    tick();
+    _nmCountdownTimer = setInterval(tick, 1000);
+  }
+
+  /* 队徽：upcoming 里配了 homeCrest/awayCrest（图片路径）才显示圆圈，否则整块不渲染 */
+  function crestHtml(src) {
+    if (!src) return "";
+    return '<div class="nm__crest"><img class="nm__crest-img" src="' + esc(src) + '" alt=""></div>';
+  }
   function renderNextMatchCard(upcoming) {
     var el = document.getElementById("nextMatchCard");
     if (!el) return;
@@ -928,38 +969,40 @@
     if (!list.length) {
       el.innerHTML = "";
       if (sec) sec.style.display = "none";
+      if (_nmCountdownTimer) { clearInterval(_nmCountdownTimer); _nmCountdownTimer = null; }
       return;
     }
     if (sec) sec.style.display = "";
     list.sort(sortMatches);
     var m = list[0];
-    var d = daysUntil(m);
-    var countLabel = (d != null && d <= 0) ? "今天" : (d + " 天");
     var dateStr = (m.year ? m.year + "." : "") + m.date;
     var wd = weekdayOf(m);
-    var timeStr = m.time ? (wd ? wd + " · " + m.time : m.time) : (wd || "");
+    var shortTime = (m.time || "").split(/[-–~]/)[0].trim();
     var compCls = (m.comp && COMP_CLS[m.comp]) ? " " + COMP_CLS[m.comp] : "";
     el.innerHTML =
+      '<div class="nm-meta">' +
+        '<div class="nm-meta__label">NEXT MATCH</div>' +
+        '<div class="nm-meta__cd">' +
+          '<div class="nm-meta__big"><span class="nm-meta__big-text">00:00:00:00</span></div>' +
+        '</div>' +
+      '</div>' +
       '<div class="nm">' +
-        '<div class="nm__head">' +
-          '<div class="nm__title-wrap">' +
-            '<p class="nm__eyebrow">Next match</p>' +
-            '<h2 class="nm__title">即将开赛</h2>' +
+        '<div class="nm__eyebrow">' + esc(m.comp) + '</div>' +
+        '<div class="nm__row">' +
+          '<div class="nm__side nm__side--home">' +
+            crestHtml(m.homeCrest) +
+            '<div class="nm__team">' + esc(m.home) + '</div>' +
+          '</div>' +
+          '<div class="nm__vs">VS</div>' +
+          '<div class="nm__side nm__side--away">' +
+            crestHtml(m.awayCrest) +
+            '<div class="nm__team">' + esc(m.away) + '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="nm__line">' +
-          '<span class="tag tag--comp' + compCls + '">' + esc(m.comp) + '</span>' +
-          '<span class="nm__date mono">' + esc(dateStr) + '</span>' +
-          (timeStr ? '<span class="nm__time mono">' + esc(timeStr) + '</span>' : "") +
-          '<span class="nm__vs">' +
-            '<span class="nm__team">' + esc(m.home) + '</span>' +
-            '<span class="nm__mid">vs</span>' +
-            '<span class="nm__team">' + esc(m.away) + '</span>' +
-          '</span>' +
-          (m.venue ? '<span class="nm__venue">' + esc(m.venue) + '</span>' : "") +
-          '<span class="nm__cd">距开赛 <b>' + esc(countLabel) + '</b></span>' +
-        '</div>' +
+        '<div class="nm__date mono">' + esc(dateStr) + (wd ? ' · ' + wd : '') + '</div>' +
+        (m.venue || m.time ? '<div class="nm__sub mono">' + esc((shortTime ? shortTime : '') + (shortTime && m.venue ? ' · ' : '') + (m.venue || '')) + '</div>' : '') +
       '</div>';
+    startNmCountdown(m);
   }
 
   /* 缺席赛事说明块：有备注但无比赛（如「未报名」「因疫情未举办」），与数据页风格一致 */
