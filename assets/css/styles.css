@@ -1776,50 +1776,62 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
   padding-top: 0.55rem;
   line-height: 1;
 }
+/* 大倒计时 + 标签：共享 7 列 grid（4 个数字 + 3 个冒号），上行 7 cell、下行 4 label + 3 透明占位 */
 .nm-meta__cd {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
+  display: grid;
+  grid-template-columns: repeat(7, auto);
+  grid-auto-rows: auto;
+  column-gap: 0;
+  row-gap: 0.3rem;
+  min-width: 0;
+  justify-content: start;
+}
+.nm-meta__big,
+.nm-meta__units {
+  display: contents;
+}
+.nm-meta__cd .nm-c {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   min-width: 0;
 }
-.nm-meta__big {
+.nm-meta__cd .nm-c__num {
   font-family: var(--font-mono);
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
   font-size: clamp(1.5rem, 3.4vw, 2rem);
   letter-spacing: 0.04em;
-  color: var(--ink);
   line-height: 1;
+  min-width: 2ch;
+  text-align: center;
 }
-.nm-meta__big-text {
-  font-variant-numeric: tabular-nums;
-}
-.nm-meta__units {
-  display: flex;
-  gap: clamp(0.8rem, 1.8vw, 1.5rem);
-}
-.nm-meta__u {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.1rem;
-  min-width: 0;
-}
-.nm-meta__u b {
+.nm-meta__cd .nm-c__sep {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 0.85rem;
   color: var(--ink);
-  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.5rem, 3.4vw, 2rem);
+  letter-spacing: 0.04em;
   line-height: 1;
+  padding: 0 0.22em;
+  text-align: center;
 }
-.nm-meta__u i {
+.nm-meta__cd .nm-c > i {
   font-family: var(--font-mono);
   font-style: normal;
+  font-weight: 700;
   font-size: 0.6rem;
   letter-spacing: 0.18em;
-  color: var(--ink-soft);
+  color: var(--ink);
   text-transform: uppercase;
   line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+.nm-meta__cd .nm-c--ghost {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* ===== 比赛方块卡片（贴左，与外层倒计时共用一行布局） ===== */
@@ -1913,10 +1925,6 @@ table.comp-table { width: 100%; border-collapse: collapse; font-size: .9rem; min
   color: var(--club);
 }
 .nm__cd b { font-weight: 700; }
-.nm-meta__units,
-.nm-meta__u,
-.nm-meta__u b,
-.nm-meta__u i { display: none !important; }
 @media (max-width: 600px) {
   .nm__row { gap: 1rem; }
   .nm-meta { gap: 1rem; flex-wrap: wrap; }

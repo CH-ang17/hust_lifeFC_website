@@ -945,11 +945,14 @@
   }
   function startNmCountdown(m) {
     var target = kickoffOf(m);
-    var bigEl = document.querySelector("#nextMatchCard .nm-meta__big-text");
-    if (!bigEl) return;
+    var cells = document.querySelectorAll("#nextMatchCard .nm-c__num");
+    if (!cells.length) return;
     function tick() {
       var cd = countdownParts(target);
-      bigEl.textContent = cd.label;
+      cells[0].textContent = pad2(cd.d);
+      cells[1].textContent = pad2(cd.h);
+      cells[2].textContent = pad2(cd.m);
+      cells[3].textContent = pad2(cd.s);
     }
     if (_nmCountdownTimer) { clearInterval(_nmCountdownTimer); _nmCountdownTimer = null; }
     tick();
@@ -965,7 +968,11 @@
     var el = document.getElementById("nextMatchCard");
     if (!el) return;
     var sec = document.getElementById("nextMatch");
-    var list = (upcoming || []).filter(function (m) { return !isPast(m); });
+    /* 「即将开赛」专用过期判定：开球时间一过整段立即消失（不再按整日逻辑） */
+    var list = (upcoming || []).filter(function (m) {
+      var ko = kickoffOf(m);
+      return !ko || ko.getTime() >= Date.now();
+    });
     if (!list.length) {
       el.innerHTML = "";
       if (sec) sec.style.display = "none";
@@ -983,7 +990,24 @@
       '<div class="nm-meta">' +
         '<div class="nm-meta__label">NEXT MATCH</div>' +
         '<div class="nm-meta__cd">' +
-          '<div class="nm-meta__big"><span class="nm-meta__big-text">00:00:00:00</span></div>' +
+          '<div class="nm-meta__big">' +
+            '<span class="nm-c"><b class="nm-c__num" data-k="d">00</b></span>' +
+            '<span class="nm-c"><span class="nm-c__sep">:</span></span>' +
+            '<span class="nm-c"><b class="nm-c__num" data-k="h">00</b></span>' +
+            '<span class="nm-c"><span class="nm-c__sep">:</span></span>' +
+            '<span class="nm-c"><b class="nm-c__num" data-k="m">00</b></span>' +
+            '<span class="nm-c"><span class="nm-c__sep">:</span></span>' +
+            '<span class="nm-c"><b class="nm-c__num" data-k="s">00</b></span>' +
+          '</div>' +
+          '<div class="nm-meta__units">' +
+            '<span class="nm-c"><i>DAYS</i></span>' +
+            '<span class="nm-c nm-c--ghost" aria-hidden="true"></span>' +
+            '<span class="nm-c"><i>HOURS</i></span>' +
+            '<span class="nm-c nm-c--ghost" aria-hidden="true"></span>' +
+            '<span class="nm-c"><i>MINS</i></span>' +
+            '<span class="nm-c nm-c--ghost" aria-hidden="true"></span>' +
+            '<span class="nm-c"><i>SECS</i></span>' +
+          '</div>' +
         '</div>' +
       '</div>' +
       '<div class="nm">' +
