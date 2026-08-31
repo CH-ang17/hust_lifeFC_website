@@ -833,7 +833,9 @@
         '<span class="match__date mono">' + esc((m.year ? m.year + '.' : '') + m.date) + '</span>' +
         '<span class="match__teams">' +
           '<span class="match__vs">' + (m.home === HOME ? '<b>' + esc(m.home) + '</b>' : esc(m.home)) + ' vs ' + (m.away === HOME ? '<b>' + esc(m.away) + '</b>' : esc(m.away)) + '</span>' +
-          '<span class="match__info">' + esc(m.round) + (m.venue ? ' · ' + esc(m.venue) : '') + (m.format ? ' · ' + esc(m.format) : '') + (m.video ? ' · <a class="match__video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">视频</a>' : '') + '</span>' +
+          '<span class="match__info">' + (m.matchInfo
+            ? esc(m.matchInfo)
+            : esc(m.round) + (m.venue ? ' · ' + esc(m.venue) : '') + (m.format ? ' · ' + esc(m.format) : '')) + (m.video ? ' · <a class="match__video" href="' + esc(m.video) + '" target="_blank" rel="noopener" title="观看全场视频">视频</a>' : '') + '</span>' +
           (hasEvents(m) ? matchEvents(m) : '') +
         '</span>' +
         '<span class="match__score mono ' + (resCls[m.result] || "") + '">' + formatScore(m.score) +
