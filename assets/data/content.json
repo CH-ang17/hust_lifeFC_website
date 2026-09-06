@@ -3291,6 +3291,19 @@
   "fixtures": {
     "recent": [
       {
+        "date": "09.05",
+        "comp": "友谊赛",
+        "home": "生命科学与技术学院",
+        "away": "建筑与城市规划学院",
+        "score": "6–2",
+        "result": "W",
+        "venue": "中心操场",
+        "format": "十一人制",
+        "matchInfo": "友谊赛 · 中心操场 · 十一人制",
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1dHbL65EoK/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
         "date": "03.24",
         "comp": "华科杯",
         "format": "五人制",
@@ -7317,17 +7330,7 @@
         "video": "https://www.bilibili.com/video/BV1VVtW6fEWf/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
       }
     ],
-    "upcoming": [
-      {
-        "year": "2026",
-        "date": "09.05",
-        "comp": "友谊赛",
-        "home": "生命科学与技术学院",
-        "away": "建筑与城市规划学院",
-        "venue": "中心操场",
-        "time": "14:00"
-      }
-    ]
+    "upcoming": []
   },
   "achievements": {
     "2018-2019": {
