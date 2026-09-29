@@ -3291,6 +3291,19 @@
   "fixtures": {
     "recent": [
       {
+        "date": "09.26",
+        "comp": "友谊赛",
+        "home": "生命科学与技术学院",
+        "away": "数学与统计学院",
+        "score": "6–0",
+        "result": "W",
+        "venue": "韵苑操场",
+        "format": "十一人制",
+        "matchInfo": "友谊赛 · 韵苑操场 · 十一人制",
+        "year": "2026",
+        "video": "https://www.bilibili.com/video/BV1E4hR6wEEq/?share_source=copy_web&vd_source=a3cd258d5a473f07fce1a86abfa5ec87"
+      },
+      {
         "date": "09.19",
         "comp": "友谊赛",
         "home": "生命科学与技术学院",
