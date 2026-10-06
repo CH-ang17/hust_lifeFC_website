@@ -353,7 +353,10 @@
     detail.querySelector(".news-detail__close").addEventListener("click", closeNews);
     var copyBtn = detail.querySelector(".news-detail__copy");
     if (copyBtn) copyBtn.addEventListener("click", function () {
-      var url = location.href;
+      /* QQ/微信分享卡片读取的是服务器返回的静态 HTML og 标签，hash 路由无法被识别；
+         因此分享落地页使用独立的 /news/<id>.html，内部再跳回 SPA。 */
+      var base = location.protocol + "//" + location.host + location.pathname.replace(/\/[^/]*$/, "/");
+      var url = base + "news/" + esc(n.id) + ".html";
       var done = function () {
         copyBtn.textContent = "已复制";
         setTimeout(function () { copyBtn.textContent = "复制链接"; }, 1500);
