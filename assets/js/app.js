@@ -342,9 +342,9 @@
         '</div>' +
         '<h2 class="news-detail__title">' + esc(n.title) + '</h2>' +
         meta +
-        videoHtml +
         '<div class="news-detail__body">' + bodyHtml + '</div>' +
         imgs +
+        videoHtml +
       '</div>';
 
     detail.classList.add("is-open");
@@ -739,10 +739,16 @@
     var cards = m.cards || [];
     var note = m.note || "";
     if (!goals.length && !cards.length && !note) return "";
-    /* 取时间字符串中的分钟数用于排序（如 "33' (P)" → 33） */
+    /* 取时间字符串中的分钟数用于排序（如 "33' (P)" → 33，"30+3'" → 33） */
     function minOf(t) {
-      var n = parseInt(String(t).replace(/[^0-9]/g, ""), 10);
-      return isNaN(n) ? 9999 : n;
+      var s = String(t).replace(/[^0-9+]/g, "");
+      var parts = s.split("+");
+      var total = 0;
+      for (var i = 0; i < parts.length; i++) {
+        var n = parseInt(parts[i], 10);
+        if (!isNaN(n)) total += n;
+      }
+      return total || 9999;
     }
     var html = '<div class="match__events">';
     if (note) {
